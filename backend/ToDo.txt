@@ -1,0 +1,41 @@
+probleme bei doppeltem aufruf der klassen Ruf und Clan
+
+RufKonflikte erst als Objekt eingebaut. 
+
+aktuell gibt join doppelte informationen zurück, deshalb ASSERT fehler. 
+
+db evl neu aufbauen.
+
+
+prüfen ob aus diesem Grund generate nicht funktioniert
+
+
+ToDo: 
+
+Step 1
+- Bug Fixen
+- RufKonflike Repo & Controller
+- Stats Objekte erstellen oder db struktur überdenken.
+- Map Marker Tabelle
+
+Step 2
+- generierungslogik erstellen
+- Services erstellen
+Step 3
+
+- Frontend aus figma exportieren
+- implementierung frontend
+
+
+Step 4 
+- Logiken verfeinern
+- 
+
+
+
+
+
+
+
+
+
