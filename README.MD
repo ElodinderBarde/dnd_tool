@@ -45,6 +45,7 @@ dnd_tool/
 ├── frontend/      # Vite + React Benutzeroberfläche
 └── README.md
 
+```
 
 Lokale Einrichtung (Entwicklung)
 Voraussetzungen
