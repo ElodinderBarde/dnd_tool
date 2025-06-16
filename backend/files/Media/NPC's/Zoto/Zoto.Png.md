@@ -1,0 +1,1 @@
+![[Media/NPCS/Zoto/Zoto.Png|Zoto.Png]]
