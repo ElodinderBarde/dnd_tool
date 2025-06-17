@@ -7,6 +7,8 @@ import ch.Elodin.DnD_Tool.model.ruf.Ruf;
 
 @Repository
 public interface RufRepository extends JpaRepository<Ruf, Integer> {
-List<Ruf> findAll();
+@SuppressWarnings("null")
+	@Override
+  List<Ruf> findAll();
 
 }

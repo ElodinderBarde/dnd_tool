@@ -12,7 +12,8 @@ import ch.Elodin.DnD_Tool.model.npcinfo.Hairstyle;
 
 @Repository
 public interface HairstyleRepository extends JpaRepository<Hairstyle, Integer> {
-
+        @SuppressWarnings("null")
+				@Override
 	List<Hairstyle> findAll();
 
 	Optional<Hairstyle> findByname(String name);

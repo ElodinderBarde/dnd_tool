@@ -12,7 +12,8 @@ import ch.Elodin.DnD_Tool.model.npcinfo.Haircolor;
 
 @Repository
 public interface HaircolorRepository extends JpaRepository<Haircolor, Integer> {
-
+        @SuppressWarnings("null")
+				@Override
 	List<Haircolor> findAll();
 
 	Optional<Haircolor> findByname(String name);

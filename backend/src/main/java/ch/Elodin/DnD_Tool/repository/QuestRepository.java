@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface QuestRepository extends JpaRepository<Quest, Integer> {
-List<Quest> findAll();
+
+@SuppressWarnings("null")
+	@Override
+    List<Quest> findAll();
 
 }

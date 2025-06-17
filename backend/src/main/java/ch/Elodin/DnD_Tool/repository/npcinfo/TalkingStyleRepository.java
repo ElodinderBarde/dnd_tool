@@ -12,7 +12,8 @@ import ch.Elodin.DnD_Tool.model.npcinfo.TalkingStyle;
 
 @Repository
 public interface TalkingStyleRepository extends JpaRepository<TalkingStyle, Integer> {
-
+@SuppressWarnings("null")
+	@Override
 	List<TalkingStyle> findAll();
 
 	Optional<TalkingStyle> findBydescription(String description);

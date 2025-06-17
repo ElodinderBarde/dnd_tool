@@ -12,7 +12,8 @@ import ch.Elodin.DnD_Tool.model.npcinfo.Ideals;
 
 @Repository
 public interface IdealsRepository extends JpaRepository<Ideals, Integer> {
-
+        @SuppressWarnings("null")
+				@Override
 	List<Ideals> findAll();
 
 	Optional<Ideals> findByDescription(String description);

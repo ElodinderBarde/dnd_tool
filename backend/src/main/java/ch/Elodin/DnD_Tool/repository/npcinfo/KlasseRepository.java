@@ -10,7 +10,8 @@ import ch.Elodin.DnD_Tool.model.npcinfo.NpcClass;
 
 @Repository
 public interface KlasseRepository extends JpaRepository<NpcClass, Integer> {
-
+        @SuppressWarnings("null")
+				@Override
 	List<NpcClass> findAll();
 
 	Optional<NpcClass> findByClassname(String classname);

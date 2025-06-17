@@ -12,7 +12,8 @@ import ch.Elodin.DnD_Tool.model.npcinfo.OtherDescription;
 
 @Repository
 public interface OtherDescriptionRepository extends JpaRepository<OtherDescription, Integer> {
-
+        @SuppressWarnings("null")
+				@Override
 	List<OtherDescription> findAll();
 
 	Optional<OtherDescription> findBydescription(String description);

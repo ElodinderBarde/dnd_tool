@@ -12,7 +12,8 @@ import ch.Elodin.DnD_Tool.model.npcinfo.Flaw;
 
 @Repository
 public interface FlawRepository extends JpaRepository<Flaw, Integer> {
-
+        @SuppressWarnings("null")
+				@Override
 	List<Flaw> findAll();
 
 	Optional<Flaw> findByDescription(String description);

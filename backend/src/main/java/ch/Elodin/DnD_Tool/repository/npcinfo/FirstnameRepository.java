@@ -12,7 +12,8 @@ import ch.Elodin.DnD_Tool.model.npcinfo.Firstname;
 
 @Repository
 public interface FirstnameRepository extends JpaRepository<Firstname, Integer> {
-
+        @SuppressWarnings("null")
+				@Override
 	List<Firstname> findAll();
 
 	Optional<Firstname> findByFirstname(String Firstname);

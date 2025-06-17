@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface NpcRepository extends JpaRepository<Npc, Integer> {
+  @SuppressWarnings("null")
+	@Override
 List<Npc> findAll();
 
 }

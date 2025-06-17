@@ -12,7 +12,8 @@ import ch.Elodin.DnD_Tool.model.npcinfo.Picture;
 
 @Repository
 public interface PictureRepository extends JpaRepository<Picture, Integer> {
-
+        @SuppressWarnings("null")
+				@Override
 	List<Picture> findAll();
 
 	Optional<Picture> findByPicture(String picture);

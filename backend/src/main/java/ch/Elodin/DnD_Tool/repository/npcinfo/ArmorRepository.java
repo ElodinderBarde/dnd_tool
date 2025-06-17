@@ -13,6 +13,8 @@ import ch.Elodin.DnD_Tool.model.npcinfo.Armor;
 @Repository
 public interface ArmorRepository extends JpaRepository<Armor, Integer> {
 
+        @SuppressWarnings("null")
+				@Override
 	List<Armor> findAll();
 
 
