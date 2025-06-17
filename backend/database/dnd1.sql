@@ -16,8 +16,8 @@
 
 
 -- Exportiere Datenbank-Struktur für dnd1
-CREATE DATABASE IF NOT EXISTS `dnd` /*!40100 DEFAULT CHARACTER SET latin1 */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `dnd`;
+CREATE DATABASE IF NOT EXISTS `dnd_2` /*!40100 DEFAULT CHARACTER SET latin1 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `dnd_2`;
 
 -- Exportiere Struktur von Tabelle dnd.city
 CREATE TABLE IF NOT EXISTS `city` (
