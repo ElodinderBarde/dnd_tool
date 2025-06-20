@@ -8,7 +8,7 @@ export default function ShopList({ shops, selectedCity, selectedType }) {
   return (
     <div className="grid-stack-item" gs-x="6" gs-y="0" gs-w="6" gs-h="8">
       <div className="grid-stack-item-content" style={{ flexDirection: "column", alignItems: "flex-start", overflowY: "auto" }}>
-        <h3>🛒 Gefilterte Shops</h3>
+        
         <ul style={{ paddingLeft: "1rem" }}>
           {filteredShops.map((shop) => (
             <li key={shop.shop_ID}>
