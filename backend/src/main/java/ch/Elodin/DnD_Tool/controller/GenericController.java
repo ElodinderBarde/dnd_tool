@@ -1,12 +1,15 @@
 package ch.Elodin.DnD_Tool.controller;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 public abstract class GenericController<T, ID> {
 
@@ -35,5 +38,10 @@ public abstract class GenericController<T, ID> {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(all.get(random.nextInt(all.size())));
+    }
+
+    @PostMapping
+    public T create(@RequestBody T entity) {
+        return repository.save(entity);
     }
 }

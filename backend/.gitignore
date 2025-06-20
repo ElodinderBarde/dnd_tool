@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+# Vite-Cache und Metadaten
+node_modules/
+node_modules/.vite/

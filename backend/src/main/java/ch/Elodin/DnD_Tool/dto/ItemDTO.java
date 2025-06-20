@@ -19,6 +19,8 @@ public class ItemDTO {
  private String beschreibung;
 
 
+
+
  public ItemDTO(int id, String name, int price, EnumItemTypes typ, String seltenheit,
                 String buch, Integer seite1, Integer seite2, Integer seite3,
                 Familienclan einstimmung, String beschreibung) {
@@ -34,6 +36,11 @@ public class ItemDTO {
      this.einstimmung = einstimmung;
      this.beschreibung = beschreibung;
  }
+
+ public ItemDTO() {
+}
+
+
 
 public int getId() {
 	return id;
