@@ -1,6 +1,28 @@
+.grid-stack {
+  width: 100%;
+  min-height: 400px;
+}
+
 .grid-content {
   background-color: #eaeaea;
   border: 1px solid #ccc;
   padding: 10px;
   height: 100%;
+}
+
+.grid-stack-item-content {
+  background-color: #202020;
+  color: white;
+  border: 1px solid #555;
+  padding: 10px;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 500px;
+}
+.grid-stack-item-content:hover {
+  background-color: #404040;
+  cursor: pointer;
 }
