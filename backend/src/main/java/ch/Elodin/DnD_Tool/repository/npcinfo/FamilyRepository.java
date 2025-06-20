@@ -12,7 +12,8 @@ import ch.Elodin.DnD_Tool.model.npcinfo.Family;
 
 @Repository
 public interface FamilyRepository extends JpaRepository<Family, Integer> {
-
+        @SuppressWarnings("null")
+				@Override
 	List<Family> findAll();
 
 

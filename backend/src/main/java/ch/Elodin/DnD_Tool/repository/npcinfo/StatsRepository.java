@@ -12,7 +12,8 @@ import ch.Elodin.DnD_Tool.model.npcinfo.Stats;
 
 @Repository
 public interface StatsRepository extends JpaRepository<Stats, Integer>{
-
+        @SuppressWarnings("null")
+				@Override
 	List<Stats> findAll();
 	
 	

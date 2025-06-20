@@ -12,7 +12,8 @@ import ch.Elodin.DnD_Tool.model.npcinfo.Jewellery;
 
 @Repository
 public interface JewelleryRepository extends JpaRepository<Jewellery, Integer> {
-
+        @SuppressWarnings("null")
+				@Override
 	List<Jewellery> findAll();
 
 	Optional<Jewellery> findByname(String name);

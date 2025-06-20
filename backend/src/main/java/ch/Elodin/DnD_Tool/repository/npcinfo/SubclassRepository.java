@@ -12,7 +12,8 @@ import ch.Elodin.DnD_Tool.model.npcinfo.Subclass;
 
 @Repository
 public interface SubclassRepository extends JpaRepository<Subclass, Integer> {
-
+	@SuppressWarnings("null")
+	@Override
 	List<Subclass> findAll();
 
 	Optional<Subclass> findBysubclassname(String subclassname);

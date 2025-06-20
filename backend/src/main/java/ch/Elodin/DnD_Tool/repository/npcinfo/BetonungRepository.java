@@ -10,7 +10,8 @@ import ch.Elodin.DnD_Tool.model.npcinfo.Betonung;
 
 @Repository
 public interface BetonungRepository extends JpaRepository<Betonung, Integer> {
-
+        @SuppressWarnings("null")
+				@Override
 	List<Betonung> findAll();
 
 	Optional<Betonung> findBybetonung(String betonung);

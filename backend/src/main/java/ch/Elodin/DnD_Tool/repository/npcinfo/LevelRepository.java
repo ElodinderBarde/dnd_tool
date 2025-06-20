@@ -12,7 +12,8 @@ import ch.Elodin.DnD_Tool.model.npcinfo.Level;
 
 @Repository
 public interface LevelRepository extends JpaRepository<Level, Integer> {
-
+        @SuppressWarnings("null")
+				@Override
 	List<Level> findAll();
 
 	Optional<Level> findBylvlvalue(Integer lvl_value);

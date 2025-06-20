@@ -12,7 +12,8 @@ import ch.Elodin.DnD_Tool.model.npcinfo.Personality;
 
 @Repository
 public interface PersonalityRepository extends JpaRepository<Personality, Integer> {
-
+        @SuppressWarnings("null")
+				@Override
 	List<Personality> findAll();
 
 	Optional<Personality> findBydescription(String description);

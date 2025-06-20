@@ -9,5 +9,6 @@ import ch.Elodin.DnD_Tool.model.npcinfo.Race;
 
 @Repository
 public interface RaceRepository extends JpaRepository<Race, Integer> {
-
+        @SuppressWarnings("null")
+				@Override
 	List<Race> findAll();}

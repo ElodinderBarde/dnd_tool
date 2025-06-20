@@ -13,6 +13,8 @@ import ch.Elodin.DnD_Tool.model.npcinfo.Trousers;
 @Repository
 public interface TrousersRepository extends JpaRepository<Trousers, Integer> {
 
+	@SuppressWarnings("null")
+	@Override
 	List<Trousers> findAll();
 
 	Optional<Trousers> findByname(String name);

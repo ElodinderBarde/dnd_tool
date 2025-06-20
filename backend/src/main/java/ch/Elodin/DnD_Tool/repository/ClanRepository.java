@@ -13,6 +13,8 @@ import ch.Elodin.DnD_Tool.model.Clan;
 @Repository
 public interface ClanRepository extends JpaRepository<Clan, Integer> {
 
+        @SuppressWarnings("null")
+				@Override
 	List<Clan> findAll();
 
 	Optional<Clan> findByClan(String clan);

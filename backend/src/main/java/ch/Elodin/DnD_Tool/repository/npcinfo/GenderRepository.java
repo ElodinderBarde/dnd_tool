@@ -10,7 +10,8 @@ import ch.Elodin.DnD_Tool.model.npcinfo.Gender;
 
 @Repository
 public interface GenderRepository extends JpaRepository<Gender, Integer> {
-
+        @SuppressWarnings("null")
+				@Override
 	List<Gender> findAll();
 
 	Optional<Gender> findByGendername(String gendername);

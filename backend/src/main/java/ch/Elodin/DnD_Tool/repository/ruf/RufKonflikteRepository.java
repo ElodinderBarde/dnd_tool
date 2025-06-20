@@ -7,6 +7,8 @@ import ch.Elodin.DnD_Tool.model.ruf.RufKonflikte;
 
 @Repository
 public interface RufKonflikteRepository extends JpaRepository<RufKonflikte, Integer> {
-List<RufKonflikte> findAll();
+@SuppressWarnings("null")
+	@Override
+  List<RufKonflikte> findAll();
 
 }

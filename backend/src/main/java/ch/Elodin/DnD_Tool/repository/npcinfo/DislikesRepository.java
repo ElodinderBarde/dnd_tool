@@ -12,7 +12,8 @@ import ch.Elodin.DnD_Tool.model.npcinfo.Dislikes;
 
 @Repository
 public interface DislikesRepository extends JpaRepository<Dislikes, Integer> {
-
+        @SuppressWarnings("null")
+				@Override
 	List<Dislikes> findAll();
 
 	Optional<Dislikes> findByDescription(String description);

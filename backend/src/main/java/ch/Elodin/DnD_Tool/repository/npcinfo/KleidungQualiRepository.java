@@ -12,7 +12,8 @@ import ch.Elodin.DnD_Tool.model.npcinfo.KleidungQuali;
 
 @Repository
 public interface KleidungQualiRepository extends JpaRepository<KleidungQuali, Integer> {
-
+        @SuppressWarnings("null")
+				@Override
 	List<KleidungQuali> findAll();
 
 	Optional<KleidungQuali> findByDescription(String description);

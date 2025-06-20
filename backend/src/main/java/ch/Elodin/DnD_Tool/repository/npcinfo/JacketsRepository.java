@@ -12,7 +12,8 @@ import ch.Elodin.DnD_Tool.model.npcinfo.Jackets;
 
 @Repository
 public interface JacketsRepository extends JpaRepository<Jackets, Integer> {
-
+        @SuppressWarnings("null")
+				@Override
 	List<Jackets> findAll();
 
 	Optional<Jackets> findByname(String name);
