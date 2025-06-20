@@ -67,6 +67,11 @@ export default function ItemForm() {
       </label>
       <br />
       <label>
+        Seltenheit:
+      <input type="text" name="seltenheit" value={item.rarity} onChange={handleChange} />
+      </label>
+      <br />
+      <label>
         Typ:
         <select name="typ" value={item.typ} onChange={handleChange}>
           <option value="">-- Typ wählen --</option>
