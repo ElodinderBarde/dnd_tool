@@ -40,4 +40,11 @@ public class ShopController extends GenericController<Shop, Integer> {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Shop> getById(@PathVariable Integer id) {
+        Optional<Shop> entity = repository.findById(id);
+        return entity.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
 }
