@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/navbar';
+import 'gridstack/dist/gridstack.min.css';
 import Main from './pages/main';
 import Clan from './pages/clan';
 import Generator from './pages/generator';
@@ -10,6 +10,8 @@ import Quests from './pages/quests';
 import Players from './pages/players';
 import Itemboard from './pages/Itemboard';
 import ErrorPage from './pages/errorhandling';
+import ShopDetails from "./pages/shop-details.jsx";
+
 
 function App() {
   return (
@@ -25,6 +27,7 @@ function App() {
         <Route path="/players" element={<Players />} />
         <Route path="/itemboard" element={<Itemboard />} />
         <Route path="/*" element={<ErrorPage />} />
+        <Route path="/shops/:id" element={<ShopDetails />} />
 
 
 
