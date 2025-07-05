@@ -12,6 +12,22 @@
   min-width: 100px;
   font-size: 0.9rem;
 }
+.form-input2 {
+  padding: 0.4rem 0.6rem;
+  background-color: #1a1a1a;
+  color: white;
+  border: 1px solid #555;
+  border-radius: 4px;
+  font-family: Arial;
+  font-size: 0.9rem;
+  width: 95%;       /* oder fester Wert wie 500px */
+  min-width:550px;
+  /* optional, falls flexibel */
+  min-height: 250px;    /* feste Höhe */
+  height:85%;
+  resize: none;     /* verhindert manuelles Vergrößern, falls gewünscht */
+  box-sizing: border-box;
+}
 
 .form-input,
 .form-select {
@@ -51,16 +67,16 @@
 }
 
 .grid-stack-item-content {
-  background-color: #202020;
-  color: white;
-  border: 1px solid #555;
-  border-radius: 15px;
-  padding: 10px;
-  font-size: 1.2rem;
   display: flex;
-  align-items: center;
-  justify-content: center;
-
-
+  flex-direction: column; /* HINZUFÜGEN */
+  align-items: flex-start; /* HINZUFÜGEN */
+  justify-content: flex-start; /* HINZUFÜGEN oder anpassen */
+  padding: 10px;
+  height: 100%;
+  box-sizing: border-box;
+  background-color: #202020;
+  border: 1px solid #555;
+  border-radius: 8px;
+  color: #f0f0f0;
 }
 

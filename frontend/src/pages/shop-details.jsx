@@ -1,21 +1,20 @@
 import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { GridStack } from 'gridstack';
 import 'gridstack/dist/gridstack.min.css';
 
 export default function ShopDetails() {
+    const { shopId } = useParams(); // ← Hier wird die ID geholt
+
     useEffect(() => {
         const grid = GridStack.init({ column: 8 });
 
-        // Dummy-Daten in Gridstack-Widgets einfügen
+        // Dummy-Daten kannst du später durch einen Fetch nach shopId ersetzen
         const layout = [
-            { content: '🛒 <strong>Shop:</strong> Magierbedarf Aurinor<br/>Ort: Baldurs Tor<br/>Besitzer: Meister Elgor', x: 0, y: 0, w: 1, h: 3 },
-           { content: '📦 <strong>Items:</strong><ul><li>Heiltrank</li><li>Zauberstab</li><li>Schriftrolle</li></ul>', x: 1, y: 2, w: 2, h: 2 },
-           // { content: '👥 <strong>Gäste:</strong><ul><li>Thorin Eichenschild</li><li>Lady Mirana</li></ul>', x: 2, y: 2, w: 4, h: 3 },
-            //{ content: '👷 <strong>Mitarbeitende:</strong><ul><li>Lehrling Tim</li><li>Wächterin Sorcha</li></ul>', x: 0, y: 5, w: 4, h: 2 },
-            //{ content: '📈 <strong>Statistiken:</strong><br/>Tägliche Besucher: 17<br/>Meistverkauft: Heiltrank', x: 4, y: 5, w: 4, h: 2 },
-            { content: '📝 <strong>Notizen:</strong><br/>Besondere Ereignisse: Lieferung am 1. Monatstag verzögert.', x: 1, y: 2, w: 2, h: 1 },
-
+            { content: `🛒 <strong>Shop ID:</strong> ${shopId}<br/>Ort: Baldurs Tor<br/>Besitzer: Meister Elgor`, x: 0, y: 0, w: 1, h: 3 },
+            { content: '📦 <strong>Items:</strong><ul><li>Heiltrank</li><li>Zauberstab</li><li>Schriftrolle</li></ul>', x: 1, y: 2, w: 2, h: 2 },
+            { content: '📝 <strong>Notizen:</strong><br/>Lieferung am 1. Monatstag verzögert.', x: 1, y: 2, w: 2, h: 1 },
         ];
 
         layout.forEach(item => {
@@ -27,21 +26,21 @@ export default function ShopDetails() {
             node.setAttribute('gs-h', item.h);
 
             node.innerHTML = `
-        <div class="grid-stack-item-content">
-          ${item.content}
-        </div>
-      `;
+                <div class="grid-stack-item-content">
+                    ${item.content}
+                </div>
+            `;
             grid.el.appendChild(node);
         });
 
-        return () => grid.destroy(false); // Cleanup on unmount
-    }, []);
+        return () => grid.destroy(false);
+    }, [shopId]); // ← Abhängigkeit hinzugefügt
 
     return (
         <>
             <Navbar />
             <main style={{ padding: '2rem' }}>
-                <h2>Shop-Details</h2>
+                <h2>Shop-Details für Shop ID {shopId}</h2>
                 <div className="grid-stack"></div>
             </main>
         </>
