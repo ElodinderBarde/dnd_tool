@@ -1,7 +1,6 @@
 import {useNavigate} from "react-router-dom";
 
 
-
 export default function ShopList({ shops, selectedCity, selectedType, onShopClick }) {
   const navigate = useNavigate();
   const filteredShops = shops.filter((shop) => {
@@ -22,7 +21,7 @@ export default function ShopList({ shops, selectedCity, selectedType, onShopClic
           {filteredShops.map((shop) => (
             <li key={shop.shop_ID}
             onClick={() => onShopClick(shop)}
-            onDoubleClick={() => handleDoubleClick(shop.shop_ID)}>
+            onDoubleClick={() => handleDoubleClick(shop.shopId)}>
               <strong>{shop.name}</strong>
               {shop.shop_type?.name && ` (${shop.shop_type.name})`}
               {shop.location?.cityID?.city_name && ` – ${shop.location.cityID.city_name}`}

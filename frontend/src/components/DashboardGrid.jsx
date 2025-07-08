@@ -3,7 +3,7 @@ import { GridStack } from 'gridstack';
 import 'gridstack/dist/gridstack.min.css';
 
 export default function DashboardGrid() {
-  const gridRef = useRef();
+  const gridRef = useRef(null);
 
   useEffect(() => {
     const grid = GridStack.init({ /* Optionen */ }, gridRef.current);

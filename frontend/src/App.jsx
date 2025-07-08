@@ -27,7 +27,7 @@ function App() {
         <Route path="/players" element={<Players />} />
         <Route path="/itemboard" element={<Itemboard />} />
         <Route path="/*" element={<ErrorPage />} />
-        <Route path="/shops/:id" element={<ShopDetails />} />
+        <Route path="/shops/:shopId" element={<ShopDetails />} />
 
 
 
