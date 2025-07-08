@@ -6,7 +6,32 @@ import java.util.concurrent.ThreadLocalRandom;
 import org.springframework.stereotype.Service;
 
 import ch.Elodin.DnD_Tool.model.Npc;
-import ch.Elodin.DnD_Tool.repository.npcinfo.*;
+import ch.Elodin.DnD_Tool.repository.npcinfo.ArmorRepository;
+import ch.Elodin.DnD_Tool.repository.npcinfo.BackgroundRepository;
+import ch.Elodin.DnD_Tool.repository.npcinfo.BeardstyleRepository;
+import ch.Elodin.DnD_Tool.repository.npcinfo.BetonungRepository;
+import ch.Elodin.DnD_Tool.repository.npcinfo.DislikesRepository;
+import ch.Elodin.DnD_Tool.repository.npcinfo.FamilyRepository;
+import ch.Elodin.DnD_Tool.repository.npcinfo.FirstnameRepository;
+import ch.Elodin.DnD_Tool.repository.npcinfo.FlawRepository;
+import ch.Elodin.DnD_Tool.repository.npcinfo.GenderRepository;
+import ch.Elodin.DnD_Tool.repository.npcinfo.HaircolorRepository;
+import ch.Elodin.DnD_Tool.repository.npcinfo.HairstyleRepository;
+import ch.Elodin.DnD_Tool.repository.npcinfo.IdealsRepository;
+import ch.Elodin.DnD_Tool.repository.npcinfo.JacketsRepository;
+import ch.Elodin.DnD_Tool.repository.npcinfo.JewelleryRepository;
+import ch.Elodin.DnD_Tool.repository.npcinfo.KlasseRepository;
+import ch.Elodin.DnD_Tool.repository.npcinfo.KleidungQualiRepository;
+import ch.Elodin.DnD_Tool.repository.npcinfo.LastnameRepository;
+import ch.Elodin.DnD_Tool.repository.npcinfo.LevelRepository;
+import ch.Elodin.DnD_Tool.repository.npcinfo.LikesRepository;
+import ch.Elodin.DnD_Tool.repository.npcinfo.OtherDescriptionRepository;
+import ch.Elodin.DnD_Tool.repository.npcinfo.PersonalityRepository;
+import ch.Elodin.DnD_Tool.repository.npcinfo.PictureRepository;
+import ch.Elodin.DnD_Tool.repository.npcinfo.RaceRepository;
+import ch.Elodin.DnD_Tool.repository.npcinfo.SubclassRepository;
+import ch.Elodin.DnD_Tool.repository.npcinfo.TalkingStyleRepository;
+import ch.Elodin.DnD_Tool.repository.npcinfo.TrousersRepository;
 
 
 
