@@ -60,7 +60,7 @@ export default function ShopDetails() {
                          gs-x="4"
                          gs-y="0"
                          gs-w="6"
-                         gs-h="10">
+                         gs-h="9">
                         <div className="grid-stack-item-content">
                             <ShopItems />
                         </div>
@@ -71,7 +71,7 @@ export default function ShopDetails() {
                          gs-x="0"
                          gs-y="10"
                          gs-w="4"
-                         gs-h="4">
+                         gs-h="3">
                         <div className="grid-stack-item-content">
                             <ShopEmployees />
                         </div>
@@ -82,7 +82,7 @@ export default function ShopDetails() {
                          gs-x="10"
                          gs-y="0"
                          gs-w="2"
-                         gs-h="10">
+                         gs-h="9">
                         <div className="grid-stack-item-content">
                             <ShopCustomers />
                         </div>

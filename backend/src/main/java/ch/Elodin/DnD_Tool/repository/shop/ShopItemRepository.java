@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface ShopItemRepository extends JpaRepository<ShopItem, Integer> {
     List<ShopItem> findByShop_ShopId(Integer shopId);
+
+    List<ShopItem> findByShop_ShopIdAndQuantityGreaterThan(Integer shopId, Integer quantity);
 }
