@@ -46,13 +46,13 @@ export default function Quests() {
                     </div>
                 </div>
 
-                <div className="grid-stack-item" gs-x="3" gs-y="2" gs-w="9" gs-h="5">
+                <div className="grid-stack-item" gs-x="3" gs-y="2" gs-w="9" gs-h="7">
                     <div className="grid-stack-item-content">
                         <QuestLlist />
                     </div>
                 </div>
 
-                <div className="grid-stack-item" gs-x="0" gs-y="0" gs-w="3" gs-h="6">
+                <div className="grid-stack-item" gs-x="0" gs-y="0" gs-w="3" gs-h="8">
                     <div className="grid-stack-item-content">
                         <QuesstCreate />
                     </div>

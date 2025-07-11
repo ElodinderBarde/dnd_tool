@@ -41,7 +41,7 @@ export default function ShopCreate() {
   return (
     <div className="grid-stack-item" gs-x="0" gs-y="2" gs-w="6" gs-h="3">
   <div className="grid-stack-item-content">
-    <h3>➕ Shop erstellen</h3>
+    <h3>Shop erstellen</h3>
 
     <div className="form-group">
       <label>Shopname:</label>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import AddItems from "./AddItems.jsx";
+import AddItemsPreset from "./AddItemsPresets.jsx";
 
 export default function ShopItems() {
     const { shopId } = useParams();
@@ -9,6 +10,7 @@ export default function ShopItems() {
     const [loading, setLoading] = useState(true);
     const [showAddItems, setShowAddItems] = useState(false);
     const [selectedShopItemId, setSelectedShopItemId] = useState(null);
+    const [showPreset, setShowPreset] = useState(false);
 
 
 
@@ -158,6 +160,16 @@ export default function ShopItems() {
                     - Element
                 </button>
             </div>
+
+
+            <div>
+                <button className="form-button" onClick={() => setShowPreset(true)}>
+                    Preset verwenden
+                </button>
+
+            </div>
+            {showPreset && <AddItemsPreset onClose={() => { setShowPreset(false); fetchShopItems(); }} shopId={shopId} />}
+
 
             <div>
                 <button className="form-button" onClick={openFormsElement}>
