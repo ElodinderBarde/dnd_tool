@@ -46,47 +46,56 @@ export default function ShopCreate() {
 
 
   return (
-    <div className="grid-stack-item" gs-x="0" gs-y="2" gs-w="6" gs-h="3">
-  <div className="grid-stack-item-content">
-    <h3>Shop erstellen</h3>
+      <div className="grid-stack-item" gs-x="0" gs-y="2" gs-w="6" gs-h="3">
+        <div className="grid-stack-item-content">
+          <h3>Shop erstellen</h3>
 
-    <div className="form-group">
-      <label>Shopname:</label>
-      <input className="form-input" type="text" value={name} onChange={(e) => setName(e.target.value)} />
-    </div>
+          <div className="form-row">
+            <div className="form-group">
+              <label>Shopname:</label>
+              <input className="form-input" type="text" value={name} onChange={(e) => setName(e.target.value)} />
+            </div>
 
-    <div className="form-group">
-      <label>Stadt:</label>
-      <select className="form-select" value={cityID} onChange={(e) => setCityID(e.target.value)}>
-        <option value="">Stadt wählen</option>
-        {cities.map((c) => <option key={c.id} value={c.id}>{c.city_name}</option>)}
-      </select>
-    </div>
+            <div className="form-group">
+              <label>Stadt:</label>
+              <select className="form-select" value={cityID} onChange={(e) => setCityID(e.target.value)}>
+                <option value="">Stadt wählen</option>
+                {cities.map((c) => <option key={c.id} value={c.id}>{c.city_name}</option>)}
+              </select>
+            </div>
 
-    <div className="form-group">
-      <label>Typ:</label>
-      <select className="form-select" value={shopTypeID} onChange={(e) => {
-        const value = parseInt(e.target.value, 10);
-        setShopTypeID(isNaN(value) ? "" : value);
-      }}>
-        <option value="">Typ wählen</option>
-        {types.map((t) => (
-            <option key={t.id} value={t.id}>
-              {t.name}
-            </option>
-        ))}
-      </select>
+            <div className="form-group">
+              <label>Typ:</label>
+              <select className="form-select" value={shopTypeID} onChange={(e) => {
+                const value = parseInt(e.target.value, 10);
+                setShopTypeID(isNaN(value) ? "" : value);
+              }}>
+                <option value="">Typ wählen</option>
+                {types.map((t) => (
+                    <option key={t.id} value={t.id}>
+                      {t.name}
+                    </option>
+                ))}
+              </select>
+            </div>
+          </div>
 
-    </div>
-    <div className="form-group">
-      <label>Notizen:</label>
-      <input className="form-input" type="text" value={notes} onChange={(e) => setNotes(e.target.value)} />
-    </div>
-
-
-    <button className="form-button" onClick={handleCreate}>Erstellen</button>
-  </div>
-</div>
+          <div className="form-row">
+            <div className="form-group flex-grow">
+              <label>Notizen:</label>
+              <textarea
+                  className="form-input2"
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+              />
+            </div>
+            <div className="form-group bottom-align">
+              <button className="form-button" onClick={handleCreate}>Erstellen</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
   );
+
 }

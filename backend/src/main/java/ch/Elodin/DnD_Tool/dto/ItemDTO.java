@@ -3,7 +3,11 @@ package ch.Elodin.DnD_Tool.dto;
 
 import ch.Elodin.DnD_Tool.model.enums.EnumItemTypes;
 import ch.Elodin.DnD_Tool.model.enums.Familienclan;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 public class ItemDTO {
 
  private int id;
@@ -38,96 +42,6 @@ public class ItemDTO {
  }
 
  public ItemDTO() {
-}
-
-
-
-public int getId() {
-	return id;
-}
-
-public void setId(int id) {
-	this.id = id;
-}
-
-public String getName() {
-	return name;
-}
-
-public void setName(String name) {
-	this.name = name;
-}
-
-public int getPrice() {
-	return price;
-}
-
-public void setPrice(int price) {
-	this.price = price;
-}
-
-public EnumItemTypes getTyp() {
-	return typ;
-}
-
-public void setTyp(EnumItemTypes typ) {
-	this.typ = typ;
-}
-
-public String getSeltenheit() {
-	return seltenheit;
-}
-
-public void setSeltenheit(String seltenheit) {
-	this.seltenheit = seltenheit;
-}
-
-public String getBuch() {
-	return buch;
-}
-
-public void setBuch(String buch) {
-	this.buch = buch;
-}
-
-public Integer getSeite1() {
-	return seite1;
-}
-
-public void setSeite1(Integer seite1) {
-	this.seite1 = seite1;
-}
-
-public Integer getSeite2() {
-	return seite2;
-}
-
-public void setSeite2(Integer seite2) {
-	this.seite2 = seite2;
-}
-
-public Integer getSeite3() {
-	return seite3;
-}
-
-public void setSeite3(Integer seite3) {
-	this.seite3 = seite3;
-}
-
-public Familienclan getEinstimmung() {
-	return einstimmung;
-}
-
-public void setEinstimmung(Familienclan einstimmung) {
-	this.einstimmung = einstimmung;
-}
-
-public String getBeschreibung() {
-	return beschreibung;
-}
-
-public void setBeschreibung(String beschreibung) {
-	this.beschreibung = beschreibung;
 }
 
 

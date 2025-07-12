@@ -37,17 +37,15 @@ public class ShopItemService {
                 .toList();
     }
 
-    /**
-     * Aktualisiert die Menge eines ShopItems und gibt das aktualisierte DTO zurück.
-     */
-    public ShopItemDTO updateQuantity(Integer id, Integer newQuantity) {
+
+    public void updateQuantity(Integer id, Integer newQuantity) {
         ShopItem shopItem = shopItemRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("ShopItem nicht gefunden: ID " + id));
 
         shopItem.setQuantity(newQuantity);
         ShopItem updated = shopItemRepository.save(shopItem);
 
-        return ShopItemMapper.toDTO(updated);
+        ShopItemMapper.toDTO(updated);
     }
 
     /**
