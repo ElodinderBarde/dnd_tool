@@ -24,6 +24,8 @@ export default function ShopDetails() {
                 margin: 5,
                 cellHeight: 100,
                 disableResize: true,
+                disableDrag: true,
+
             }, gridRef.current);
             gridInstance.current = grid;
 

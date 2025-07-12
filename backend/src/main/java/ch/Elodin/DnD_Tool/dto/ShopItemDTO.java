@@ -12,8 +12,9 @@ import lombok.Getter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ShopItemDTO {
+    private Integer shopItemId;
     private Integer shopId;
     private Integer itemId;
     private Integer quantity;
-
+    private ItemDTO item;
 }

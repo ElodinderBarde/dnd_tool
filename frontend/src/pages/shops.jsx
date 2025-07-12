@@ -16,7 +16,7 @@ export default function ShopPage() {
     const gridInstance = useRef(null);
     const [shops, setShops] = useState([]);
     const [selectedCity, setSelectedCity] = useState("");
-    const [selectedType, setSelectedType] = useState("");
+    const [selectedType, setSelectedType] = useState(null);
     const [selectedShop, setSelectedShop] = useState(null);
 
     useEffect(() => {
@@ -53,9 +53,9 @@ export default function ShopPage() {
     };
 
     const handleSaveNotes = (newNote) => {
-        if (!selectedShop) return;
+        if (!selectedShop || !selectedShop.id) return;
 
-        fetch(`http://localhost:8081/api/Shop/${selectedShop.shop_ID}/notes`, {
+        fetch(`http://localhost:8081/api/Shop/${selectedShop.id}/notes`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -70,11 +70,15 @@ export default function ShopPage() {
             })
             .then((data) => {
                 console.log("Notizen erfolgreich gespeichert:", data);
+                return getShops();
             })
-            .catch((error) => {
+            .then(setShops)
+
+    .catch((error) => {
                 console.error(error);
             });
     };
+
 
     return (
         <>

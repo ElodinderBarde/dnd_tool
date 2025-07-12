@@ -9,7 +9,7 @@ export default function ShopDetailNotes({ shopId }) {
     useEffect(() => {
         const fetchNotes = async () => {
             try {
-                const response = await fetch(`http://localhost:8081/api/Shop/${shopId}`);
+                const response = await fetch(`http://localhost:8081/api/shops/${shopId}`);
                 if (!response.ok) {
                     throw new Error(`Serverfehler: ${response.status}`);
                 }
@@ -45,12 +45,12 @@ export default function ShopDetailNotes({ shopId }) {
     // Speichern der Notiz in die DB
     const handleSave = async () => {
         try {
-            const response = await fetch(`http://localhost:8081/api/Shop/${shopId}/notes`, {
+            const response = await fetch(`http://localhost:8081/api/shops/${shopId}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(note),
+                body: JSON.stringify({ notes: note })
             });
             if (!response.ok) {
                 throw new Error(`Fehler beim Speichern: ${response.status}`);

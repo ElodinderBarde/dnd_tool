@@ -52,8 +52,9 @@ export default function ShopItems() {
             const response = await fetch(`http://localhost:8081/api/shopItems/${shopItemId}/quantity`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(newQuantity),
+                body: JSON.stringify({ quantity: newQuantity }), // <-- hier!
             });
+
             if (!response.ok) {
                 throw new Error(`Fehler beim Speichern: ${response.status}`);
             }
@@ -62,6 +63,7 @@ export default function ShopItems() {
             console.error("Fehler beim Speichern der Menge:", error);
         }
     };
+
 
     const increaseQuantity = () => {
         if (selectedShopItemId !== null) {
@@ -132,7 +134,7 @@ export default function ShopItems() {
                                         outline: selectedShopItemId === item.shopItemId ? "2px solid #888" : "none",
                                     }}
                                 >
-                                    <td style={tdStyle}>{item.item?.itemName || "Unbekannt"}</td>
+                                    <td style={tdStyle}>{item.item?.name || "Unbekannt"}</td>
                                     <td style={tdStyle}>{item.item?.price ?? "?"}g</td>
                                     <td style={tdStyle}>{item.item?.typ || "-"}</td>
                                     <td style={tdStyle}>{item.item?.seltenheit || "-"}</td>

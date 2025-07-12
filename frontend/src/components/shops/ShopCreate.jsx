@@ -16,27 +16,34 @@ export default function ShopCreate() {
   }, []);
 
   const handleCreate = async () => {
+    // Validierung
+    if (!name || !cityID || !shopTypeID) {
+      alert("Bitte Name, Stadt und Typ auswählen!");
+      return;
+    }
+
     const shop = {
       name,
-      shop_type: { shop_type_ID: parseInt(shopTypeID) },
-      location: { id: parseInt(cityID) },
-      notes
+      notes,
+      shopTypeId: parseInt(shopTypeID, 10),
+      locationId: parseInt(cityID, 10),
     };
 
-    
-
+    console.log("Shop-Daten zum Senden:", shop); // <-- Debug!
 
     try {
       await createShop(shop);
       alert("Shop erstellt!");
       setName("");
+      setCityID("");
+      setShopTypeID("");
+      setNotes("");
     } catch (e) {
       alert("Fehler beim Erstellen");
       console.error(e);
     }
-
-    
   };
+
 
   return (
     <div className="grid-stack-item" gs-x="0" gs-y="2" gs-w="6" gs-h="3">
@@ -58,10 +65,18 @@ export default function ShopCreate() {
 
     <div className="form-group">
       <label>Typ:</label>
-      <select className="form-select" value={shopTypeID} onChange={(e) => setShopTypeID(e.target.value)}>
+      <select className="form-select" value={shopTypeID} onChange={(e) => {
+        const value = parseInt(e.target.value, 10);
+        setShopTypeID(isNaN(value) ? "" : value);
+      }}>
         <option value="">Typ wählen</option>
-        {types.map((t) => <option key={t.shop_type_ID} value={t.shop_type_ID}>{t.name}</option>)}
+        {types.map((t) => (
+            <option key={t.id} value={t.id}>
+              {t.name}
+            </option>
+        ))}
       </select>
+
     </div>
     <div className="form-group">
       <label>Notizen:</label>

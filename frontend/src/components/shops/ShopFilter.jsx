@@ -7,8 +7,15 @@ export default function ShopFilter({ selectedCity, setSelectedCity, selectedType
 
   useEffect(() => {
     getCities().then(setCities).catch(console.error);
-    getShopTypes().then(setTypes).catch(console.error);
+
+    getShopTypes()
+        .then((data) => {
+          console.log("ShopTypes geladen:", data);
+          setTypes(data);
+        })
+        .catch(console.error);
   }, []);
+
 
   return (
     <div className="grid-stack-item" gs-x="1" gs-y="0" gs-w="6" gs-h="1">
@@ -27,15 +34,25 @@ export default function ShopFilter({ selectedCity, setSelectedCity, selectedType
 
         <label style={{ marginTop: "1rem" }}>
           Shoptyp:
-          <select value={selectedType} onChange={(e) => setSelectedType(e.target.value)}>
+          <select
+              value={typeof selectedType === "number" ? selectedType.toString() : ""}
+              onChange={(e) => {
+                const value = e.target.value;
+                const parsed = parseInt(value, 10);
+                setSelectedType(isNaN(parsed) ? null : parsed);
+              }}
+          >
             <option value="">Alle Typen</option>
-            {types.map((type) => (
-              <option key={type.shop_type_ID} value={type.shop_type_ID}>
-                {type.name}
-              </option>
-            ))}
+            {Array.isArray(types) && types
+                .filter((type) => type && typeof type.id === "number" && typeof type.name === "string")
+                .map((type) => (
+                    <option key={type.id} value={type.id.toString()}>
+                      {type.name}
+                    </option>
+                ))}
           </select>
         </label>
+
       </div>
     </div>
   );

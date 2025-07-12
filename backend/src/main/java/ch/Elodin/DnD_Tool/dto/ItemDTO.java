@@ -131,5 +131,5 @@ public void setBeschreibung(String beschreibung) {
 }
 
 
-
+    public void setItemName(String name) { this.name = name;}
 }

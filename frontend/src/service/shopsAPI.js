@@ -1,6 +1,6 @@
 // src/api/shopApi.js
 
-const API_URL = 'http://localhost:8081/api/Shop';
+const API_URL = 'http://localhost:8081/api/shops';
 
 //  Alle Shops laden
 export async function getShops() {

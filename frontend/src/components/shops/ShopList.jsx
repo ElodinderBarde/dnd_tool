@@ -4,9 +4,17 @@ import {useNavigate} from "react-router-dom";
 export default function ShopList({ shops, selectedCity, selectedType, onShopClick }) {
   const navigate = useNavigate();
   const filteredShops = shops.filter((shop) => {
-    const matchesCity = !selectedCity || shop.location?.cityID?.id == selectedCity;
-    const matchesType = !selectedType || shop.shop_type?.shop_type_ID == selectedType;
 
+
+    const matchesCity = !selectedCity || shop.locationId == selectedCity;
+    const matchesType =
+        selectedType === null || Number(shop.shopTypeId) === Number(selectedType);
+
+
+
+
+    //console.log("selectedType (typeof):", selectedType, typeof selectedType);
+    //console.log("shop.shopTypeId (typeof):", shop.shopTypeId, typeof shop.shopTypeId);
 
     return matchesCity && matchesType;
   })
@@ -19,13 +27,14 @@ export default function ShopList({ shops, selectedCity, selectedType, onShopClic
       <div className="grid-stack-item-content" style={{ flexDirection: "column", alignItems: "flex-start", overflowY: "auto" }}>
         <ul style={{ paddingLeft: "1rem" }}>
           {filteredShops.map((shop) => (
-            <li key={shop.shop_ID}
-            onClick={() => onShopClick(shop)}
-            onDoubleClick={() => handleDoubleClick(shop.shopId)}>
+              <li key={shop.id}
+                  onClick={() => onShopClick(shop)}
+                  onDoubleClick={() => handleDoubleClick(shop.id)}>
               <strong>{shop.name}</strong>
-              {shop.shop_type?.name && ` (${shop.shop_type.name})`}
-              {shop.location?.cityID?.city_name && ` – ${shop.location.cityID.city_name}`}
-            </li>
+                {shop.shopTypeName && ` (${shop.shopTypeName})`}
+                {shop.cityName && ` – ${shop.cityName}`}
+
+              </li>
           ))}
         </ul>
       </div>

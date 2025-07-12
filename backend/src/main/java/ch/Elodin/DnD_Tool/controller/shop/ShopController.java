@@ -1,50 +1,85 @@
 package ch.Elodin.DnD_Tool.controller.shop;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import ch.Elodin.DnD_Tool.dto.ShopDTO;
+import ch.Elodin.DnD_Tool.model.shop.Shop;
+import ch.Elodin.DnD_Tool.model.world.Location;
+import ch.Elodin.DnD_Tool.model.shop.ShopType;
+import ch.Elodin.DnD_Tool.repository.world.LocationRepository;
+import ch.Elodin.DnD_Tool.repository.shop.ShopTypeRepository;
+import ch.Elodin.DnD_Tool.service.shop.ShopService;
+import ch.Elodin.DnD_Tool.repository.shop.ShopRepository;
+
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import ch.Elodin.DnD_Tool.controller.GenericController;
-import ch.Elodin.DnD_Tool.model.shop.Shop;
-import ch.Elodin.DnD_Tool.repository.shop.ShopRepository;
-
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/Shop")
+@RequestMapping("/api/shops")
 @CrossOrigin(origins = "http://localhost:5173")
-public class ShopController extends GenericController<Shop, Integer> {
+public class ShopController {
 
-    private final ShopRepository shopRepository;
+    private final ShopService shopService;
+    private final ShopTypeRepository shopTypeRepository;
+    private final LocationRepository locationRepository;
 
-    @Autowired
-    public ShopController(ShopRepository repository) {
-        super(repository);
-        this.shopRepository = repository;
+    public ShopController(ShopService shopService, ShopTypeRepository shopTypeRepository, LocationRepository locationRepository) {
+        this.shopService = shopService;
+        this.shopTypeRepository = shopTypeRepository;
+        this.locationRepository = locationRepository;
     }
 
-    @PutMapping("/{id}/notes")
-    public ResponseEntity<Shop> updateShopNotes(@PathVariable Integer id, @RequestBody String newNotes) {
-        // Quotes entfernen, falls vorhanden
-        if (newNotes != null && newNotes.startsWith("\"") && newNotes.endsWith("\"")) {
-            newNotes = newNotes.substring(1, newNotes.length() - 1);
-        }
-
-        Optional<Shop> optionalShop = shopRepository.findById(id);
-        if (optionalShop.isPresent()) {
-            Shop shop = optionalShop.get();
-            shop.setNotes(newNotes);
-            shopRepository.save(shop);
-            return ResponseEntity.ok(shop);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping
+    public List<ShopDTO> getAllShops() {
+        return shopService.getAllShops();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Shop> getById(@PathVariable Integer id) {
-        Optional<Shop> entity = repository.findById(id);
-        return entity.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<ShopDTO> getShopById(@PathVariable Integer id) {
+        return shopService.getShopById(id)
+                .map(shopService::toDTO)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
+    @PostMapping
+    public ResponseEntity<ShopDTO> createShop(@RequestBody ShopDTO dto) {
+        try {
+            ShopType shopType = shopTypeRepository.findById(dto.getShopTypeId())
+                    .orElseThrow(() -> new RuntimeException("ShopType nicht gefunden: ID " + dto.getShopTypeId()));
+
+            Location location = locationRepository.findById(dto.getLocationId())
+                    .orElseThrow(() -> new RuntimeException("Location nicht gefunden: ID " + dto.getLocationId()));
+
+            Shop shop = shopService.fromDTO(dto, shopType, location);
+            Shop saved = shopService.createShop(shop);
+            return ResponseEntity.ok(shopService.toDTO(saved));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Shop> updateShopNote(@PathVariable Integer id, @RequestBody Map<String, String> body) {
+        Optional<Shop> optionalShop = shopService.getShopEntityById(id); // Sauberer Zugriff über Service
+        if (optionalShop.isEmpty()) return ResponseEntity.notFound().build();
+
+        Shop shop = optionalShop.get();
+        shop.setNotes(body.get("notes"));
+
+        Shop saved = shopService.saveShop(shop); // auch über Service
+
+        return ResponseEntity.ok(saved);
+    }
+
+
+    @DeleteMapping("/{id}")
+    public HttpEntity<Object> deleteShop(@PathVariable Integer id) {
+        return shopService.getShopById(id).map(shop -> {
+            shopService.deleteShop(id);
+            return ResponseEntity.ok().build();
+        }).orElse(ResponseEntity.notFound().build());
+    }
 }
