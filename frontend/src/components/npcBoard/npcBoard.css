@@ -1,0 +1,25 @@
+.npc-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    background-color: #1a1a1a;
+    color: white;
+}
+
+.npc-table th, .npc-table td {
+    border: 1px solid #444;
+    padding: 6px 10px;
+    text-align: left;
+}
+
+.npc-table th {
+    background-color: #333;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.npc-table tr:nth-child(even) {
+    background-color: #2a2a2a;
+}

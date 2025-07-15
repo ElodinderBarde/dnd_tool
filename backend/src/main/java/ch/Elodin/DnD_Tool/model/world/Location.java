@@ -11,7 +11,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
+
+@Getter
+@Setter
 @Entity
 @Table(name = "location")
 public class Location {
@@ -45,58 +50,20 @@ public class Location {
     @JoinColumn(name="questlocation")
     private Quest questlocation;
 
+	@Override
+	public String toString() {
+		String ort = "";
+		if (cityID != null) {
+			ort += cityID.getCity_name();
+		} else if (villageID != null) {
+			ort += villageID.getName();
+		}
 
-	public int getId() {
-		return id;
+
+
+		return ort.isEmpty() ? "Unbekannter Ort" : ort;
 	}
 
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-
-	public Village getVillageID() {
-		return villageID;
-	}
-
-
-	public void setVillageID(Village villageName) {
-		this.villageID= villageName;
-	}
-
-
-	public City getCityID() {
-		return cityID;
-	}
-
-
-	public void setCityID(City city_name) {
-		this.cityID = city_name;
-	}
-
-
-	public Regierungsform getRegierungsformID() {
-		return regierungsformID;
-	}
-
-
-	public void setRegierungsformID(Regierungsform regierungsformID) {
-		this.regierungsformID = regierungsformID;
-	}
-
-
-	public int getOrtschaftRuf() {
-		return ortschaftRuf;
-	}
-
-
-	public void setOrtschaftRuf(int ortschaftRuf) {
-		this.ortschaftRuf = ortschaftRuf;
-	}
-
-
-	
 
 
 }

@@ -1,7 +1,12 @@
 package ch.Elodin.DnD_Tool.model.shop;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+
+@Getter
+@Setter
 @Entity
 @Table(name = "shop_relations")
 public class ShopRelations {
@@ -11,56 +16,18 @@ public class ShopRelations {
     @Column(name = "shop_relations_ID")
     private int shop_relations;
 
-    @Column(name = "shop_employee_ID", unique = true)
-    private Integer shop_employee;
-    
-    
-    @Column(name = "shop_customer_ID")
-    private Integer shop_customer;
+    @ManyToOne
+    @JoinColumn(name = "shop_ID", insertable = false, updatable = false)
+    private Shop shop;
 
-    @Column(name ="shop_ID")
-    private Integer shop_ID;
+    @ManyToOne
+    @JoinColumn(name = "shop_employee_ID", referencedColumnName = "shop_employee_ID", insertable = false, updatable = false)
+    private ShopEmployee shopEmployeeRole;
 
-	public int getShop_relations() {
-		return shop_relations;
-	}
+    @ManyToOne
+    @JoinColumn(name = "shop_customer_ID", referencedColumnName = "shop_customer_ID", insertable = false, updatable = false)
+    private ShopCustomer shopCustomerRole;
 
-	public void setShop_relations(int shop_relations) {
-		this.shop_relations = shop_relations;
-	}
 
-	public Integer getShop_employee() {
-		return shop_employee;
-	}
 
-	public void setShop_employee(Integer shop_employee) {
-		this.shop_employee = shop_employee;
-	}
-
-	public Integer getShop_customer() {
-		return shop_customer;
-	}
-
-	public void setShop_customer(Integer shop_customer) {
-		this.shop_customer = shop_customer;
-	}
-
-	public Integer getShop_ID() {
-		return shop_ID;
-	}
-
-	public void setShop_ID(Integer shop_ID) {
-		this.shop_ID = shop_ID;
-	}
-
-	public Object getName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-    
-    
-    
-    
-    
 }

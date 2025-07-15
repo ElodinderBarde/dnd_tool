@@ -1,5 +1,6 @@
 package ch.Elodin.DnD_Tool.model.npcinfo;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
 import jakarta.persistence.*;
 
 @Entity
@@ -30,4 +31,5 @@ public class Gender {
     public void setGendername(String gendername) {
         this.gendername = gendername;
     }
+
 }
