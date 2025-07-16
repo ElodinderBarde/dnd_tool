@@ -168,7 +168,7 @@ public class Npc {
 	@JoinColumn(name = "npc_level_ID")
 	private Level level;
 
-	@Lob
+	@Column(name = "notes")
 	private String notes;
 
 
@@ -187,6 +187,9 @@ public class Npc {
 	@ManyToOne
 	@JoinColumn(name = "npc_beardstyle_ID")
 	private Beardstyle beardstyle;
+
+
+
 
 
 }

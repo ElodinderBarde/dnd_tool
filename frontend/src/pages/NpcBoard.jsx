@@ -5,6 +5,7 @@ import NpcFilter from "../components/npcBoard/NpcFilter.jsx";
 import NpcList from "../components/npcBoard/NpcList.jsx";
 import NpcNotes from "../components/npcBoard/NpcNotes.jsx";
 import {GridStack} from "gridstack";
+import '../components/npcBoard/npcBoard.css'
 
 export default function NpcBoard() {
   const gridRef = useRef(null);
@@ -19,6 +20,9 @@ export default function NpcBoard() {
         fetchFilteredNpcs(newFilters);
 
     };
+
+
+
 
     const fetchFilteredNpcs = async (filterParams) => {
         try {
@@ -91,18 +95,18 @@ export default function NpcBoard() {
            gs-x="0"
            gs-y="1"
            gs-w="9"
-           gs-h="7">
+           gs-h="7.5">
         <div className="grid-stack-item-content">
-            <NpcList npcs={npcs} onNpcClick={setSelectedNpc} selectedNpc={selectedNpc} />
+            <NpcList npcs={npcs} onNpcClick={setSelectedNpc} selectedNpc={selectedNpc} onNpcDoubleClick={handleFilterChange} />
         </div>
       </div>
       <div id="npcNotes" className="grid-stack-item"
            gs-x="9"
            gs-y="6"
            gs-w="3"
-           gs-h="2">
+           gs-h="2.5">
         <div className="grid-stack-item-content">
-          <NpcNotes />
+          <NpcNotes selectedNpc={selectedNpc} />
         </div>
       </div>
 

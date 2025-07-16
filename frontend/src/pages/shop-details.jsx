@@ -75,7 +75,7 @@ export default function ShopDetails() {
                          gs-w="4"
                          gs-h="3">
                         <div className="grid-stack-item-content">
-                            <ShopEmployees />
+                            <ShopEmployees shopId={shopId} />
                         </div>
                     </div>
 
@@ -86,7 +86,7 @@ export default function ShopDetails() {
                          gs-w="2"
                          gs-h="9">
                         <div className="grid-stack-item-content">
-                            <ShopCustomers />
+                            <ShopCustomers shopId={shopId} />
                         </div>
                     </div>
 

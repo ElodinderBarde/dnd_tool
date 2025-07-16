@@ -11,6 +11,7 @@ import Players from './pages/players';
 import Itemboard from './pages/Itemboard';
 import ErrorPage from './pages/errorhandling';
 import ShopDetails from "./pages/shop-details.jsx";
+import NpcDetailPage from "./pages/NpcDetailPage.jsx";
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Route path="/itemboard" element={<Itemboard />} />
         <Route path="/*" element={<ErrorPage />} />
         <Route path="/shops/:shopId" element={<ShopDetails />} />
+        <Route path="/npc/:npcId" element={<NpcDetailPage />} />
 
 
 

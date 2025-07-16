@@ -9,9 +9,7 @@ import ch.Elodin.DnD_Tool.repository.NpcRepository;
 import ch.Elodin.DnD_Tool.repository.npcinfo.RaceRepository;
 import ch.Elodin.DnD_Tool.repository.npcinfo.SubclassRepository;
 import ch.Elodin.DnD_Tool.service.NpcService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,17 +24,20 @@ public class NpcController {
     private final NpcRepository npcRepository;
     private final ClanRepository clanRepository;
 
+
     public NpcController(NpcService npcService,
                          RaceRepository raceRepository,
                          SubclassRepository subclassRepository,
                          NpcRepository npcRepository,
-                         ClanRepository clanRepository) {
+                         ClanRepository clanRepository
+                          ) {
         this.npcService = npcService;
         this.raceRepository = raceRepository;
         this.subclassRepository = subclassRepository;
         this.npcRepository = npcRepository;
         this.clanRepository = clanRepository;
     }
+
 
     @GetMapping("/dto")
     public List<NpcReadDTO> getAllAsDTO() {
@@ -97,6 +98,20 @@ public class NpcController {
                 .distinct()
                 .toList();
     }
+
+    @PutMapping("/{id}")
+    public void updateNpcNotes(@PathVariable int id, @RequestBody NpcReadDTO dto) {
+        Npc npc = npcRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("NPC nicht gefunden mit ID: " + id));
+
+        npc.setNotes(dto.getNotes());
+        npcRepository.save(npc);
+    }
+    @GetMapping("/{id}")
+    public NpcReadDTO getNpcById(@PathVariable int id) {
+        return npcService.getNpcById(id);
+    }
+
 
 
 }

@@ -17,15 +17,15 @@ public class ShopRelations {
     private int shop_relations;
 
     @ManyToOne
-    @JoinColumn(name = "shop_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "shop_ID")
     private Shop shop;
 
     @ManyToOne
-    @JoinColumn(name = "shop_employee_ID", referencedColumnName = "shop_employee_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "shop_employee_ID", referencedColumnName = "shop_employee_ID")
     private ShopEmployee shopEmployeeRole;
 
     @ManyToOne
-    @JoinColumn(name = "shop_customer_ID", referencedColumnName = "shop_customer_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "shop_customer_ID", referencedColumnName = "shop_customer_ID")
     private ShopCustomer shopCustomerRole;
 
 

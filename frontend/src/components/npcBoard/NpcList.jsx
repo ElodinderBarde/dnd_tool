@@ -1,5 +1,15 @@
+import {useNavigate} from "react-router-dom";
+
 export default function NpcList({ npcs, onNpcClick, selectedNpc }) {
+    const navigate = useNavigate();
+
     if (!Array.isArray(npcs)) return <div>Fehler: Keine gültigen Daten</div>;
+
+
+
+    const handleDoubleClick = (npcId) => {
+        navigate(`/npc/${npcId}`);
+    };
 
     return (
         <div style={{ overflowY: "auto", maxHeight: "100%", width: "100%" }}>
@@ -25,6 +35,7 @@ export default function NpcList({ npcs, onNpcClick, selectedNpc }) {
                     <tr
                         key={npc.npcId}
                         onClick={() => onNpcClick(npc)}
+                        onDoubleClick={() => handleDoubleClick(npc.npcId)}
                         style={{
                             cursor: "pointer",
                             backgroundColor: selectedNpc?.npcId === npc.npcId ? "gray" : "transparent"

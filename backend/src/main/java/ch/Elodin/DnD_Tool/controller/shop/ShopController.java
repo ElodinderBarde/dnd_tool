@@ -1,13 +1,15 @@
 package ch.Elodin.DnD_Tool.controller.shop;
 
+import ch.Elodin.DnD_Tool.dto.NpcReadDTO;
 import ch.Elodin.DnD_Tool.dto.ShopDTO;
+import ch.Elodin.DnD_Tool.mapper.NpcMapper;
+import ch.Elodin.DnD_Tool.repository.NpcRepository;
 import ch.Elodin.DnD_Tool.model.shop.Shop;
 import ch.Elodin.DnD_Tool.model.world.Location;
 import ch.Elodin.DnD_Tool.model.shop.ShopType;
 import ch.Elodin.DnD_Tool.repository.world.LocationRepository;
 import ch.Elodin.DnD_Tool.repository.shop.ShopTypeRepository;
 import ch.Elodin.DnD_Tool.service.shop.ShopService;
-import ch.Elodin.DnD_Tool.repository.shop.ShopRepository;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/shops")
@@ -25,12 +28,19 @@ public class ShopController {
     private final ShopService shopService;
     private final ShopTypeRepository shopTypeRepository;
     private final LocationRepository locationRepository;
+    private final NpcRepository npcRepository;
 
-    public ShopController(ShopService shopService, ShopTypeRepository shopTypeRepository, LocationRepository locationRepository) {
+    public ShopController(
+            ShopService shopService,
+            ShopTypeRepository shopTypeRepository,
+            LocationRepository locationRepository,
+            NpcRepository npcRepository) { // hinzufügen
         this.shopService = shopService;
         this.shopTypeRepository = shopTypeRepository;
         this.locationRepository = locationRepository;
+        this.npcRepository = npcRepository; // speichern
     }
+
 
     @GetMapping
     public List<ShopDTO> getAllShops() {
@@ -82,4 +92,27 @@ public class ShopController {
             return ResponseEntity.ok().build();
         }).orElse(ResponseEntity.notFound().build());
     }
+
+
+    @GetMapping("/{shopId}/employees")
+    public List<NpcReadDTO> getEmployeesByShop(@PathVariable int shopId) {
+        return npcRepository
+                .findEmployeesByShopId(shopId)
+                .stream()
+                .map(npc -> NpcMapper.toReadDTOShort(npc))  // <-- hier!
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/{shopId}/customers")
+    public List<NpcReadDTO> getCustomersByShop(@PathVariable int shopId) {
+        return npcRepository
+                .findCustomersByShopId(shopId)
+                .stream()
+                .map(npc -> NpcMapper.toReadDTOShort(npc))  // <-- hier!
+                .collect(Collectors.toList());
+    }
+
+
+
+
 }

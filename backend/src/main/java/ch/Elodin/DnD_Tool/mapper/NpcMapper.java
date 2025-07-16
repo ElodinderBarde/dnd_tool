@@ -4,10 +4,11 @@ import ch.Elodin.DnD_Tool.dto.NpcReadDTO;
 import ch.Elodin.DnD_Tool.model.Npc;
 import ch.Elodin.DnD_Tool.model.enums.EnumSymbol;
 import ch.Elodin.DnD_Tool.model.shop.ShopRelations;
+import ch.Elodin.DnD_Tool.model.npcinfo.Stats;
 
 public class NpcMapper {
 
-    public static NpcReadDTO toReadDTO(Npc npc) {
+    public static NpcReadDTO toReadDTO(Npc npc, Stats stats) {
         NpcReadDTO dto = new NpcReadDTO();
 
         dto.setNpcId(npc.getNpc_ID());
@@ -38,7 +39,6 @@ public class NpcMapper {
         dto.setOtherDescription(npc.getOtherDescription() != null ? npc.getOtherDescription().getText() : null);
         dto.setBetonung(npc.getBetonung() != null ? npc.getBetonung().getBetonung() : null);
         dto.setLevel(npc.getLevel() != null ? npc.getLevel().getLvl() : null);
-        // dto.setShopRelation(...) Zeile ENTFERNT
 
         if (npc.getShop_relations_ID() != null) {
             ShopRelations relation = npc.getShop_relations_ID();
@@ -62,13 +62,46 @@ public class NpcMapper {
             dto.setShopRelation("Nicht Zugeordnet");
         }
 
-
-
+        if (stats != null) {
+            dto.setStrength(stats.getStrength());
+            dto.setDexterity(stats.getDexterity());
+            dto.setConstitution(stats.getConstitution());
+            dto.setIntelligence(stats.getIntelligence());
+            dto.setWisdom(stats.getWisdom());
+            dto.setCharisma(stats.getCharisma());
+        }
 
         dto.setFamily(npc.getNpc_family_ID() != null ? npc.getNpc_family_ID().getFamilienname() : null);
         dto.setPictureUrl(npc.getPicture() != null ? npc.getPicture().getPicture() : null);
         dto.setNotes(npc.getNotes());
         dto.setSymbol(npc.getSymbol() != null ? EnumSymbol.valueOf(npc.getSymbol().name()) : null);
+
+        return dto;
+    }
+
+    public static NpcReadDTO toReadDTOShort(Npc npc) {
+        NpcReadDTO dto = new NpcReadDTO();
+
+        dto.setNpcId(npc.getNpc_ID());
+        dto.setFirstname(npc.getFirstname() != null ? npc.getFirstname().getFirstname() : null);
+        dto.setLastname(npc.getLastname() != null ? npc.getLastname().getLastname() : null);
+        dto.setRace(npc.getRace() != null ? npc.getRace().getRacename() : null);
+        dto.setGender(npc.getGender() != null ? npc.getGender().getGendername() : null);
+        dto.setAge(npc.getNpc_age());
+
+        if (npc.getShop_relations_ID() != null) {
+            ShopRelations relation = npc.getShop_relations_ID();
+
+            if (relation.getShopEmployeeRole() != null) {
+                dto.setShopRelation(relation.getShopEmployeeRole().getPosition());
+            } else if (relation.getShopCustomerRole() != null) {
+                dto.setShopRelation(relation.getShopCustomerRole().getPosition());
+            } else {
+                dto.setShopRelation("unbekannt");
+            }
+        } else {
+            dto.setShopRelation("Nicht Zugeordnet");
+        }
 
         return dto;
     }

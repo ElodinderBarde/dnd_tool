@@ -4,11 +4,10 @@ import ch.Elodin.DnD_Tool.dto.NpcFilterRequest;
 import ch.Elodin.DnD_Tool.dto.NpcReadDTO;
 import ch.Elodin.DnD_Tool.mapper.NpcMapper;
 import ch.Elodin.DnD_Tool.model.Npc;
-import ch.Elodin.DnD_Tool.model.shop.ShopRelations;
+import ch.Elodin.DnD_Tool.model.npcinfo.Stats;
 import ch.Elodin.DnD_Tool.repository.NpcRepository;
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.JoinType;
-import org.springframework.beans.factory.annotation.Autowired;
+import ch.Elodin.DnD_Tool.repository.npcinfo.StatsRepository;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,14 +15,20 @@ import java.util.stream.Collectors;
 
 @Service
 public class NpcService {
+    private final NpcRepository npcRepository;
+    private final StatsRepository statsRepository;
 
-    @Autowired
-    private NpcRepository npcRepository;
-
+    public NpcService(NpcRepository npcRepository, StatsRepository statsRepository) {
+        this.npcRepository = npcRepository;
+        this.statsRepository = statsRepository;
+    }
 
     public List<NpcReadDTO> getAllNpcs() {
         return npcRepository.findAll().stream()
-                .map(NpcMapper::toReadDTO)
+                .map(npc -> {
+                    Stats stats = statsRepository.findByNpc(npc).orElse(null);
+                    return NpcMapper.toReadDTO(npc, stats);
+                })
                 .collect(Collectors.toList());
     }
 
@@ -66,10 +71,24 @@ public class NpcService {
                         npc.getShop_relations_ID().getShop().getLocation() != null &&
                         npc.getShop_relations_ID().getShop().getLocation().getId() == filter.getLocationId()))
 
-                .map(NpcMapper::toReadDTO)
+                .map(npc -> {
+                    Stats stats = statsRepository.findByNpc(npc).orElse(null);
+                    return NpcMapper.toReadDTO(npc, stats);
+                })
+
+
                 .collect(Collectors.toList());
     }
 
+    public NpcReadDTO getNpcById(int id) {
+        Npc npc = npcRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("NPC nicht gefunden mit ID: " + id));
+
+        Stats stats = statsRepository.findByNpc(npc)
+                .orElseGet(() -> statsRepository.findByNpc(npcRepository.findById(1).orElse(null)).orElse(null));
+
+        return NpcMapper.toReadDTO(npc, stats);
+    }
 
 
 }

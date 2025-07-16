@@ -44,6 +44,13 @@ public class NpcReadDTO {
     private String notes;
 
     private Integer level;
+    private Integer strength;
+    private Integer dexterity;
+    private Integer constitution;
+    private Integer intelligence;
+    private Integer wisdom;
+    private Integer charisma;
+
 
     private String shopRelation;
     private String family;
