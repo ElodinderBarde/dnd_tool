@@ -8,7 +8,7 @@ import "../components/questboard/QuestBoard.css";
 
 import Navbar from '../components/Navbar';
 import QuestFilter from "../components/questboard/QuestFilter.jsx";
-import QuestLlist from "../components/questboard/QuestLlist.jsx";
+import QuestLlist from "../components/questboard/QuestList.jsx";
 import QuesstCreate from "../components/questboard/QuesstCreate.jsx";
 
 
