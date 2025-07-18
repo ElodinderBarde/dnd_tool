@@ -103,3 +103,11 @@
 #npc_lvl{
 width: 30px
 }
+
+.modal-box {
+    max-height: 800px;
+    min-height: 700px;
+    min-width: 600px;
+    overflow-y: auto;
+    border: 1px solid #444;
+}

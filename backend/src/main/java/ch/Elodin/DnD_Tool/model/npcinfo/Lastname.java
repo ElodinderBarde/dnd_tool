@@ -20,9 +20,10 @@ public class Lastname{
     private String lastname;
 
 
-	@ManyToOne
-	@JoinColumn(name = "racename")
-	private Race race;
+    @ManyToOne
+    @JoinColumn(name = "race_id")
+    private Race race;
+
 
 
 

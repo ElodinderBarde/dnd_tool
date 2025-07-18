@@ -20,16 +20,33 @@ import axios from "axios";
         const [shops, setShops] = useState([]);
         const [employeeRoles, setEmployeeRoles] = useState([]);
         const [customerRoles, setCustomerRoles] = useState([]);
+        const [firstname, setFirstname] = useState([]);
+        const [lastname, setLastname] = useState([]);
+        const [personality, setPersonality] = useState([]);
+        const [otherDescription, setOtherDescription] = useState([]);
+        const [likes, setLikes] = useState([]);
+        const [ dislikes, setDislikes] = useState([]);
+        const [ideals, setIdeals] = useState([]);
+        const [kleidungsQuali, setKleidungsQuali] = useState(null);
+        const [jackets, setJackets] = useState([]);
+        const [trousers, setTrousers] = useState([]);
+        const [hairstyle, setHairstyle] = useState([]);
+        const [hairColor, setHairColor] = useState(null);
+        const [beardstyle, setBeardstyle] = useState([]);
 
 
 
 
-        const [form, setForm] = useState({
+        const initialForm = {
             vorname: "", nachname: "", age: "", race: "", gender: "", class: "", subclass: "", npc_lvl: "",
             personality: "", otherDescription: "", likes: "", dislikes: "", ideals: "", notes: "",
             kleidungsQuali: "", jackets: "", trousers: "", hairstyle: "", hairColor: "", beardstyle: "",
             location: "", shopType: "", shop: "", customerOrEmployee: "", employeePosition: "", customerRole: ""
-        });
+        };
+
+
+        const [form, setForm] = useState(initialForm);
+
 
         const [stats, setStats] = useState({
             ATK: 10, CON: 10, WIS: 10, CHA: 10, INT: 10, AC: 10,
@@ -64,7 +81,21 @@ import axios from "axios";
             axios.get("/api/ShopType").then(res => setShopTypes(res.data));
             axios.get("/api/shops").then(res => setShops(res.data));
             axios.get("/api/ShopEmployee").then(res => setEmployeeRoles(res.data));
-            axios.get("/api/ShopRelations").then(res => setCustomerRoles(res.data));
+            axios.get("/api/ShopCustomer").then(res => setCustomerRoles(res.data));
+            axios.get("/api/Firstname").then(res => setFirstname(res.data));
+            axios.get("/api/Lastname").then(res => setLastname(res.data));
+            axios.get("/api/Personality").then(res => presetOptions.personality = res.data);
+            axios.get("/api/OtherDescription").then(res => presetOptions.otherDescription = res.data);
+            axios.get("/api/Likes").then(res => presetOptions.likes = res.data);
+            axios.get("/api/Dislikes").then(res => presetOptions.dislikes = res.data);
+            axios.get("/api/Ideals").then(res => presetOptions.ideals = res.data);
+            axios.get("/api/KleidungsQuali").then(res => presetOptions.kleidungsQuali = res.data);
+            axios.get("/api/Jackets").then(res => presetOptions.jackets = res.data);
+            axios.get("/api/Trousers").then(res => presetOptions.trousers = res.data);
+            axios.get("/api/Hairstyles").then(res => presetOptions.hairstyle = res.data);
+            axios.get("/api/HairColors").then(res => presetOptions.hairColor = res.data);
+            axios.get("/api/Beardstyles").then(res => presetOptions.beardstyle = res.data);
+
         }, []);
 
 
@@ -103,6 +134,7 @@ import axios from "axios";
                     stats,
                     role: form.customerOrEmployee,
                 };
+
                 const response = await axios.post("/api/npcs", payload);
                 alert("NPC erfolgreich erstellt!");
                 setForm({}); // optional: reset logic hier erweitern
@@ -120,19 +152,45 @@ import axios from "axios";
 
         const getColumnsForField = (field) => {
             switch (field) {
-                case "vorname": return ["Name", "Race", "Gender"];
-                case "jackets": return ["Jacket", "Gender"];
-                case "haarfarbe": return ["Value"];
+                case "vorname": return ["firstname", "race", "gender"];
+                case "nachname": return ["lastname", "race"];
+
+                case "personality": return ["personality"];
+                case "otherDescription": return ["otherDescription"];
+                case "likes": return ["likes"];
+                case "dislikes": return ["dislikes"];
+                case "ideals": return ["ideals"];
+
+
+                case "kleidungsQuali": return ["kleidungsQuali"];
+                case "jackets": return ["jackets", "gender"];
+                case "trousers": return ["trousers", "gender"];
+                case "hairstyle": return ["hairstyle"];
+                case "hairColor": return ["hairColor"];
+                case "bartstyle": return ["bartstyle"];
                 default: return ["Name"];
             }
         };
 
         const getFilterKeysForField = (field) => {
             switch (field) {
-                case "vorname": return ["name", "race", "gender"];
-                case "jackets": return ["jacket", "gender"];
-                case "haarfarbe": return [];
-                default: return ["name"];
+                case "vorname": return ["firstname", "race", "gender"];
+                case "nachname": return ["lastname", "race"];
+
+                case "personality": return ["personality"];
+                case "otherDescription": return ["otherDescription"];
+                case "likes": return ["likes"];
+                case "dislikes": return ["dislikes"];
+                case "ideals": return ["ideals"];
+
+
+                case "kleidungsQuali": return ["kleidungsQuali"];
+                case "jackets": return ["jackets", "gender"];
+                case "trousers": return ["trousers", "gender"];
+                case "hairstyle": return ["hairstyle", "gender"];
+                case "hairColor": return ["hairColor"];
+                case "bartstyle": return ["bartstyle"];
+                default: return ["Name"];
             }
         };
 
@@ -151,7 +209,7 @@ import axios from "axios";
                     <div className="field-row">
                         <label>Nachname:</label>
                         <input name="nachname" value={form.nachname} onChange={handleChange}/>
-                        <button>Preset</button>
+                        <button onClick={() => openPreset("nachname")} >Preset</button>
                     </div>
 
 
@@ -248,27 +306,27 @@ import axios from "axios";
                         <div className="field-row">
                             <label>Persönlichkeit:</label>
                             <input name="personality" value={form.personality} onChange={handleChange}/>
-                            <button>Preset</button>
+                            <button onClick={() => openPreset("personality")} >Preset</button>
                         </div>
                         <div className="field-row">
                             <label>Weitere Information:</label>
                             <input name="otherDescription" value={form.otherDescription} onChange={handleChange}/>
-                            <button>Preset</button>
+                            <button onClick={() => openPreset("otherDescription")} >Preset</button>
                         </div>
                         <div className="field-row">
                             <label>Gefällt:</label>
                             <input name="likes" value={form.likes} onChange={handleChange} />
-                            <button>Preset</button>
+                            <button onClick={() => openPreset("likes")} >Preset</button>
                         </div>
                         <div className="field-row">
                             <label>Gefällt nicht:</label>
                             <input name="dislikes" value={form.dislikes} onChange={handleChange}/>
-                            <button>Preset</button>
+                            <button onClick={() => openPreset("dislikes")} >Preset</button>
                         </div>
                         <div className="field-row">
                             <label>Ideale:</label>
                             <input name="ideals" value={form.ideals} onChange={handleChange} />
-                            <button>Preset</button>
+                            <button onClick={() => openPreset("ideals")} >Preset</button>
                         </div>
                         <br/>
 
@@ -284,32 +342,32 @@ import axios from "axios";
                         <div className="field-row">
                             <label>Kleidungsqualität:</label>
                             <input name="kleidungsQuali" value={form.kleidungsQuali} onChange={handleChange} />
-                            <button>Preset</button>
+                            <button onClick={() => openPreset("kleidungsQuali")} >Preset</button>
                         </div>
                         <div className="field-row">
                             <label>Oberteil:</label>
                             <input name="jackets" value={form.jackets} onChange={handleChange}/>
-                            <button>Preset</button>
+                            <button onClick={() => openPreset("jackets")} >Preset</button>
                         </div>
                         <div className="field-row">
                             <label>Beinkleid:</label>
                             <input name="trousers" value={form.trousers} onChange={handleChange} />
-                            <button>Preset</button>
+                            <button onClick={() => openPreset("trousers")} >Preset</button>
                         </div>
                         <div className="field-row">
                             <label>Haarstil:</label>
                             <input name="hairstyle" value={form.hairstyle} onChange={handleChange}/>
-                            <button>Preset</button>
+                            <button onClick={() => openPreset("hairstyle")} >Preset</button>
                         </div>
                         <div className="field-row">
                             <label>Haarfarbe:</label>
                             <input name="hairColor" value={form.hairColor} onChange={handleChange} />
-                            <button>Preset</button>
+                            <button onClick={() => openPreset("hairColor")} >Preset</button>
                         </div>
                         <div className="field-row">
                             <label>Bartstil:</label>
                             <input name="beardstyle" value={form.beardstyle} onChange={handleChange}/>
-                            <button>Preset</button>
+                            <button onClick={() => openPreset("beardstyle")} >Preset</button>
                         </div>
 
                         <br/>
@@ -381,7 +439,7 @@ import axios from "axios";
                             <select name="employeePosition" value={form.employeePosition} onChange={handleChange}>
                                 <option value="">Wähle den Beruf</option>
                                 {employeeRoles.map(er => (
-                                    <option key={er.id} value={er.id}>{er.role}</option>
+                                    <option key={er.id} value={er.id}>{er.position}</option>
                                 ))}
                             </select>
                         </div>
@@ -390,7 +448,7 @@ import axios from "axios";
                             <select name="customerRole" value={form.customerRole} onChange={handleChange}>
                                 <option value="">Wähle den Kundentyp</option>
                                 {customerRoles.map(cr => (
-                                    <option key={cr.id} value={cr.id}>{cr.role}</option>
+                                    <option key={cr.id} value={cr.id}>{cr.position}</option>
                                 ))}
                             </select>
                         </div>
@@ -400,16 +458,44 @@ import axios from "axios";
                     <PresetModal
                         isOpen={modalOpen}
                         title={`${modalField} auswählen`}
-                        data={presetOptions[modalField] || []}
+                        data={
+                            modalField === "vorname" ? firstname :
+                                modalField === "jackets" ? jackets :
+                                    modalField === "nachname" ? lastname:
+                                    presetOptions[modalField] || []
+                        }
                         columns={getColumnsForField(modalField)}
                         filterKeys={getFilterKeysForField(modalField)}
                         currentValue={form[modalField]}
                         onSelect={(entry) => {
-                            // Fallback für einfache Strings vs. Objekte
-                            const val = typeof entry === "string" ? entry : entry.name || "";
-                            setForm(prev => ({ ...prev, [modalField]: val }));
+                            const entryValueMap = {
+                                vorname: "firstname",
+                                nachname: "lastname",
+                                personality: "personality",
+                                otherDescription: "otherDescription",
+                                likes: "likes",
+                                dislikes: "dislikes",
+                                ideals: "ideals",
+                                jackets: "jackets",
+                                trousers: "trousers",
+                                hairstyle: "hairstyle",
+                                hairColor: "hairColor",
+                                beardstyle: "beardstyle",
+                            };
+
+                            const resolvedKey = entryValueMap[modalField];
+                            const value = typeof entry === "string"
+                                ? entry
+                                : resolvedKey && entry[resolvedKey] !== undefined
+                                    ? entry[resolvedKey]
+                                    : entry.name || "";
+
+                            setForm(prev => ({ ...prev, [modalField]: value }));
                             setModalOpen(false);
+
                         }}
+
+
                         onRemove={() => {
                             setForm(prev => ({ ...prev, [modalField]: "" }));
                             setModalOpen(false);

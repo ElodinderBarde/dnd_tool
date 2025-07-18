@@ -6,14 +6,20 @@ export default function PresetModal({ isOpen, title, columns, data, filterKeys, 
     if (!isOpen) return null;
 
     const filteredData = data.filter((row) =>
-        filterKeys.some((key) =>
-            String(row[key]).toLowerCase().includes(search.toLowerCase())
-        )
+        filterKeys.some((key) => {
+            let value = row[key];
+            if (key === "race" && typeof row.race === "object") value = row.race.racename;
+            if (key === "gender" && typeof row.gender === "object") value = row.gender.gendername;
+            if (key === "name" && row.firstname) value = row.firstname;
+            if(key === "name" && row.lastname) value = row.lastname;
+            return String(value).toLowerCase().includes(search.toLowerCase());
+        })
     );
+
 
     return (
         <div className="modal-overlay">
-            <div className="modal-box">
+            <div className="modal-box" style={{ maxHeight: "80vh", overflow: "hidden", display: "flex", flexDirection: "column" }}>
                 <h2>{title}</h2>
 
                 <input
@@ -23,6 +29,7 @@ export default function PresetModal({ isOpen, title, columns, data, filterKeys, 
                     onChange={(e) => setSearch(e.target.value)}
                     style={{ width: "100%", marginBottom: "1rem" }}
                 />
+                <div style={{ overflowY: "auto", border: "1px solid #444" }}>
 
                 <table>
                     <thead>
@@ -35,14 +42,24 @@ export default function PresetModal({ isOpen, title, columns, data, filterKeys, 
                     <tbody>
                     {filteredData.map((row, rowIndex) => (
                         <tr key={rowIndex} onClick={() => onSelect(row)} style={{ cursor: "pointer" }}>
-                            {columns.map((col, colIndex) => (
-                                <td key={colIndex}>{row[toCamelCase(col)]}</td>
-                            ))}
+                            {columns.map((col, colIndex) => {
+                                const key = toCamelCase(col);
+                                let value = row[key];
+
+                                if (key === "race" && row.race?.racename) value = row.race.racename;
+                                if (key === "gender" && row.gender?.gendername) value = row.gender.gendername;
+                                if (key === "firstname") value = row.firstname;
+                                if (key === "lastname") value = row.lastname;
+
+                                return <td key={colIndex}>{value}</td>;
+                            })}
+
+
                         </tr>
                     ))}
                     </tbody>
                 </table>
-
+                </div>
                 <button onClick={onClose}>Abbrechen</button>
             </div>
         </div>

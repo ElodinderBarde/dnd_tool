@@ -2,7 +2,12 @@ package ch.Elodin.DnD_Tool.model.npcinfo;
 
 import ch.Elodin.DnD_Tool.model.enums.Verbreitung;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+
+@Getter
+@Setter
 @Entity
 @Table(name = "race")
 public class Race {
@@ -37,80 +42,6 @@ public class Race {
     @Column(name = "verbreitung_in_promille")
     private int verbreitungInPromille;
 
-    // Standard-Konstruktor
-    public Race() {
-    }
 
-    // Getter & Setter
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getRacename() {
-        return racename;
-    }
-
-    public void setRacename(String racename) {
-        this.racename = racename;
-    }
-
-    public int getMaxAge() {
-        return maxAge;
-    }
-
-    public void setMaxAge(int maxAge) {
-        this.maxAge = maxAge;
-    }
-
-    public int getOldAge() {
-        return oldAge;
-    }
-
-    public void setOldAge(int oldAge) {
-        this.oldAge = oldAge;
-    }
-
-    public int getAdultAge() {
-        return adultAge;
-    }
-
-    public void setAdultAge(int adultAge) {
-        this.adultAge = adultAge;
-    }
-
-    public int getTeenage() {
-        return teenage;
-    }
-
-    public void setTeenage(int teenage) {
-        this.teenage = teenage;
-    }
-
-    public String getPrompt() {
-        return prompt;
-    }
-
-    public void setPrompt(String prompt) {
-        this.prompt = prompt;
-    }
-
-    public Verbreitung getVerbreitung() {
-        return verbreitung;
-    }
-
-    public void setVerbreitung(Verbreitung verbreitung) {
-        this.verbreitung = verbreitung;
-    }
-
-    public int getVerbreitungInPromille() {
-        return verbreitungInPromille;
-    }
-
-    public void setVerbreitungInPromille(int verbreitungInPromille) {
-        this.verbreitungInPromille = verbreitungInPromille;
-    }
 }
