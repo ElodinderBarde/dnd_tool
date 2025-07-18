@@ -28,8 +28,7 @@ public class Item {
 	private int price;
 
 	@Column(name = "Typ")
-	@Enumerated(EnumType.STRING)
-	private EnumItemTypes typ;
+	private String typ;
 
 	@Column(name = "seltenheit")
 	private String seltenheit;

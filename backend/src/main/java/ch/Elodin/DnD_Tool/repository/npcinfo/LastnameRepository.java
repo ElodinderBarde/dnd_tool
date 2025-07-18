@@ -5,6 +5,7 @@ package ch.Elodin.DnD_Tool.repository.npcinfo;
 import java.util.List;
 import java.util.Optional;
 
+import ch.Elodin.DnD_Tool.model.npcinfo.Race;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +18,7 @@ public interface LastnameRepository extends JpaRepository<Lastname, Integer> {
 	List<Lastname> findAll();
 
 	Optional<Lastname> findByLastname(String lastname);
+	 Optional<Lastname> findByLastnameAndRace(String lastname, Race race);
 
 
 }

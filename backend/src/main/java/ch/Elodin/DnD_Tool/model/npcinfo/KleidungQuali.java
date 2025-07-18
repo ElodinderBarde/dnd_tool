@@ -1,7 +1,12 @@
 package ch.Elodin.DnD_Tool.model.npcinfo;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+
+@Getter
+@Setter
 @Entity
 @Table(name = "npc_kleidungsqualität")
 public class KleidungQuali {
@@ -18,23 +23,5 @@ public class KleidungQuali {
     
     
     
-    
-	public int getKleidungsQuali() {
-		return kleidungsQuali;
-	}
 
-	public void setKleidungsQuali(int kleidungsQuali) {
-		this.kleidungsQuali = kleidungsQuali;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-    
-    
-    
 }

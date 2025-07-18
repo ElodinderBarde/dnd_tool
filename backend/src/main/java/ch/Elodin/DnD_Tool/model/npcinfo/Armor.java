@@ -1,7 +1,12 @@
 package ch.Elodin.DnD_Tool.model.npcinfo;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+
+@Getter
+@Setter
 @Entity
 @Table(name = "npc_armorclass")
 public class Armor {
@@ -17,29 +22,7 @@ public class Armor {
     @Column(name = "npc_id")
     private Integer npc_id;
 
-	public int getId() {
-		return id;
-	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public int getAcvalue() {
-		return acvalue;
-	}
-
-	public void setAcvalue(int acvalue) {
-		this.acvalue = acvalue;
-	}
-
-	public Integer getNpc_id() {
-		return npc_id;
-	}
-
-	public void setNpc_id(Integer npc_id) {
-		this.npc_id = npc_id;
-	}
 
 	public int getArmor() {
 		// TODO Auto-generated method stub

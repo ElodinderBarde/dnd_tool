@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "../../service/axios.js"; // Pfad je nach Projektstruktur anpassen
+import { useNavigate } from "react-router-dom"; // WICHTIG: nicht von "react"!
+
+
+
 
 export default function NpcFilter({ onFilterChange }) {
     const [filters, setFilters] = useState({
@@ -24,6 +28,7 @@ export default function NpcFilter({ onFilterChange }) {
     });
 
 
+    const navigate = useNavigate();
 
     const [cities, setCities] = useState([]);
 
@@ -88,6 +93,9 @@ export default function NpcFilter({ onFilterChange }) {
         onFilterChange(updatedFilters);
     };
 
+    const handleCreate = () => {
+        navigate("/npc/create");
+    };
 
 
     useEffect(() => {
@@ -124,7 +132,7 @@ export default function NpcFilter({ onFilterChange }) {
 
             <select name="race" value={filters.race} onChange={handleChange}>
                 <option value="">Volk wählen</option>
-                {dropdowns.races.map((r, idx) => (
+                {dropdowns.races.sort().map((r, idx) => (
                     <option key={idx} value={r}>{r}</option>
                 ))}
             </select>
@@ -132,7 +140,7 @@ export default function NpcFilter({ onFilterChange }) {
             <select name="npcClass" value={filters.npcClass ?? ""} onChange={handleChange}>
                 <option value="">Klasse wählen</option>
                 <option value="__NONE__">Keine Klasse</option> {/* bewusst KEIN null */}
-                {dropdowns.classes.map((c, idx) => (
+                {dropdowns.classes.sort().map((c, idx) => (
                     <option key={idx} value={c}>{c}</option>
                 ))}
             </select>
@@ -141,7 +149,7 @@ export default function NpcFilter({ onFilterChange }) {
             {filters.npcClass && dropdowns.subclasses.length > 0 && (
                 <select name="subclass" value={filters.subclass} onChange={handleChange}>
                     <option value="">Subklasse wählen</option>
-                    {dropdowns.subclasses.map((s, idx) => (
+                    {dropdowns.subclasses.sort().map((s, idx) => (
                         <option key={idx} value={s}>{s}</option>
                     ))}
                 </select>
@@ -150,8 +158,8 @@ export default function NpcFilter({ onFilterChange }) {
 
             <select name="clan" value={filters.clan} onChange={handleChange}>
                 <option value="">Clan wählen</option>
-                {dropdowns.clans.map((c, idx) => (
-                    <option key={idx} value={c}>{c}</option>
+                {dropdowns.clans.sort().map((c, idx) => (
+                    <option key={idx} value={c}>{c} </option>
                 ))}
             </select>
 
@@ -206,7 +214,7 @@ export default function NpcFilter({ onFilterChange }) {
 
             <select name="locationId" value={filters.locationId} onChange={handleChange}>
                 <option value="">Alle Städte</option>
-                {cities.map((city) => (
+                {cities.sort().map((city) => (
                     <option key={city.id} value={city.id}>
                         {city.city_name}
                     </option>
@@ -216,8 +224,9 @@ export default function NpcFilter({ onFilterChange }) {
 
 
 
-
-
+            <button onClick={handleCreate}>
+                NPC erstellen
+            </button>
 
 
 

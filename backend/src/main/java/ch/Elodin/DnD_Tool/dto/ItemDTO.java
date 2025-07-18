@@ -13,7 +13,7 @@ public class ItemDTO {
  private int id;
  private String name;
  private int price;
- private EnumItemTypes typ;
+ private String typ;
  private String seltenheit;
  private String buch;
  private Integer seite1;
@@ -25,7 +25,7 @@ public class ItemDTO {
 
 
 
- public ItemDTO(int id, String name, int price, EnumItemTypes typ, String seltenheit,
+ public ItemDTO(int id, String name, int price, String typ, String seltenheit,
                 String buch, Integer seite1, Integer seite2, Integer seite3,
                 Familienclan einstimmung, String beschreibung) {
      this.id = id;

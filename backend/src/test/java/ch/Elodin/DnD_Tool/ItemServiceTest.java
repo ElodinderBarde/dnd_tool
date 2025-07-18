@@ -2,7 +2,6 @@ package ch.Elodin.DnD_Tool;
 
 import ch.Elodin.DnD_Tool.dto.ItemDTO;
 import ch.Elodin.DnD_Tool.model.Item;
-import ch.Elodin.DnD_Tool.model.enums.EnumItemTypes;
 import ch.Elodin.DnD_Tool.repository.ItemRepository;
 
 import ch.Elodin.DnD_Tool.service.shop.ItemService;
@@ -41,7 +40,7 @@ public class ItemServiceTest {
     @Test
     public void testCreateItem_savesItemAndReturnsDTO() {
         ItemDTO dto = new ItemDTO(
-                0, "Test Item", 100, EnumItemTypes.Armor, "Selten",
+                0, "Test Item", 100, "Gift", "Selten",
                 "Buch X", 10, 11, 12, null, "Ein Test-Gegenstand"
         );
 
@@ -49,7 +48,7 @@ public class ItemServiceTest {
         savedItem.setItemID(1);
         savedItem.setItemName("Test Item");
         savedItem.setPrice(100);
-        savedItem.setTyp(EnumItemTypes.Armor);
+        savedItem.setTyp("Gift");
         savedItem.setSeltenheit("Selten");
         savedItem.setBuch("Buch X");
         savedItem.setSeite1(10);

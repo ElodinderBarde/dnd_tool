@@ -25,4 +25,5 @@ public class Subclass {
 	private NpcClass class_ID;
 
 
+
 }

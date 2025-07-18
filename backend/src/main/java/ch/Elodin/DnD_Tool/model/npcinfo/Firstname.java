@@ -2,7 +2,12 @@ package ch.Elodin.DnD_Tool.model.npcinfo;
 
 import ch.Elodin.DnD_Tool.model.enums.EnumGender;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+
+@Getter
+@Setter
 @Entity
 @Table(name = "npc_firstname")
 public class Firstname {
@@ -14,55 +19,20 @@ public class Firstname {
 
     @Column(name = "firstname", unique = true)
     private String firstname;
-    
-    
-    @Column(name = "npc_gender")
-    @Enumerated(EnumType.STRING)
-    private EnumGender gender;
-    
-    @Column(name = " race_ID")
-    private int race_ID;
-    
-    
-    
-    
-    
-    
-
-	public int getFirstname_ID() {
-		return firstname_ID;
-	}
-
-	public void setFirstname_ID(int firstname_ID) {
-		this.firstname_ID = firstname_ID;
-	}
-
-	public String getFirstname() {
-		return firstname;
-	}
-
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
 
 
+	@ManyToOne
+	@JoinColumn(name = "gender_ID")
+	private Gender gender;
 
-	public EnumGender getGender() {
-		return gender;
-	}
+	@ManyToOne
+	@JoinColumn(name = "race_ID")
+	private Race race;
 
-	public void setGender(EnumGender gender) {
+
+	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
 
-	public int getRace_ID() {
-		return race_ID;
-	}
 
-	public void setRace_ID(int race_ID) {
-		this.race_ID = race_ID;
-	}
-    
-    
-    
 }

@@ -18,6 +18,22 @@ public class LocationController {
     @Autowired
     private LocationRepository locationRepository;
 
+
+    @GetMapping
+    public List<LocationDTO> getAllLocations() {
+        return locationRepository.findAll().stream()
+                .map(loc -> new LocationDTO(
+                        loc.getId(),
+                        loc.getCityID() != null ? loc.getCityID().getCity_name() : null,
+                        loc.getVillageID() != null ? loc.getVillageID().getName() : null
+                ))
+                .toList();
+    }
+
+    public record LocationDTO(int locationId, String cityName, String villageName) {
+    }
+
+
     @GetMapping("/cities")
     public List<CityDTO> getCities() {
         return locationRepository.findAll().stream()
@@ -27,5 +43,6 @@ public class LocationController {
     }
 
     // Inneres DTO oder eigene Datei
-    public record CityDTO(int id, String city_name) {}
+    public record CityDTO(int id, String city_name) {
+    }
 }

@@ -12,7 +12,7 @@ public class QuestNpc {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "questNpc_id")
+    @Column(name = "quest_npc_id") // exakt wie in der DB!
     private int questNpcId;
 
     @ManyToOne

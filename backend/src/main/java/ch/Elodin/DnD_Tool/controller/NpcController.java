@@ -11,6 +11,7 @@ import ch.Elodin.DnD_Tool.repository.npcinfo.SubclassRepository;
 import ch.Elodin.DnD_Tool.service.NpcService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -92,12 +93,14 @@ public class NpcController {
     }
 
     @GetMapping("/subclasses/names/byClass")
-    public List<String> getSubclassNamesByClass(String npcClass) {
+    public List<String> getSubclassNamesByClass(@RequestParam(required = false) String npcClass) {
+        if (npcClass == null || npcClass.isBlank()) return Collections.emptyList();
         return subclassRepository.findByClassname(npcClass).stream()
                 .map(Subclass::getSubclassname)
                 .distinct()
                 .toList();
     }
+
 
     @PutMapping("/{id}")
     public void updateNpcNotes(@PathVariable int id, @RequestBody NpcReadDTO dto) {

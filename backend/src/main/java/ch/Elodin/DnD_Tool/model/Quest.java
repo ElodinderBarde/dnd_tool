@@ -2,8 +2,16 @@ package ch.Elodin.DnD_Tool.model;
 
 import ch.Elodin.DnD_Tool.model.enums.EnumQuest;
 import ch.Elodin.DnD_Tool.model.world.Location;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.List;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "quest")
 public class Quest {
@@ -49,21 +57,16 @@ public class Quest {
 	@Column(name = "is_active")
 	private boolean is_active;
 
-	public int getQuestID() {
-		return questID;
-	}
+	@JsonBackReference
+	@ManyToOne
+	@JoinColumn(name = "previous_quest_id")
+	private Quest previousQuest;
 
-	public void setQuestID(int questID) {
-		this.questID = questID;
-	}
+	@JsonManagedReference
+	@OneToMany(mappedBy = "previousQuest")
+	private List<Quest> nextQuests;
 
-	public String getMonsterName() {
-		return MonsterName;
-	}
 
-	public void setMonsterName(String monsterName) {
-		MonsterName = monsterName;
-	}
 
 	public String getDescription() {
 		return description;
@@ -79,14 +82,6 @@ public class Quest {
 
 	public void setStatus(EnumQuest status) {
 		this.status = status;
-	}
-
-	public String getGroup() {
-		return group;
-	}
-
-	public void setGroup(String group) {
-		this.group = group;
 	}
 
 	public Integer getPrice_gold() {

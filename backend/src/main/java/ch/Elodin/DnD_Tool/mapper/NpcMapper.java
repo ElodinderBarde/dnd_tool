@@ -1,10 +1,14 @@
 package ch.Elodin.DnD_Tool.mapper;
 
 import ch.Elodin.DnD_Tool.dto.NpcReadDTO;
+import ch.Elodin.DnD_Tool.dto.NpcWriteDTO;
+
 import ch.Elodin.DnD_Tool.model.Npc;
 import ch.Elodin.DnD_Tool.model.enums.EnumSymbol;
 import ch.Elodin.DnD_Tool.model.shop.ShopRelations;
 import ch.Elodin.DnD_Tool.model.npcinfo.Stats;
+import ch.Elodin.DnD_Tool.repository.npcinfo.*;
+
 
 public class NpcMapper {
 
@@ -105,4 +109,50 @@ public class NpcMapper {
 
         return dto;
     }
+
+
+    public static void updateEntityFromDto(
+            Npc npc,
+            NpcWriteDTO dto,
+            FirstnameRepository firstnameRepository,
+            LastnameRepository lastnameRepository,
+            GenderRepository genderRepository,
+            RaceRepository raceRepository,
+            LevelRepository levelRepository,
+            PersonalityRepository personalityRepository,
+            OtherDescriptionRepository otherDescriptionRepository,
+            LikesRepository likesRepository,
+            DislikesRepository dislikesRepository,
+            IdealsRepository idealsRepository,
+            KleidungQualiRepository kleidungQualiRepository,
+            JacketsRepository jacketsRepository,
+            TrousersRepository trousersRepository,
+            HairstyleRepository hairstyleRepository,
+            HaircolorRepository haircolorRepository,
+            BeardstyleRepository beardstyleRepository,
+            ArmorRepository armorRepository
+    ) {
+        npc.setFirstname(firstnameRepository.findById(dto.getFirstnameId()).orElseThrow());
+        npc.setLastname(lastnameRepository.findById(dto.getLastnameId()).orElseThrow());
+        npc.setNpc_age(dto.getNpc_age());
+        npc.setGender(genderRepository.findById(dto.getGenderId()).orElseThrow());
+        npc.setRace(raceRepository.findById(dto.getRaceId()).orElseThrow());
+        npc.setLevel(levelRepository.findById(dto.getLevelId()).orElseThrow());
+        npc.setPersonality(personalityRepository.findById(dto.getPersonalityId()).orElseThrow());
+        npc.setOtherDescription(otherDescriptionRepository.findById(dto.getOtherDescriptionId()).orElseThrow());
+        npc.setLikes(likesRepository.findById(dto.getLikesId()).orElseThrow());
+        npc.setDislikes(dislikesRepository.findById(dto.getDislikesId()).orElseThrow());
+        npc.setIdeals(idealsRepository.findById(dto.getIdealsId()).orElseThrow());
+        npc.setKleidungQuali(kleidungQualiRepository.findById(dto.getKleidungQualiId()).orElseThrow());
+        npc.setJackets(jacketsRepository.findById(dto.getJacketsId()).orElseThrow());
+        npc.setTrousers(trousersRepository.findById(dto.getTrousersId()).orElseThrow());
+        npc.setHairstyle(hairstyleRepository.findById(dto.getHairstyleId()).orElseThrow());
+        npc.setHaircolor(haircolorRepository.findById(dto.getHaircolorId()).orElseThrow());
+        npc.setBeardstyle(beardstyleRepository.findById(dto.getBeardstyleId()).orElseThrow());
+        npc.setArmor_ID(armorRepository.findById(dto.getArmorId()).orElseThrow());
+        npc.setSymbol(dto.getSymbol());
+        npc.setNotes(dto.getNotes());
+    }
+
+
 }

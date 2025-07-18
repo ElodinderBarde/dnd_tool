@@ -33,15 +33,39 @@ export default function ResourceFilter({ onFilterChange }) {
       <select value={typFilter} onChange={(e) => setTypFilter(e.target.value)}>
         <option value="">Alle</option>
         <option value="Lebensmittel">Lebensmittel</option>
-        <option value="Armor">Rüstung</option>
-        <option value="Weapons">Waffen</option>
-        <option value="Books">Bücher</option>
+        <option value="Transportmittel">Transportmittel</option>
+        <option value="Waffe">Waffen</option>
+        <option value="Kunstgegenstände">Kunstgegenstände</option>
         <option value="Zutaten">Zutaten</option>
-        <option value="Tränke">Tränke</option>
+        <option value="Trank">Tränke</option>
         <option value="Other">Andere</option>
         <option value="Edelsteine">Edelsteine</option>
+        <option value="Buch">Buch</option>
+          <option value="Dienstleistung">Dienstleistung</option>
+          <option value="Gift">Gift</option>
+          <option value="Handelsgüter">Handelsgüter</option>
+          <option value="Instrument">Instrument</option>
+          <option value="Ring">Ring</option>
+          <option value="Rohstoff">Rohstoff</option>
+          <option value="Sattelzeug">Sattelzeug</option>
+          <option value="Schriftrolle">Schriftrolle</option>
+          <option value="Tiere">Tiere</option>
+          <option value="Rüstung">Rüstung</option>
+          <option value="Werkzeug">Werkzeug</option>
+          <option value="Wundersamer Gegenstand">Wundersamer Gegenstand</option>
+          <option value="Zauberstab">Zauberstab</option>
+          <option value="Zauberstecken">Zauberstecken</option>
+          <option value="Zepter">Zepter</option>
+          <option value="Zutaten">Zutaten</option>
+          <option value="Other">Anderes</option>
+          <option value="Werkzeug">Werkzeug</option>
+          <option value="Werkzeug">Werkzeug</option>
 
-      
+
+
+
+
+
       </select>
       <br />
       <label>Sortierung:</label>

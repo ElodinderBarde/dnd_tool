@@ -68,10 +68,12 @@ export default function NpcDetailPage() {
                         alignItems: 'center',
                         justifyContent: 'center'
                     }}>
+                        <div>
                         {npc ? <h3>{npc.firstname} {npc.lastname}</h3> : <p>npc nicht gefunden</p>}
                         {npc ? <p>{npc.gender}</p> : null}
+                        {npc ? <p>{npc.race}</p> : null}
                         {npc ? <p>{npc.age} Jahre alt</p> : null}
-
+                        </div>
                     </div>
 
                 </div>
