@@ -128,14 +128,56 @@ public class NpcService {
     public void createNpc(NpcWriteDTO dto) {
         Npc npc = new Npc();
 
-        npc.setFirstname(firstnameRepository.findById(dto.getFirstnameId()).orElseThrow());
-        npc.setRace(raceRepository.findById(dto.getRaceId()).orElseThrow());
-        // usw. für alle Referenzen
+        // Pflichtfeld: Race
+        Race race = raceRepository.findById(dto.getRaceId())
+                .orElseThrow(() -> new IllegalArgumentException("Rasse mit ID " + dto.getRaceId() + " nicht gefunden."));
+
+        // Pflichtfeld: Gender
+        Gender gender = genderRepository.findById(dto.getGenderId())
+                .orElseThrow(() -> new IllegalArgumentException("Geschlecht mit ID " + dto.getGenderId() + " nicht gefunden."));
+
+        // Firstname validieren
+        if (dto.getFirstnameId() == null) {
+            throw new IllegalArgumentException("Vorname darf nicht null sein.");
+        }
+        Firstname fname = firstnameRepository.findById(dto.getFirstnameId())
+                .orElseThrow(() -> new IllegalArgumentException("Vorname mit ID " + dto.getFirstnameId() + " nicht gefunden."));
+
+        if (!fname.getRace().equals(race)) {
+            throw new IllegalArgumentException("Vorname gehört nicht zur angegebenen Rasse.");
+        }
+        if (!fname.getGender().equals(gender)) {
+            throw new IllegalArgumentException("Vorname passt nicht zum angegebenen Geschlecht.");
+        }
+
+        // Lastname validieren
+        if (dto.getLastnameId() == null) {
+            throw new IllegalArgumentException("Nachname darf nicht null sein.");
+        }
+        Lastname lname = lastnameRepository.findById(dto.getLastnameId())
+                .orElseThrow(() -> new IllegalArgumentException("Nachname mit ID " + dto.getLastnameId() + " nicht gefunden."));
+
+        if (!lname.getRace().equals(race)) {
+            throw new IllegalArgumentException("Nachname gehört nicht zur angegebenen Rasse.");
+        }
+
+        // Level validieren
+        Level level = levelRepository.findById(dto.getLevelId())
+                .orElseThrow(() -> new IllegalArgumentException("Level mit ID " + dto.getLevelId() + " nicht gefunden."));
+
+        // Zuordnung zur Entity
+        npc.setFirstname(fname);
+        npc.setLastname(lname);
+        npc.setRace(race);
+        npc.setGender(gender);
+        npc.setLevel(level);
         npc.setNotes(dto.getNotes());
-        npc.setLevel(levelRepository.findById(dto.getLevelId()).orElseThrow());
+
+        // Optional: Weitere Felder wie Kleidung, Hairstyle usw. nur setzen, wenn vorhanden
 
         npcRepository.save(npc);
     }
+
 
 
 

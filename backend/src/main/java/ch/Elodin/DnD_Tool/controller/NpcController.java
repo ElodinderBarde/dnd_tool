@@ -2,6 +2,7 @@ package ch.Elodin.DnD_Tool.controller;
 
 import ch.Elodin.DnD_Tool.dto.NpcFilterRequest;
 import ch.Elodin.DnD_Tool.dto.NpcReadDTO;
+import ch.Elodin.DnD_Tool.dto.NpcWriteDTO;
 import ch.Elodin.DnD_Tool.model.Npc;
 import ch.Elodin.DnD_Tool.model.npcinfo.Subclass;
 import ch.Elodin.DnD_Tool.repository.ClanRepository;
@@ -9,6 +10,7 @@ import ch.Elodin.DnD_Tool.repository.NpcRepository;
 import ch.Elodin.DnD_Tool.repository.npcinfo.RaceRepository;
 import ch.Elodin.DnD_Tool.repository.npcinfo.SubclassRepository;
 import ch.Elodin.DnD_Tool.service.NpcService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -100,6 +102,12 @@ public class NpcController {
                 .distinct()
                 .toList();
     }
+    @GetMapping("/Subclasses/byClass/{classId}")
+    public List<Subclass> getSubclassesByClassId(@PathVariable int classId) {
+        return subclassRepository.findByClassId(classId);
+
+    }
+
 
 
     @PutMapping("/{id}")
@@ -115,6 +123,15 @@ public class NpcController {
         return npcService.getNpcById(id);
     }
 
-
+    @PostMapping
+    public ResponseEntity<?> createNpc(@RequestBody NpcWriteDTO dto) {
+        try {
+            npcService.createNpc(dto);
+            return ResponseEntity.ok().build(); // 200 OK
+        } catch (Exception e) {
+            e.printStackTrace(); // für Debug-Zwecke
+            return ResponseEntity.badRequest().body("Fehler beim Erstellen des NPCs: " + e.getMessage());
+        }
+    }
 
 }

@@ -2,7 +2,12 @@ package ch.Elodin.DnD_Tool.model.npcinfo;
 
 import ch.Elodin.DnD_Tool.model.enums.EnumClothes;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+
+@Getter
+@Setter
 @Entity
 @Table(name = "npc_jackets")
 public class Jackets {
@@ -10,7 +15,7 @@ public class Jackets {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "npc_jackets_ID")
-    private int hairstyle_ID;
+    private int jackets_ID;
 
     @Column(name = "name", unique = true)
     private String name;
@@ -21,34 +26,6 @@ public class Jackets {
     private EnumClothes gender;
 
 
-	public int getHairstyle_ID() {
-		return hairstyle_ID;
-	}
-
-
-	public void setHairstyle_ID(int hairstyle_ID) {
-		this.hairstyle_ID = hairstyle_ID;
-	}
-
-
-	public String getName() {
-		return name;
-	}
-
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-
-	public EnumClothes getGender() {
-		return gender;
-	}
-
-
-	public void setGender(EnumClothes gender) {
-		this.gender = gender;
-	}
 
 
 

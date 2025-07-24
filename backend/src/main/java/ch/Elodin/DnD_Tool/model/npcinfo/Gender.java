@@ -2,7 +2,12 @@ package ch.Elodin.DnD_Tool.model.npcinfo;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+
+@Getter
+@Setter
 @Entity
 @Table(name = "npc_gender")
 public class Gender {
@@ -16,20 +21,6 @@ public class Gender {
     @Column(name = "npc_gender")
     private String gendername;
 
-    public int getGender_ID() {
-        return gender_ID;
-    }
 
-    public void setGender_ID(int gender_ID) {
-        this.gender_ID = gender_ID;
-    }
-
-    public String getGendername() {
-        return gendername;
-    }
-
-    public void setGendername(String gendername) {
-        this.gendername = gendername;
-    }
 
 }

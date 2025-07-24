@@ -28,4 +28,7 @@ public class NpcGeneratorController {
         npcRepository.save(npc);
         return ResponseEntity.ok(npc);
     }
+
+
+
 }

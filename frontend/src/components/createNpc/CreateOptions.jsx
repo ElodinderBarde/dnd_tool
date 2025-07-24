@@ -1,7 +1,6 @@
 import './CreateNpc.css';
 import React, {useState, useEffect} from "react";
 import PresetModal from "./PresetModal";
-import { presetOptions } from "./presetData";
 import axios from "axios";
 
 
@@ -27,21 +26,45 @@ import axios from "axios";
         const [likes, setLikes] = useState([]);
         const [ dislikes, setDislikes] = useState([]);
         const [ideals, setIdeals] = useState([]);
-        const [kleidungsQuali, setKleidungsQuali] = useState(null);
+        const [kleidungsQuali, setKleidungsQuali] = useState([]);
+        const [hairColor, setHairColor] = useState([]);
         const [jackets, setJackets] = useState([]);
         const [trousers, setTrousers] = useState([]);
         const [hairstyle, setHairstyle] = useState([]);
-        const [hairColor, setHairColor] = useState(null);
         const [beardstyle, setBeardstyle] = useState([]);
 
 
 
 
+
         const initialForm = {
-            vorname: "", nachname: "", age: "", race: "", gender: "", class: "", subclass: "", npc_lvl: "",
-            personality: "", otherDescription: "", likes: "", dislikes: "", ideals: "", notes: "",
-            kleidungsQuali: "", jackets: "", trousers: "", hairstyle: "", hairColor: "", beardstyle: "",
-            location: "", shopType: "", shop: "", customerOrEmployee: "", employeePosition: "", customerRole: ""
+            vorname: "", vornameId: null,
+            nachname: "",nachnameId: null,
+            age: "",
+            race: "",
+            genderId: "",
+            classId: "",
+            subclass: "", subclassID: null,
+            npc_lvl: "",
+            personality: "", personalityId: null,
+            otherDescription: "", otherDescriptionId: null,
+            likes: "", likesId: null,
+            dislikes: "", dislikesId: null,
+            ideals: "", idealsId: null,
+            notes: "",
+            kleidungsQuali: "", kleidungQualiId: null,
+            jackets: "", jacketsId: null,
+            trousers: "", trousersId: null,
+            hairstyle: "", hairstyleId: null,
+            hairColor: "", haircolorId: null,
+            beardstyle: "", beardstyleId: null,
+
+            location: "", locationId: null,
+            shopType: "", shopTypeId: null,
+            shop: "", shopId: null,
+            customerOrEmployee: "", customerOrEmployeeId: null,
+            employeePosition: "",
+            customerRole: ""
         };
 
 
@@ -54,21 +77,41 @@ import axios from "axios";
 
 
 
+        const resolveOrCreateId = async ({ apiName, value, formKey, idKey, matchField }) => {
+            if (!value) return null;
 
+            try {
+                // 1. Abruf aller existierenden Einträge aus API
+                const { data } = await axios.get(`/api/${apiName}`);
+                const existing = data.find(e => e[matchField].toLowerCase() === value.toLowerCase());
 
+                if (existing) {
+                    return existing[idKey];
+                } else {
+                    // 2. Falls nicht gefunden, erstelle neuen Eintrag
+                    const postData = { [matchField]: value };
+                    const { data: created } = await axios.post(`/api/${apiName}`, postData);
+                    return created[idKey];
+                }
+            } catch (err) {
+                console.error(`Fehler bei ${formKey}`, err);
+                return null;
+            }
+        };
 
 
         useEffect(() => {
-            if (form.class) {
-                axios.get(`/api/Subclass/names/byClass`, {
-                    params: { npcClass: form.class }
-                }).then(res => setSubclass(res.data));
+            if (form.classId) {
+                axios.get(`/api/npcs/Subclasses/byClass/${form.classId}`)
+                    .then(res => {
+                        console.log("Subklassen geladen:", res.data);
+                        setSubclass(res.data);
+                    });
             } else {
+                console.log("Keine Klasse gewählt, Subklassen geleert");
                 setSubclass([]);
             }
-        }, [form.class]);
-
-
+        }, [form.classId]);
 
 
 
@@ -84,17 +127,18 @@ import axios from "axios";
             axios.get("/api/ShopCustomer").then(res => setCustomerRoles(res.data));
             axios.get("/api/Firstname").then(res => setFirstname(res.data));
             axios.get("/api/Lastname").then(res => setLastname(res.data));
-            axios.get("/api/Personality").then(res => presetOptions.personality = res.data);
-            axios.get("/api/OtherDescription").then(res => presetOptions.otherDescription = res.data);
-            axios.get("/api/Likes").then(res => presetOptions.likes = res.data);
-            axios.get("/api/Dislikes").then(res => presetOptions.dislikes = res.data);
-            axios.get("/api/Ideals").then(res => presetOptions.ideals = res.data);
-            axios.get("/api/KleidungsQuali").then(res => presetOptions.kleidungsQuali = res.data);
-            axios.get("/api/Jackets").then(res => presetOptions.jackets = res.data);
-            axios.get("/api/Trousers").then(res => presetOptions.trousers = res.data);
-            axios.get("/api/Hairstyles").then(res => presetOptions.hairstyle = res.data);
-            axios.get("/api/HairColors").then(res => presetOptions.hairColor = res.data);
-            axios.get("/api/Beardstyles").then(res => presetOptions.beardstyle = res.data);
+            axios.get("/api/Personality").then(res => setPersonality(res.data));
+            axios.get("/api/OtherDescription").then(res => setOtherDescription(res.data));
+            axios.get("/api/Likes").then(res => setLikes(res.data));
+            axios.get("/api/Dislikes").then(res => setDislikes(res.data));
+            axios.get("/api/Ideals").then(res => setIdeals(res.data));
+            axios.get("/api/KleidungQuali").then(res => setKleidungsQuali(res.data));
+            axios.get("/api/Jackets").then(res => setJackets(res.data));
+            axios.get("/api/Trousers").then(res => setTrousers(res.data));
+            axios.get("/api/Hairstyle").then(res => setHairstyle(res.data));
+            axios.get("/api/Haircolor").then(res => setHairColor(res.data));
+            axios.get("/api/Beardstyle").then(res => setBeardstyle(res.data));
+
 
         }, []);
 
@@ -109,6 +153,41 @@ import axios from "axios";
         const handleChange = (e) => {
             const { name, value } = e.target;
             setForm(prev => ({ ...prev, [name]: value }));
+
+ if (name === "race") {
+                setForm(prev => ({
+                    ...prev,
+                    race: value,
+                    raceId: parseInt(value) || null
+                }));
+
+                }else if (name === "genderId") {
+     console.log("genderId selected:", typeof value, value);
+     setForm(prev => ({
+         ...prev,
+         genderId: parseInt(value) || null
+     }));
+
+
+
+
+
+
+        } else if (name === "classId") {
+                setForm(prev => ({
+                    ...prev,
+                    classId: parseInt(value) || null
+                }));
+
+            } else if (name === "subclass") {
+                setForm(prev => ({
+                    ...prev,
+                    subclass: value,
+                    subclassId: parseInt(value) || null
+                }));
+                }else {
+                setForm(prev => ({ ...prev, [name]: value }));
+            }
         };
 
         const renderCell = (label, value, onChange) => (
@@ -127,17 +206,156 @@ import axios from "axios";
             setStats(prev => ({ ...prev, [key]: parseInt(val) || 0 }));
         };
 
+
+        //TODO: NPC speicherlogik anpassen / überarbeiten.
+        // Shop dropdownlogik überarbeiten: Sortieren
+        // customer und mitarbeitere dropdown ausblenden
+
+        // frontend darstellung von Informationen funktioniert
+
         const createNpc = async () => {
             try {
+                const firstnameId = await resolveOrCreateId({
+                    apiName: "Firstname",
+                    value: form.vorname,
+                    formKey: "vorname",
+                    idKey: "firstname_ID",
+                    matchField: "firstname"
+                });
+
+                const lastnameId = await resolveOrCreateId({
+                    apiName: "Lastname",
+                    value: form.nachname,
+                    formKey: "nachname",
+                    idKey: "lastname_ID",
+                    matchField: "lastname"
+                });
+
+                const personalityId = await resolveOrCreateId({
+                    apiName: "Personality",
+                    value: form.personality,
+                    formKey: "personality",
+                    idKey: "personality_ID",
+                    matchField: "description"
+                });
+
+                const otherDescriptionId = await resolveOrCreateId({
+                    apiName: "OtherDescription",
+                    value: form.otherDescription,
+                    formKey: "otherDescription",
+                    idKey: "otherDescription_ID",
+                    matchField: "description"
+                });
+
+                const likesId = await resolveOrCreateId({
+                    apiName: "Likes",
+                    value: form.likes,
+                    formKey: "likes",
+                    idKey: "likes_ID",
+                    matchField: "description"
+                });
+
+                const dislikesId = await resolveOrCreateId({
+                    apiName: "Dislikes",
+                    value: form.dislikes,
+                    formKey: "dislikes",
+                    idKey: "dislikes_ID",
+                    matchField: "description"
+                });
+
+                const idealsId = await resolveOrCreateId({
+                    apiName: "Ideals",
+                    value: form.ideals,
+                    formKey: "ideals",
+                    idKey: "ideals",
+                    matchField: "description"
+                });
+
+                const kleidungQualiId = await resolveOrCreateId({
+                    apiName: "KleidungQuali",
+                    value: form.kleidungsQuali,
+                    formKey: "kleidungsQuali",
+                    idKey: "kleidungsQuali",
+                    matchField: "description"
+                });
+
+                const jacketsId = await resolveOrCreateId({
+                    apiName: "Jackets",
+                    value: form.jackets,
+                    formKey: "jackets",
+                    idKey: "jackets_ID",
+                    matchField: "name"
+                });
+
+                const trousersId = await resolveOrCreateId({
+                    apiName: "Trousers",
+                    value: form.trousers,
+                    formKey: "trousers",
+                    idKey: "trousers_ID",
+                    matchField: "name"
+                });
+
+                const hairstyleId = await resolveOrCreateId({
+                    apiName: "Hairstyle",
+                    value: form.hairstyle,
+                    formKey: "hairstyle",
+                    idKey: "hairstyle_ID",
+                    matchField: "name"
+                });
+
+                const haircolorId = await resolveOrCreateId({
+                    apiName: "Haircolor",
+                    value: form.hairColor,
+                    formKey: "hairColor",
+                    idKey: "haircolor_ID",
+                    matchField: "name"
+                });
+
+                const beardstyleId = await resolveOrCreateId({
+                    apiName: "Beardstyle",
+                    value: form.beardstyle,
+                    formKey: "beardstyle",
+                    idKey: "beardstyle_ID",
+                    matchField: "name"
+                });
+
+
+
                 const payload = {
-                    ...form,
-                    stats,
-                    role: form.customerOrEmployee,
+                    firstnameId,
+                    lastnameId,
+                    genderId: form.genderId === "" ? null : parseInt(form.genderId),
+                    age: form.age, //
+                    raceId: parseInt(form.race) || null,
+                    levelId: parseInt(form.npc_lvl) || 1,
+                    classId: parseInt(form.classId)||null, //
+                    subclassID: parseInt(form.subclass), //
+                    personalityId,
+                    otherDescriptionId,
+                    likesId,
+                    dislikesId,
+                    idealsId,
+                    kleidungQualiId,
+                    jacketsId,
+                    trousersId,
+                    hairstyleId,
+                    haircolorId,
+                    beardstyleId,
+                    notes: form.notes
                 };
 
-                const response = await axios.post("/api/npcs", payload);
+
+                console.log("NPC Payload:", payload);
+                console.log("classId:", payload.classId);
+                console.log("genderId:", payload.genderId);
+                console.log("Genders:", genders);
+
+
+
+                console.log("Finaler Payload:", payload);
+                await axios.post("/api/npcs", payload);
                 alert("NPC erfolgreich erstellt!");
-                setForm({}); // optional: reset logic hier erweitern
+                setForm(initialForm);
                 setStats({ ATK: 10, CON: 10, WIS: 10, CHA: 10, INT: 10, AC: 10 });
             } catch (err) {
                 console.error(err);
@@ -165,7 +383,7 @@ import axios from "axios";
                 case "kleidungsQuali": return ["kleidungsQuali"];
                 case "jackets": return ["jackets", "gender"];
                 case "trousers": return ["trousers", "gender"];
-                case "hairstyle": return ["hairstyle"];
+                case "hairstyle": return ["hairstyle" , "gender"];
                 case "hairColor": return ["hairColor"];
                 case "bartstyle": return ["bartstyle"];
                 default: return ["Name"];
@@ -193,6 +411,8 @@ import axios from "axios";
                 default: return ["Name"];
             }
         };
+        const selectedRaceId = form.race?.raceId;
+        const selectedGenderId = form.gender?.genderId;
 
 
 
@@ -200,16 +420,48 @@ import axios from "axios";
             <div className="npc-options-grid">
                 {/* LINKE SPALTE: Details */}
                 <div className="left-column">
+
+                    <div className="field-row">
+                        <label>Volk:</label>
+                        <select name="race" value={form.race} onChange={handleChange}>
+                            <option value="">Wähle Volk</option>
+                            {races.map(r => (
+                                <option key={r.id} value={r.id}>{r.racename}</option>
+                            ))}
+                        </select>
+                    </div>
+
+
+
+                    <div className="field-row">
+                        <label>Geschlecht</label>
+                        <select name="genderId" value={form.genderId ?? ""} onChange={handleChange}>
+                            <option value="">Wähle ein Geschlecht</option>
+                            {genders.map((g) => (
+                                <option key={g.gender_ID} value={g.gender_ID}>
+                                    {g.gendername}
+                                </option>
+                            ))}
+                        </select>
+
+
+
+                    </div>
+
+
+
                     <div className="field-row">
                         <label>Vorname:</label>
-                        <input name="vorname" value={form.vorname} onChange={handleChange} />
-                        <button onClick={() => openPreset("vorname")} >Preset</button>
+                        <input name="vorname" value={form.vorname} onChange={handleChange}
+                               disabled={!form.raceId || !form.genderId}
+                        />
+                        <button onClick={() => openPreset("vorname") } disabled={!form.raceId}>Preset</button>
                     </div>
 
                     <div className="field-row">
                         <label>Nachname:</label>
-                        <input name="nachname" value={form.nachname} onChange={handleChange}/>
-                        <button onClick={() => openPreset("nachname")} >Preset</button>
+                        <input name="nachname" value={form.nachname} onChange={handleChange}disabled={!form.raceId}/>
+                        <button onClick={() => openPreset("nachname")} disabled={!form.raceId}>Preset</button>
                     </div>
 
 
@@ -220,38 +472,23 @@ import axios from "axios";
                     </div>
 
 
-                    <div className="field-row">
-                        <label>Volk:</label>
-                    <select name="race" value={form.race} onChange={handleChange}>
-                        <option value="">Wähle Volk</option>
-                        {races.map(r => (
-                            <option key={r.id} value={r.id}>{r.racename}</option>
-                        ))}
-                    </select>
-                    </div>
 
-
-
-                    <div className="field-row">
-                    <label>Geschlecht</label>
-                    <select name="gender" value={form.gender} onChange={handleChange}>
-                        <option value="">Wähle Geschlecht</option>
-                        {genders.map(g => (
-                            <option key={g.id} value={g.id}>{g.gendername}</option>
-                        ))}
-                    </select>
-
-                    </div>
 
                     <div>
                         <div className="stats-grid">
                             <div className="field-row">
                                 <label>Klasse:</label>
-                                <select name="class" value={form.class} onChange={handleChange}>
+                                <select name="classId" value={form.classId || ""} onChange={handleChange}>
                                     <option value="">Wähle eine Klasse</option>
                                     {classes.map(c => (
-                                        <option key={c.id} value={c.id}>{c.classname}</option>
+                                        <option key={c.class_ID} value={c.class_ID}>
+                                            {c.classname}
+                                        </option>
+
                                     ))}
+
+
+
                                 </select>
 
                             </div>
@@ -262,11 +499,13 @@ import axios from "axios";
                                     name="subclass"
                                     value={form.subclass}
                                     onChange={handleChange}
-                                    disabled={!form.class} // <--- HIER wird es deaktiviert
+                                    disabled={!form.classId}
                                 >
                                     <option value="">Wähle eine Subklasse</option>
                                     {subclass.map(sc => (
-                                        <option key={sc.id} value={sc.id}>{sc.name}</option>
+                                        <option key={sc.subclass_ID} value={sc.subclass_ID}>
+                                            {sc.subclassname}
+                                        </option>
                                     ))}
                                 </select>
 
@@ -460,27 +699,58 @@ import axios from "axios";
                         title={`${modalField} auswählen`}
                         data={
                             modalField === "vorname" ? firstname :
-                                modalField === "jackets" ? jackets :
-                                    modalField === "nachname" ? lastname:
-                                    presetOptions[modalField] || []
+                            modalField === "jackets" ? jackets :
+                            modalField === "nachname" ? lastname:
+                            modalField ==="personality" ? personality:
+                            modalField === "otherDescription" ? otherDescription:
+                            modalField === "likes" ? likes:
+                            modalField === "dislikes" ? dislikes:
+                            modalField === "ideals" ? ideals:
+                            modalField === "kleidungsQuali" ? kleidungsQuali:
+                            modalField === "trousers" ? trousers:
+                            modalField === "hairstyle" ? hairstyle:
+                            modalField === "hairColor" ? hairColor:
+                            modalField === "beardstyle" ? beardstyle:
+
+                                []
                         }
                         columns={getColumnsForField(modalField)}
                         filterKeys={getFilterKeysForField(modalField)}
+                        selectedRaceId={form.raceId}
+                        selectedGenderId={form.genderId}
                         currentValue={form[modalField]}
                         onSelect={(entry) => {
                             const entryValueMap = {
                                 vorname: "firstname",
                                 nachname: "lastname",
-                                personality: "personality",
-                                otherDescription: "otherDescription",
-                                likes: "likes",
-                                dislikes: "dislikes",
+                                personality: "description",
+                                otherDescription: "description",
+                                likes: "description",
+                                dislikes: "description",
+                                ideals: "description",
+                                jackets: "name",
+                                trousers: "name",
+                                hairstyle: "name",
+                                hairColor: "name",
+                                beardstyle: "name",
+                                kleidungsQuali: "description",
+                            };
+
+                            const IdFieldMap = {
+                                vorname: "firstname_ID",
+                                nachname: "lastname_ID",
+                                gender: "gender_ID",
+                                personality: "personality_ID",
+                                otherDescription: "otherDescription_ID",
+                                likes: "likes_ID",
+                                dislikes: "dislikes_ID",
                                 ideals: "ideals",
-                                jackets: "jackets",
-                                trousers: "trousers",
-                                hairstyle: "hairstyle",
-                                hairColor: "hairColor",
-                                beardstyle: "beardstyle",
+                                jackets: "jackets_ID",
+                                trousers: "trousers_ID",
+                                hairstyle: "hairstyle_ID",
+                                hairColor: "haircolor_ID",
+                                beardstyle: "beardstyle_ID",
+                                kleidungsQuali: "kleidungsQuali",
                             };
 
                             const resolvedKey = entryValueMap[modalField];
@@ -490,14 +760,30 @@ import axios from "axios";
                                     ? entry[resolvedKey]
                                     : entry.name || "";
 
-                            setForm(prev => ({ ...prev, [modalField]: value }));
-                            setModalOpen(false);
+                            const idValue = entry?.[IdFieldMap[modalField]] ?? null;
 
+                            setForm(prev => ({
+                                ...prev,
+                                [modalField]: value,
+                                [`${modalField}Id`]: idValue
+                            }));
+
+
+
+                            console.log("==> modalField:", modalField);
+                            console.log("==> expected id key:", IdFieldMap[modalField]);
+                            console.log("==> raw entry:", entry);
+                            console.log("==> extracted id value:", entry?.[IdFieldMap[modalField]]);
+                            console.log("Filter active: race =", selectedRaceId, ", gender =", selectedGenderId);
+
+
+
+                            setModalOpen(false);
                         }}
 
 
                         onRemove={() => {
-                            setForm(prev => ({ ...prev, [modalField]: "" }));
+                            setForm(prev => ({ ...prev, [modalField]: "" , [`${modalField}Id`]: null }));
                             setModalOpen(false);
                         }}
                         onClose={() => setModalOpen(false)}

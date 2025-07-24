@@ -8,37 +8,37 @@ import lombok.Setter;
 @Setter
 public class NpcWriteDTO {
 
-    private int npc_ID;
-    private int firstnameId;
-    private int lastnameId;
-    private int shopRelationsId;
+    private Integer npc_ID;
+    private Integer firstnameId;
+    private Integer lastnameId;
+    private Integer shopRelationsId;
     private String clan_position;
     private Integer npc_age;
-    private int familyId;
-    private int raceId;
-    private int genderId;
-    private int clanId;
-    private int betonungId;
-    private int classId;
-    private int subclassId;
-    private int likesId;
-    private int dislikesId;
-    private int personalityId;
-    private int flawId;
-    private int idealsId;
-    private int jacketsId;
-    private int kleidungQualiId;
-    private int jewelleryId;
-    private int otherDescriptionId;
-    private int backgroundId;
-    private int pictureId;
-    private int hairstyleId;
-    private int talkingstyleId;
-    private int trousersId;
-    private int levelId;
-    private int armorId;
-    private int haircolorId;
-    private int beardstyleId;
+    private Integer familyId;
+    private Integer raceId;
+    private Integer genderId;
+    private Integer clanId;
+    private Integer betonungId;
+    private Integer classId;
+    private Integer subclassId;
+    private Integer likesId;
+    private Integer dislikesId;
+    private Integer personalityId;
+    private Integer flawId;
+    private Integer idealsId;
+    private Integer jacketsId;
+    private Integer kleidungQualiId;
+    private Integer jewelleryId;
+    private Integer otherDescriptionId;
+    private Integer backgroundId;
+    private Integer pictureId;
+    private Integer hairstyleId;
+    private Integer talkingstyleId;
+    private Integer trousersId;
+    private Integer levelId;
+    private Integer armorId;
+    private Integer haircolorId;
+    private Integer beardstyleId;
     private String notes;
 
 
@@ -51,7 +51,7 @@ public class NpcWriteDTO {
     private Integer wisdom;
     private Integer charisma;
 
-    private int shopRelation;
-    private int family;
+    private Integer shopRelation;
+    private Integer family;
     private EnumSymbol symbol;
 }
