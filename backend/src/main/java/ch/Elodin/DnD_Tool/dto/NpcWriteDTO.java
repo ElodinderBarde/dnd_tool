@@ -1,9 +1,13 @@
 package ch.Elodin.DnD_Tool.dto;
 
 import ch.Elodin.DnD_Tool.model.enums.EnumSymbol;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
+@ToString
+@Data
 @Getter
 @Setter
 public class NpcWriteDTO {

@@ -20,14 +20,13 @@ export default function PresetModal({
         const requiresRaceFilter = filterKeys.includes("race");
         const requiresGenderFilter = filterKeys.includes("gender");
 
-        // Mapping: ID (number) → Name (string)
         const genderMap = {
             1: "Male",
             2: "Female",
             3: "Unisex"
         };
 
-        // Vor dem Filter initialisieren!
+        // normalisiertes ausgewähltes Geschlecht
         const normalizedSelectedGender = requiresGenderFilter && selectedGenderId !== undefined
             ? genderMap[selectedGenderId]
             : undefined;
@@ -41,6 +40,17 @@ export default function PresetModal({
             return gender;
         }
 
+        // Liste der zulässigen Geschlechter ermitteln
+        let allowedGenders;
+        if (normalizedSelectedGender === undefined) {
+            allowedGenders = undefined; // keine Filterung
+        } else if (normalizedSelectedGender === "Unisex") {
+            allowedGenders = ["Unisex"];
+        } else {
+            // für Male oder Female zusätzlich Unisex zulassen
+            allowedGenders = [normalizedSelectedGender, "Unisex"];
+        }
+
         return data.filter((row) => {
             const raceId =
                 row.race?.id ??
@@ -49,7 +59,7 @@ export default function PresetModal({
                 row.raceId ??
                 row.race_id;
 
-            const genderId = normalizeGenderString(
+            const genderName = normalizeGenderString(
                 row.gender?.gendername ??
                 row.gender ??
                 row.gender?.gender_ID ??
@@ -58,10 +68,14 @@ export default function PresetModal({
             );
 
             const matchesRace =
-                !requiresRaceFilter || selectedRaceId === undefined || raceId === selectedRaceId;
+                !requiresRaceFilter ||
+                selectedRaceId === undefined ||
+                raceId === selectedRaceId;
 
             const matchesGender =
-                !requiresGenderFilter || normalizedSelectedGender === undefined || genderId === normalizedSelectedGender;
+                !requiresGenderFilter ||
+                allowedGenders === undefined ||
+                allowedGenders.includes(genderName);
 
             const matchesSearch = filterKeys.some((key) => {
                 let value = row[key];
@@ -75,6 +89,7 @@ export default function PresetModal({
             return matchesRace && matchesGender && matchesSearch;
         });
     }, [isOpen, data, search, filterKeys, selectedRaceId, selectedGenderId]);
+
 
     if (!isOpen) return null;
 
@@ -113,16 +128,21 @@ export default function PresetModal({
                                 if (key === "gender" && row.gender?.gendername) value = row.gender.gendername;
                                 if (key === "firstname") value = row.firstname;
                                 if (key === "lastname") value = row.lastname;
+                                if (key === "background") value = row.name;
 
                                 if (key === "personality") value = row.description;
                                 if (key === "otherDescription") value = row.description;
                                 if (key === "likes") value = row.description;
                                 if (key === "dislikes") value = row.description;
                                 if (key === "ideals") value = row.description;
+                                if (key === "betonung") value = row.betonung;
+                                if (key === "talkingstyle") value = row.description;
+                                if (key === "flaw") value = row.name
 
                                 if (key === "kleidungsQuali") value = row.description;
                                 if (key === "jackets") value = row.name;
                                 if (key === "trousers") value = row.name;
+                                if (key === "jewellery") value = row.name;
                                 if (key === "hairstyle") value = row.name;
                                 if (key === "hairColor") value = row.name;
                                 if (key === "bearstyle") value = row.name;

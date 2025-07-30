@@ -189,8 +189,5 @@ public class Npc {
 	private Beardstyle beardstyle;
 
 
-
-
-
 }
 	

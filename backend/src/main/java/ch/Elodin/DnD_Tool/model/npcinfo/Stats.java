@@ -1,6 +1,7 @@
 package ch.Elodin.DnD_Tool.model.npcinfo;
 
 import ch.Elodin.DnD_Tool.model.Npc;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,8 +17,9 @@ public class Stats {
 	    @Column(name = "npc_stats_ID")
 	    private int npcStatsId;
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "npc_ID", referencedColumnName = "npc_ID")
+	@JsonIgnore
 	private Npc npc;
 
 	    @Column(name = "strength")

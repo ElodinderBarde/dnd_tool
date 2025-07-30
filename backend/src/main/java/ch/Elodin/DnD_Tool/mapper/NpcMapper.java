@@ -7,7 +7,9 @@ import ch.Elodin.DnD_Tool.model.Npc;
 import ch.Elodin.DnD_Tool.model.enums.EnumSymbol;
 import ch.Elodin.DnD_Tool.model.shop.ShopRelations;
 import ch.Elodin.DnD_Tool.model.npcinfo.Stats;
+import ch.Elodin.DnD_Tool.repository.ClanRepository;
 import ch.Elodin.DnD_Tool.repository.npcinfo.*;
+import ch.Elodin.DnD_Tool.repository.shop.ShopRelationsRepository;
 
 
 public class NpcMapper {
@@ -130,7 +132,20 @@ public class NpcMapper {
             HairstyleRepository hairstyleRepository,
             HaircolorRepository haircolorRepository,
             BeardstyleRepository beardstyleRepository,
-            ArmorRepository armorRepository
+            ArmorRepository armorRepository,
+            NpcClassRepository npcClassRepository,
+            SubclassRepository subclassRepository,
+            BetonungRepository betonungRepository,
+            FlawRepository flawRepository,
+            JewelleryRepository jewelleryRepository,
+            BackgroundRepository backgroundRepository,
+            TalkingStyleRepository talkingStyleRepository,
+            PictureRepository pictureRepository,
+            ClanRepository clanRepository,
+            ShopRelationsRepository shopRelationsRepository
+
+
+
     ) {
         npc.setFirstname(firstnameRepository.findById(dto.getFirstnameId()).orElseThrow());
         npc.setLastname(lastnameRepository.findById(dto.getLastnameId()).orElseThrow());
@@ -150,6 +165,18 @@ public class NpcMapper {
         npc.setHaircolor(haircolorRepository.findById(dto.getHaircolorId()).orElseThrow());
         npc.setBeardstyle(beardstyleRepository.findById(dto.getBeardstyleId()).orElseThrow());
         npc.setArmor_ID(armorRepository.findById(dto.getArmorId()).orElseThrow());
+        npc.setNpcClass(npcClassRepository.findById(dto.getClassId()).orElse(null));
+        npc.setSubclass(subclassRepository.findById(dto.getSubclassId()).orElse(null));
+        npc.setBetonung(betonungRepository.findById(dto.getBetonungId()).orElse(null));
+        npc.setFlaw(flawRepository.findById(dto.getFlawId()).orElse(null));
+        npc.setJewellery(jewelleryRepository.findById(dto.getJewelleryId()).orElse(null));
+        npc.setBackground(backgroundRepository.findById(dto.getBackgroundId()).orElse(null));
+        npc.setTalkingstyle(talkingStyleRepository.findById(dto.getTalkingstyleId()).orElse(null));
+        npc.setPicture(pictureRepository.findById(dto.getPictureId()).orElse(null));
+        npc.setClan(clanRepository.findById(dto.getClanId()).orElse(null));
+        npc.setShop_relations_ID(shopRelationsRepository.findById(dto.getShopRelationsId()).orElse(null));
+        npc.setClan_position(dto.getClan_position());
+        npc.setNpc_age(dto.getNpc_age());
         npc.setSymbol(dto.getSymbol());
         npc.setNotes(dto.getNotes());
     }

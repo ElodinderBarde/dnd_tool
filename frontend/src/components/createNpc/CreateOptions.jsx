@@ -24,6 +24,7 @@ import axios from "axios";
         const [personality, setPersonality] = useState([]);
         const [otherDescription, setOtherDescription] = useState([]);
         const [likes, setLikes] = useState([]);
+        const [flaw, setFlaw] = useState([]);
         const [ dislikes, setDislikes] = useState([]);
         const [ideals, setIdeals] = useState([]);
         const [kleidungsQuali, setKleidungsQuali] = useState([]);
@@ -32,7 +33,10 @@ import axios from "axios";
         const [trousers, setTrousers] = useState([]);
         const [hairstyle, setHairstyle] = useState([]);
         const [beardstyle, setBeardstyle] = useState([]);
-
+        const [background, setBackground] = useState([]);
+        const [betonung, setBetonung] = useState([]);
+        const [talkingstyle, setTalkingstyle] = useState([]);
+        const [jewellery, setJewellery] = useState([]);
 
 
 
@@ -40,21 +44,27 @@ import axios from "axios";
         const initialForm = {
             vorname: "", vornameId: null,
             nachname: "",nachnameId: null,
-            age: "",
+            background: "", backgroundId: null,
+            npc_age: "",
             race: "",
             genderId: "",
             classId: "",
             subclass: "", subclassID: null,
             npc_lvl: "",
+            armor: "",
             personality: "", personalityId: null,
             otherDescription: "", otherDescriptionId: null,
             likes: "", likesId: null,
+            flaw: "", flawId: null,
             dislikes: "", dislikesId: null,
             ideals: "", idealsId: null,
+            betonung: "", betonungId: null,
+            talkingstyle: "", talkingstyleId: null,
             notes: "",
             kleidungsQuali: "", kleidungQualiId: null,
             jackets: "", jacketsId: null,
             trousers: "", trousersId: null,
+            jewellery: "", jewelleryId: null,
             hairstyle: "", hairstyleId: null,
             hairColor: "", haircolorId: null,
             beardstyle: "", beardstyleId: null,
@@ -64,7 +74,15 @@ import axios from "axios";
             shop: "", shopId: null,
             customerOrEmployee: "", customerOrEmployeeId: null,
             employeePosition: "",
-            customerRole: ""
+            customerRole: "",
+
+
+            charisma: "",
+            wisdom:"",
+            strength:"",
+            constitution: "",
+            intelligence:"",
+
         };
 
 
@@ -99,6 +117,32 @@ import axios from "axios";
             }
         };
 
+        const rollAbove = (min) => {
+            let val;
+            do {
+                val = Math.floor(Math.random() * 18) + 3;
+            } while (val <= min);
+            return val;
+        };
+        const rollStatsWithTotalConstraint = (minValue, maxTotal) => {
+            let stats;
+            let sum;
+            do {
+                stats = {
+                    ATK: rollAbove(minValue),
+                    CON: rollAbove(minValue),
+                    WIS: rollAbove(minValue),
+                    CHA: rollAbove(minValue),
+                    INT: rollAbove(minValue),
+                    AC: rollAbove(minValue)
+                };
+                sum = stats.ATK + stats.CON + stats.WIS + stats.CHA + stats.INT + stats.AC;
+                console.log(`Summe der gewürfelten Werte: ${sum}`);
+            } while (sum > maxTotal); // erneut würfeln, wenn die Summe zu hoch ist
+            console.log("wert gesetzt");
+            return stats;
+
+        };
 
         useEffect(() => {
             if (form.classId) {
@@ -138,8 +182,12 @@ import axios from "axios";
             axios.get("/api/Hairstyle").then(res => setHairstyle(res.data));
             axios.get("/api/Haircolor").then(res => setHairColor(res.data));
             axios.get("/api/Beardstyle").then(res => setBeardstyle(res.data));
-
-
+            axios.get("/api/background").then(res => setBackground(res.data));
+            axios.get("/api/Betonung").then(res => setBetonung(res.data));
+            axios.get("/api/TalkingStyle").then(res => setTalkingstyle(res.data));
+            axios.get("/api/Jewellery").then(res => setJewellery(res.data));
+            axios.get("/api/Flaw").then(res => setFlaw(res.data));
+            axios.get("/api/Stats").then(res => setStats(res.data));
         }, []);
 
 
@@ -147,7 +195,35 @@ import axios from "axios";
 
 
 
+// Filtern der Shoptypen: nur solche, die an der gewählten location vorkommen
+        const availableShopTypes = shopTypes.filter(type =>
+            shops.some(s =>
+                s.locationId === parseInt(form.location, 10) &&
+                s.shopTypeId === type.id
+            )
+        );
 
+// Filtern der Shops: nur solche, die zur gewählten location und zum gewählten Typ passen
+        const availableShops = (shops || []).filter(s =>
+            s.locationId != null &&
+            s.shopTypeId != null &&
+            s.locationId === parseInt(form.location, 10) &&
+            s.shopTypeId === parseInt(form.shopType, 10)
+        );
+
+
+
+        console.log("Selected Location:", form.location, location.locationId);
+        console.log("All Locations:", locations);
+        console.log("Selected ShopType:", form.shopType);
+
+        console.log("Example Shop:", shops[0]);
+        console.log("form.location:", form.location);
+        console.log("typeof form.location:", typeof form.location);
+
+        shops.forEach(s => {
+            console.log(`Checking shop: ${s.name}, locationId: ${s.locationId}, shopTypeId: ${s.shopTypeId}`);
+        });
 
 
         const handleChange = (e) => {
@@ -207,11 +283,7 @@ import axios from "axios";
         };
 
 
-        //TODO: NPC speicherlogik anpassen / überarbeiten.
-        // Shop dropdownlogik überarbeiten: Sortieren
-        // customer und mitarbeitere dropdown ausblenden
 
-        // frontend darstellung von Informationen funktioniert
 
         const createNpc = async () => {
             try {
@@ -229,6 +301,14 @@ import axios from "axios";
                     formKey: "nachname",
                     idKey: "lastname_ID",
                     matchField: "lastname"
+                });
+
+                const backgroundId = await resolveOrCreateId({
+                    apiName: "background",
+                    value: form.background,
+                    formKey: "background",
+                    idKey: "background_ID",
+                    matchField: "name"
                 });
 
                 const personalityId = await resolveOrCreateId({
@@ -254,7 +334,13 @@ import axios from "axios";
                     idKey: "likes_ID",
                     matchField: "description"
                 });
-
+                const flawId = await resolveOrCreateId({
+                    apiName: "Flaw",
+                    value: form.flaw,
+                    formKey: "flaw",
+                    idKey: "flaw_ID",
+                    matchField: "name"
+                });
                 const dislikesId = await resolveOrCreateId({
                     apiName: "Dislikes",
                     value: form.dislikes,
@@ -295,6 +381,14 @@ import axios from "axios";
                     matchField: "name"
                 });
 
+                const jewelleryId = await resolveOrCreateId({
+                    apiName: "Jewellery",
+                    value: form.jewellery,
+                    formKey: "jewellery",
+                    idKey: "jewellery_ID",
+                    matchField: "name"
+                });
+
                 const hairstyleId = await resolveOrCreateId({
                     apiName: "Hairstyle",
                     value: form.hairstyle,
@@ -319,29 +413,56 @@ import axios from "axios";
                     matchField: "name"
                 });
 
+                const betonungId = await resolveOrCreateId({
+                    apiName: "Betonung",
+                    value: form.betonung,
+                    formKey: "betonung",
+                    idKey: "betonung_ID",
+                    matchField: "betonung"
+                });
+
+                const talkingstyleId = await resolveOrCreateId({
+                    apiName: "TalkingStyle",
+                    value: form.talkingstyle,
+                    formKey: "talkingstyle",
+                    idKey: "tralkingstyle_ID",
+                    matchField: "description"
+                });
+
 
 
                 const payload = {
                     firstnameId,
                     lastnameId,
+                    backgroundId,
                     genderId: form.genderId === "" ? null : parseInt(form.genderId),
-                    age: form.age, //
+                    npc_age: form.npc_age, //
                     raceId: parseInt(form.race) || null,
                     levelId: parseInt(form.npc_lvl) || 1,
-                    classId: parseInt(form.classId)||null, //
-                    subclassID: parseInt(form.subclass), //
+                    classId: form.classId ? parseInt(form.classId, 10) : null,
+                    subclassId: form.subclass ? parseInt(form.subclass, 10) : null,
                     personalityId,
                     otherDescriptionId,
                     likesId,
                     dislikesId,
                     idealsId,
+                    flawId,
+                    armorId: stats.AC,
                     kleidungQualiId,
                     jacketsId,
                     trousersId,
+                    jewelleryId,
                     hairstyleId,
                     haircolorId,
                     beardstyleId,
-                    notes: form.notes
+                    betonungId,
+                    talkingstyleId,
+                    notes: form.notes || null,
+                    strength: stats.ATK,
+                    constitution: stats.CON,
+                    wisdom: stats.WIS,
+                    charisma: stats.CHA,
+                    intelligence: stats.INT,
                 };
 
 
@@ -356,7 +477,7 @@ import axios from "axios";
                 await axios.post("/api/npcs", payload);
                 alert("NPC erfolgreich erstellt!");
                 setForm(initialForm);
-                setStats({ ATK: 10, CON: 10, WIS: 10, CHA: 10, INT: 10, AC: 10 });
+                setStats({ ATK: stats.ATK, CON: stats.CON, WIS: stats.WIS, CHA: stats.CHA, INT: stats.INT, AC: 10 });
             } catch (err) {
                 console.error(err);
                 alert("Fehler beim Erstellen des NPCs.");
@@ -372,17 +493,21 @@ import axios from "axios";
             switch (field) {
                 case "vorname": return ["firstname", "race", "gender"];
                 case "nachname": return ["lastname", "race"];
+                case "background": return ["background"];
 
                 case "personality": return ["personality"];
                 case "otherDescription": return ["otherDescription"];
                 case "likes": return ["likes"];
                 case "dislikes": return ["dislikes"];
                 case "ideals": return ["ideals"];
-
+                case "flaw": return ["flaw"];
+                case "betonung": return ["betonung"];
+                case "talkingstyle": return ["talkingstyle"];
 
                 case "kleidungsQuali": return ["kleidungsQuali"];
                 case "jackets": return ["jackets", "gender"];
                 case "trousers": return ["trousers", "gender"];
+                case "jewellery": return ["jewellery"];
                 case "hairstyle": return ["hairstyle" , "gender"];
                 case "hairColor": return ["hairColor"];
                 case "bartstyle": return ["bartstyle"];
@@ -400,14 +525,18 @@ import axios from "axios";
                 case "likes": return ["likes"];
                 case "dislikes": return ["dislikes"];
                 case "ideals": return ["ideals"];
-
+                case "flaw": return ["flaw"];
+                case "betonung": return ["betonung"];
+                case "talkingstyle": return ["talkingstyle"];
 
                 case "kleidungsQuali": return ["kleidungsQuali"];
                 case "jackets": return ["jackets", "gender"];
                 case "trousers": return ["trousers", "gender"];
+                case "jewellery": return ["jewellery"];
                 case "hairstyle": return ["hairstyle", "gender"];
                 case "hairColor": return ["hairColor"];
                 case "bartstyle": return ["bartstyle"];
+
                 default: return ["Name"];
             }
         };
@@ -468,11 +597,15 @@ import axios from "axios";
 
                     <div className="field-row">
                         <label>Alter:</label>
-                        <input name="age" value={form.age} onChange={handleChange}/>
+                        <input name="npc_age" value={form.npc_age} onChange={handleChange}/>
                     </div>
 
 
-
+                    <div className="field-row">
+                        <label>Background:</label>
+                        <input name="background" value={form.background} onChange={handleChange}/>
+                        <button onClick={() => openPreset("background")} >Preset</button>
+                    </div>
 
                     <div>
                         <div className="stats-grid">
@@ -526,10 +659,11 @@ import axios from "axios";
 
                         </div>
                         <button onClick={() => {
-                            const roll = () => Math.floor(Math.random() * 18) + 3;
-                            setStats({ ATK: roll(), CON: roll(), WIS: roll(), CHA: roll(), INT: roll(), AC: roll() });
+                            const newStats = rollStatsWithTotalConstraint(7, 80);
+                            setStats(newStats);
+
                         }}>
-                            Randomize
+                            Zufallswerte
                         </button>
                     </div>
 
@@ -567,6 +701,26 @@ import axios from "axios";
                             <input name="ideals" value={form.ideals} onChange={handleChange} />
                             <button onClick={() => openPreset("ideals")} >Preset</button>
                         </div>
+                        <div className="field-row">
+                            <label>Mangel:</label>
+                            <input name="flaw" value={form.flaw} onChange={handleChange} />
+                            <button onClick={() => openPreset("flaw")} >Preset</button>
+                        </div>
+                        <br/>
+
+                        <div className="field-row">
+                            <label>Betonung:</label>
+                            <input name="betonung" value={form.betonung} onChange={handleChange} />
+                            <button onClick={() => openPreset("betonung")} >Preset</button>
+                        </div>
+
+                        <div className="field-row">
+                            <label>Sprechstil:</label>
+                            <input name="talkingstyle" value={form.talkingstyle} onChange={handleChange} />
+                            <button onClick={() => openPreset("talkingstyle")} >Preset</button>
+                        </div>
+
+                        <br/>
                         <br/>
 
                         <label>Notizen:</label>
@@ -594,6 +748,11 @@ import axios from "axios";
                             <button onClick={() => openPreset("trousers")} >Preset</button>
                         </div>
                         <div className="field-row">
+                            <label>Schmuck:</label>
+                            <input name="jewellery" value={form.jewellery} onChange={handleChange} />
+                            <button onClick={() => openPreset("jewellery")} >Preset</button>
+                        </div>
+                        <div className="field-row">
                             <label>Haarstil:</label>
                             <input name="hairstyle" value={form.hairstyle} onChange={handleChange}/>
                             <button onClick={() => openPreset("hairstyle")} >Preset</button>
@@ -617,7 +776,7 @@ import axios from "axios";
                             <select name="location" value={form.location} onChange={handleChange}>
                                 <option value="">Wähle eine Ortschaft</option>
                                 {locations.map(l => (
-                                    <option key={l.id} value={l.id}>{l.cityName || l.villageName}</option>
+                                    <option key={l.id} value={l.locationId}>{l.cityName || l.villageName}</option>
 
                             ))}
 
@@ -626,21 +785,27 @@ import axios from "axios";
                         </div>
                         <div className="field-row">
                             <label>Gebäudetyp:</label>
-                            <select name="shopType" value={form.shopType} onChange={handleChange}>
+                            <select name="shopType" value={form.shopType} onChange={handleChange} disabled={!form.location}>
                                 <option value="">Wähle einen Shoptyp</option>
-                                {shopTypes.map(st => (
+                                {availableShopTypes.map(st => (
                                     <option key={st.id} value={st.id}>{st.name}</option>
                                 ))}
                             </select>
                         </div>
                         <div className="field-row">
                             <label>Gebäude:</label>
-                            <select name="shop" value={form.shops} onChange={handleChange}>
+                            <select
+                                name="shop"
+                                value={form.shops}
+                                onChange={handleChange}
+                                disabled={!form.shopType || !form.location}
+                            >
                                 <option value="">Wähle ein Gebäude</option>
-                                {shops.map(s => (
+                                {availableShops.map(s => (
                                     <option key={s.id} value={s.id}>{s.name}</option>
                                 ))}
                             </select>
+
                         </div>
 
                         <p>
@@ -675,7 +840,7 @@ import axios from "axios";
 
                         <div className="field-row">
                             <label>Position:</label>
-                            <select name="employeePosition" value={form.employeePosition} onChange={handleChange}>
+                            <select name="employeePosition" value={form.employeePosition} onChange={handleChange} disabled={form.customerOrEmployee === "Customer"|| !form.customerOrEmployee}>
                                 <option value="">Wähle den Beruf</option>
                                 {employeeRoles.map(er => (
                                     <option key={er.id} value={er.id}>{er.position}</option>
@@ -684,7 +849,7 @@ import axios from "axios";
                         </div>
                         <div className="field-row">
                             <label>Kundentyp:</label>
-                            <select name="customerRole" value={form.customerRole} onChange={handleChange}>
+                            <select name="customerRole" value={form.customerRole} onChange={handleChange}  disabled={form.customerOrEmployee === "Employee" || !form.customerOrEmployee}>
                                 <option value="">Wähle den Kundentyp</option>
                                 {customerRoles.map(cr => (
                                     <option key={cr.id} value={cr.id}>{cr.position}</option>
@@ -706,11 +871,16 @@ import axios from "axios";
                             modalField === "likes" ? likes:
                             modalField === "dislikes" ? dislikes:
                             modalField === "ideals" ? ideals:
+                            modalField === "betonung" ? betonung:
+                            modalField === "flaw" ? flaw:
+                            modalField === "talkingstyle" ? talkingstyle:
                             modalField === "kleidungsQuali" ? kleidungsQuali:
                             modalField === "trousers" ? trousers:
+                            modalField === "jewellery" ? jewellery:
                             modalField === "hairstyle" ? hairstyle:
                             modalField === "hairColor" ? hairColor:
                             modalField === "beardstyle" ? beardstyle:
+                            modalField === "background" ? background:
 
                                 []
                         }
@@ -723,13 +893,18 @@ import axios from "axios";
                             const entryValueMap = {
                                 vorname: "firstname",
                                 nachname: "lastname",
+                                background: "name",
                                 personality: "description",
                                 otherDescription: "description",
                                 likes: "description",
                                 dislikes: "description",
+                                flaw: "flaw",
                                 ideals: "description",
+                                betonung: "betonung",
+                                talkingstyle: "description",
                                 jackets: "name",
                                 trousers: "name",
+                                jewellery: "name",
                                 hairstyle: "name",
                                 hairColor: "name",
                                 beardstyle: "name",
@@ -739,14 +914,19 @@ import axios from "axios";
                             const IdFieldMap = {
                                 vorname: "firstname_ID",
                                 nachname: "lastname_ID",
+                                background: "background_ID",
                                 gender: "gender_ID",
                                 personality: "personality_ID",
                                 otherDescription: "otherDescription_ID",
                                 likes: "likes_ID",
+                                flaw: "flaw_ID",
                                 dislikes: "dislikes_ID",
                                 ideals: "ideals",
+                                betonung: "betonung_ID",
+                                talkingstyle: "talkingstyle_ID",
                                 jackets: "jackets_ID",
                                 trousers: "trousers_ID",
+                                jewellery: "jewellery_ID",
                                 hairstyle: "hairstyle_ID",
                                 hairColor: "haircolor_ID",
                                 beardstyle: "beardstyle_ID",

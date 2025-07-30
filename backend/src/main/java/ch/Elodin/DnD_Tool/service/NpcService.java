@@ -6,13 +6,19 @@ import ch.Elodin.DnD_Tool.dto.NpcWriteDTO;
 import ch.Elodin.DnD_Tool.mapper.NpcMapper;
 import ch.Elodin.DnD_Tool.model.Npc;
 import ch.Elodin.DnD_Tool.model.npcinfo.*;
+import ch.Elodin.DnD_Tool.repository.ClanRepository;
 import ch.Elodin.DnD_Tool.repository.NpcRepository;
 import ch.Elodin.DnD_Tool.repository.npcinfo.*;
 
+import ch.Elodin.DnD_Tool.repository.shop.ShopRelationsRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 import java.util.stream.Collectors;
+
+import static ch.Elodin.DnD_Tool.service.SaveService.resolveAndSet;
+
 
 @Service
 public class NpcService {
@@ -35,8 +41,27 @@ public class NpcService {
     private final HaircolorRepository haircolorRepository;
     private final BeardstyleRepository beardstyleRepository;
     private final ArmorRepository armorRepository;
+    private final NpcClassRepository npcClassRepository;
+    private final SubclassRepository subclassRepository;
+    private final BetonungRepository betonungRepository;
+    private final FlawRepository flawRepository;
+    private final BackgroundRepository backgroundRepository;
+    private final JewelleryRepository jewelleryRepository;
+    private final TalkingStyleRepository talkingStyleRepository;
+    private final PictureRepository pictureRepository;
+    private final ClanRepository clanRepository;
+    private final ShopRelationsRepository shopRelationsRepository;
 
-    public NpcService(NpcRepository npcRepository, StatsRepository statsRepository, FirstnameRepository firstnameRepository, RaceRepository raceRepository, LevelRepository levelRepository, LastnameRepository lastnameRepository, GenderRepository genderRepository, PersonalityRepository personalityRepository, OtherDescriptionRepository otherDescriptionRepository, LikesRepository likesRepository, DislikesRepository dislikesRepository, IdealsRepository idealsRepository, KleidungQualiRepository kleidungQualiRepository, JacketsRepository jacketsRepository, TrousersRepository trousersRepository, HairstyleRepository hairstyleRepository, HaircolorRepository haircolorRepository, BeardstyleRepository beardstyleRepository, ArmorRepository armorRepository) {
+    public NpcService(NpcClassRepository npcClassRepository,NpcRepository npcRepository, StatsRepository statsRepository,
+                      FirstnameRepository firstnameRepository, RaceRepository raceRepository, LevelRepository levelRepository,
+                      LastnameRepository lastnameRepository, GenderRepository genderRepository, PersonalityRepository personalityRepository,
+                      OtherDescriptionRepository otherDescriptionRepository, LikesRepository likesRepository, DislikesRepository dislikesRepository,
+                      IdealsRepository idealsRepository, KleidungQualiRepository kleidungQualiRepository, JacketsRepository jacketsRepository,
+                      TrousersRepository trousersRepository, HairstyleRepository hairstyleRepository, HaircolorRepository haircolorRepository,
+                      BeardstyleRepository beardstyleRepository, ArmorRepository armorRepository, SubclassRepository subclassRepository,
+                      BetonungRepository betonungRepository,FlawRepository flawRepository,BackgroundRepository backgroundRepository,
+                      TalkingStyleRepository talkingStyleRepository,PictureRepository pictureRepository,ClanRepository clanRepository,
+                      ShopRelationsRepository shopRelationsRepository, JewelleryRepository  jewelleryRepository) {
         this.npcRepository = npcRepository;
         this.statsRepository = statsRepository;
         this.firstnameRepository = firstnameRepository;
@@ -56,6 +81,16 @@ public class NpcService {
         this.haircolorRepository = haircolorRepository;
         this.beardstyleRepository = beardstyleRepository;
         this.armorRepository = armorRepository;
+        this.subclassRepository = subclassRepository;
+        this.npcClassRepository = npcClassRepository;
+        this.betonungRepository = betonungRepository;
+        this.flawRepository = flawRepository;
+        this.backgroundRepository = backgroundRepository;
+        this.jewelleryRepository = jewelleryRepository;
+        this.talkingStyleRepository = talkingStyleRepository;
+        this.pictureRepository = pictureRepository;
+        this.clanRepository = clanRepository;
+        this.shopRelationsRepository = shopRelationsRepository;
     }
 
     public List<NpcReadDTO> getAllNpcs() {
@@ -172,14 +207,56 @@ public class NpcService {
         npc.setGender(gender);
         npc.setLevel(level);
         npc.setNotes(dto.getNotes());
+        npc.setNpc_age(dto.getNpc_age());
 
-        // Optional: Weitere Felder wie Kleidung, Hairstyle usw. nur setzen, wenn vorhanden
+
+// Verwendung in createNpc:
+        resolveAndSet(dto.getPersonalityId(), personalityRepository::findById, npc::setPersonality);
+        resolveAndSet(dto.getOtherDescriptionId(), otherDescriptionRepository::findById, npc::setOtherDescription);
+        resolveAndSet(dto.getLikesId(), likesRepository::findById, npc::setLikes);
+        resolveAndSet(dto.getDislikesId(), dislikesRepository::findById, npc::setDislikes);
+        resolveAndSet(dto.getIdealsId(), idealsRepository::findById, npc::setIdeals);
+        resolveAndSet(dto.getKleidungQualiId(), kleidungQualiRepository::findById, npc::setKleidungQuali);
+        resolveAndSet(dto.getJacketsId(), jacketsRepository::findById, npc::setJackets);
+        resolveAndSet(dto.getTrousersId(), trousersRepository::findById, npc::setTrousers);
+        resolveAndSet(dto.getHairstyleId(), hairstyleRepository::findById, npc::setHairstyle);
+        resolveAndSet(dto.getHaircolorId(), haircolorRepository::findById, npc::setHaircolor);
+        resolveAndSet(dto.getBeardstyleId(), beardstyleRepository::findById, npc::setBeardstyle);
+        resolveAndSet(dto.getShopRelationsId(), shopRelationsRepository::findById, npc::setShop_relations_ID);
+        //resolveAndSet(dto.getClanId(), ClanRepository::findById, npc::setClan);
+        //resolveAndSet(dto.getClan_position(), clanRepository::findByClan, npc::setClan_position);
+        resolveAndSet(dto.getBetonungId(), betonungRepository::findById, npc::setBetonung);
+        resolveAndSet(dto.getClassId(), npcClassRepository::findById, npc::setNpcClass);
+        resolveAndSet(dto.getSubclassId(), subclassRepository::findById, npc::setSubclass);
+        resolveAndSet(dto.getJewelleryId(), jewelleryRepository::findById, npc::setJewellery);
+        resolveAndSet(dto.getPictureId(), pictureRepository::findById, npc::setPicture);
+        resolveAndSet(dto.getFlawId(), flawRepository::findById, npc::setFlaw);
+        resolveAndSet(dto.getTalkingstyleId(), talkingStyleRepository::findById, npc::setTalkingstyle);
+        resolveAndSet(dto.getBackgroundId(), backgroundRepository::findById, npc::setBackground);
+        resolveAndSet(dto.getArmorId(), armorRepository::findById, npc::setArmor_ID);
+
 
         npcRepository.save(npc);
+        Npc savedNpc = npcRepository.save(npc);
+
+        if (dto.getStrength() != null || dto.getDexterity() != null || dto.getConstitution() != null ||
+                dto.getIntelligence() != null || dto.getWisdom() != null || dto.getCharisma() != null) {
+
+            Stats stats = new Stats();
+
+            stats.setNpc(savedNpc); // Verbindung herstellen
+            stats.setStrength(dto.getStrength() != null ? dto.getStrength() : 0);
+            stats.setDexterity(dto.getDexterity() != null ? dto.getDexterity() : 0);
+            stats.setConstitution(dto.getConstitution() != null ? dto.getConstitution() : 0);
+            stats.setIntelligence(dto.getIntelligence() != null ? dto.getIntelligence() : 0);
+            stats.setWisdom(dto.getWisdom() != null ? dto.getWisdom() : 0);
+            stats.setCharisma(dto.getCharisma() != null ? dto.getCharisma() : 0);
+
+            statsRepository.save(stats);
+        }
+
+
     }
-
-
-
 
     public void updateNpc(int id, NpcWriteDTO dto) {
         Npc npc = npcRepository.findById(id)
@@ -189,7 +266,9 @@ public class NpcService {
                 firstnameRepository, lastnameRepository, genderRepository, raceRepository, levelRepository,
                 personalityRepository, otherDescriptionRepository, likesRepository, dislikesRepository,
                 idealsRepository, kleidungQualiRepository, jacketsRepository, trousersRepository,
-                hairstyleRepository, haircolorRepository, beardstyleRepository, armorRepository
+                hairstyleRepository, haircolorRepository, beardstyleRepository, armorRepository, npcClassRepository, subclassRepository,
+                betonungRepository,flawRepository,jewelleryRepository, backgroundRepository, talkingStyleRepository, pictureRepository,
+                clanRepository, shopRelationsRepository
         );
 
         npcRepository.save(npc);

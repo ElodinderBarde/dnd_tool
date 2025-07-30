@@ -10,6 +10,8 @@ import ch.Elodin.DnD_Tool.repository.NpcRepository;
 import ch.Elodin.DnD_Tool.repository.npcinfo.RaceRepository;
 import ch.Elodin.DnD_Tool.repository.npcinfo.SubclassRepository;
 import ch.Elodin.DnD_Tool.service.NpcService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +28,7 @@ public class NpcController {
     private final SubclassRepository subclassRepository;
     private final NpcRepository npcRepository;
     private final ClanRepository clanRepository;
+    private static final Logger LOG = LoggerFactory.getLogger(NpcController.class);
 
 
     public NpcController(NpcService npcService,
@@ -127,9 +130,12 @@ public class NpcController {
     public ResponseEntity<?> createNpc(@RequestBody NpcWriteDTO dto) {
         try {
             npcService.createNpc(dto);
+            LOG.info("Empfangener NPC DTO: {}", dto);
             return ResponseEntity.ok().build(); // 200 OK
         } catch (Exception e) {
             e.printStackTrace(); // für Debug-Zwecke
+            LOG.info("Empfangener NPC DTO: {}", dto);
+
             return ResponseEntity.badRequest().body("Fehler beim Erstellen des NPCs: " + e.getMessage());
         }
     }
