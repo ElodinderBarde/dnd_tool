@@ -16,7 +16,7 @@ import axios from "axios";
         const [subclass, setSubclass] = useState([]);
         const [locations, setLocations] = useState([]);
         const [shopTypes, setShopTypes] = useState([]);
-        const [shops, setShops] = useState([]);
+        const [shop, setShop] = useState([]);
         const [employeeRoles, setEmployeeRoles] = useState([]);
         const [customerRoles, setCustomerRoles] = useState([]);
         const [firstname, setFirstname] = useState([]);
@@ -37,6 +37,7 @@ import axios from "axios";
         const [betonung, setBetonung] = useState([]);
         const [talkingstyle, setTalkingstyle] = useState([]);
         const [jewellery, setJewellery] = useState([]);
+        const [symbol, setSymbol] = useState([]);
 
 
 
@@ -73,8 +74,8 @@ import axios from "axios";
             shopType: "", shopTypeId: null,
             shop: "", shopId: null,
             customerOrEmployee: "", customerOrEmployeeId: null,
-            employeePosition: "",
-            customerRole: "",
+            employeePosition: "", employeePositionID: null,
+            customerRoleId: "",
 
 
             charisma: "",
@@ -82,6 +83,9 @@ import axios from "axios";
             strength:"",
             constitution: "",
             intelligence:"",
+
+
+            symbol:"",
 
         };
 
@@ -166,7 +170,7 @@ import axios from "axios";
             axios.get("/api/NpcClass").then(res => setClasses(res.data));
             axios.get("/api/locations").then(res => setLocations(res.data));
             axios.get("/api/ShopType").then(res => setShopTypes(res.data));
-            axios.get("/api/shops").then(res => setShops(res.data));
+            axios.get("/api/shops").then(res => setShop(res.data));
             axios.get("/api/ShopEmployee").then(res => setEmployeeRoles(res.data));
             axios.get("/api/ShopCustomer").then(res => setCustomerRoles(res.data));
             axios.get("/api/Firstname").then(res => setFirstname(res.data));
@@ -188,6 +192,7 @@ import axios from "axios";
             axios.get("/api/Jewellery").then(res => setJewellery(res.data));
             axios.get("/api/Flaw").then(res => setFlaw(res.data));
             axios.get("/api/Stats").then(res => setStats(res.data));
+            axios.get("/api/Symbol").then(res =>setSymbol(res.data));
         }, []);
 
 
@@ -197,14 +202,14 @@ import axios from "axios";
 
 // Filtern der Shoptypen: nur solche, die an der gewählten location vorkommen
         const availableShopTypes = shopTypes.filter(type =>
-            shops.some(s =>
+            shop.some(s =>
                 s.locationId === parseInt(form.location, 10) &&
                 s.shopTypeId === type.id
             )
         );
 
 // Filtern der Shops: nur solche, die zur gewählten location und zum gewählten Typ passen
-        const availableShops = (shops || []).filter(s =>
+        const availableShops = (shop || []).filter(s =>
             s.locationId != null &&
             s.shopTypeId != null &&
             s.locationId === parseInt(form.location, 10) &&
@@ -213,58 +218,59 @@ import axios from "axios";
 
 
 
-        console.log("Selected Location:", form.location, location.locationId);
-        console.log("All Locations:", locations);
-        console.log("Selected ShopType:", form.shopType);
+        //console.log("All Locations:", locations);
+        //console.log("Selected ShopType:", form.shopType);
 
-        console.log("Example Shop:", shops[0]);
-        console.log("form.location:", form.location);
-        console.log("typeof form.location:", typeof form.location);
+        //console.log("Example Shop:", shops[0]);
+        //console.log("form.location:", form.location);
+       // console.log("typeof form.location:", typeof form.location);
 
-        shops.forEach(s => {
-            console.log(`Checking shop: ${s.name}, locationId: ${s.locationId}, shopTypeId: ${s.shopTypeId}`);
-        });
+
 
 
         const handleChange = (e) => {
             const { name, value } = e.target;
-            setForm(prev => ({ ...prev, [name]: value }));
 
- if (name === "race") {
+
+
+
+            const numericFields = [
+                "race", "genderId", "classId", "subclass",
+                "employeePositionId", "shopId",  "employeePosition"
+            ];
+
+
+            if (numericFields.includes(name)) {
+                const parsedValue = value ? parseInt(value, 10) : null;
+
+                // Wenn es zusätzlich eine *_Id- oder Mapping-Funktion gibt
+                if (name === "race") {
+                    setForm(prev => ({
+                        ...prev,
+                        race: value,
+                        raceId: parsedValue
+                    }));
+                } else if (name === "subclass") {
+                    setForm(prev => ({
+                        ...prev,
+                        subclass: value,
+                        subclassId: parsedValue
+                    }));
+                } else {
+
+                        setForm(prev => ({
+                        ...prev,
+                        [name]: value === "" ? "" : parseInt(value, 10)
+                    }));
+                }
+            } else {
                 setForm(prev => ({
                     ...prev,
-                    race: value,
-                    raceId: parseInt(value) || null
+                    [name]: value
                 }));
-
-                }else if (name === "genderId") {
-     console.log("genderId selected:", typeof value, value);
-     setForm(prev => ({
-         ...prev,
-         genderId: parseInt(value) || null
-     }));
-
-
-
-
-
-
-        } else if (name === "classId") {
-                setForm(prev => ({
-                    ...prev,
-                    classId: parseInt(value) || null
-                }));
-
-            } else if (name === "subclass") {
-                setForm(prev => ({
-                    ...prev,
-                    subclass: value,
-                    subclassId: parseInt(value) || null
-                }));
-                }else {
-                setForm(prev => ({ ...prev, [name]: value }));
             }
         };
+
 
         const renderCell = (label, value, onChange) => (
             <div className="stat-cell">
@@ -447,7 +453,7 @@ import axios from "axios";
                     dislikesId,
                     idealsId,
                     flawId,
-                    armorId: stats.AC,
+                    armorId: stats.AC ?? 10,
                     kleidungQualiId,
                     jacketsId,
                     trousersId,
@@ -458,26 +464,45 @@ import axios from "axios";
                     betonungId,
                     talkingstyleId,
                     notes: form.notes || null,
-                    strength: stats.ATK,
-                    constitution: stats.CON,
-                    wisdom: stats.WIS,
-                    charisma: stats.CHA,
-                    intelligence: stats.INT,
+                    strength: stats.ATK ?? 10,
+                    constitution: stats.CON ?? 10,
+                    wisdom: stats.WIS ?? 10,
+                    charisma: stats.CHA ?? 10,
+                    intelligence: stats.INT ?? 10,
+
+                    location: form.location ? parseInt(form.location, 10) : null,
+                    shopType: form.shopTypeId ? parseInt(form.shopTypeId, 10) : null,
+                    shopId: form.shop ? parseInt(form.shop, 10) : null,
+                    shopCustomerRole: form.customerRoleId === "" ? null : Number(form.customerRoleId),
+                    shopEmployeeRole: form.employeePosition ? parseInt(form.employeePosition, 10) : null,
+                    symbol: form.symbol || null,
                 };
 
 
-                console.log("NPC Payload:", payload);
-                console.log("classId:", payload.classId);
-                console.log("genderId:", payload.genderId);
-                console.log("Genders:", genders);
+                console.log("location::",form.location);
+                console.log("employeeID:",form.employeePosition);
+                console.log('customerRoleId im State:', form.customerRoleId, typeof form.customerRoleId);
+                console.log("shop", form.shop);
 
+                console.log("FINAL PAYLOAD:", JSON.stringify(payload, null, 2));
 
 
                 console.log("Finaler Payload:", payload);
                 await axios.post("/api/npcs", payload);
                 alert("NPC erfolgreich erstellt!");
                 setForm(initialForm);
-                setStats({ ATK: stats.ATK, CON: stats.CON, WIS: stats.WIS, CHA: stats.CHA, INT: stats.INT, AC: 10 });
+
+                setStats({
+                    ATK: stats.ATK ?? 10,
+                    CON: stats.CON ?? 10,
+                    WIS: stats.WIS ?? 10,
+                    CHA: stats.CHA ?? 10,
+                    INT: stats.INT ?? 10,
+                    AC: 10 })
+
+
+
+
             } catch (err) {
                 console.error(err);
                 alert("Fehler beim Erstellen des NPCs.");
@@ -589,7 +614,7 @@ import axios from "axios";
 
                     <div className="field-row">
                         <label>Nachname:</label>
-                        <input name="nachname" value={form.nachname} onChange={handleChange}disabled={!form.raceId}/>
+                        <input name="nachname" value={form.nachname} onChange={handleChange} disabled={!form.raceId}/>
                         <button onClick={() => openPreset("nachname")} disabled={!form.raceId}>Preset</button>
                     </div>
 
@@ -796,11 +821,11 @@ import axios from "axios";
                             <label>Gebäude:</label>
                             <select
                                 name="shop"
-                                value={form.shops}
+                                value={form.shop||''}
                                 onChange={handleChange}
                                 disabled={!form.shopType || !form.location}
                             >
-                                <option value="">Wähle ein Gebäude</option>
+                                <option value="shop">Wähle ein Gebäude</option>
                                 {availableShops.map(s => (
                                     <option key={s.id} value={s.id}>{s.name}</option>
                                 ))}
@@ -808,7 +833,7 @@ import axios from "axios";
 
                         </div>
 
-                        <p>
+                        <div>
                         <div className="field-row">
                             <label>
                                 Mitarbeiter
@@ -834,28 +859,65 @@ import axios from "axios";
 
 
                         </div>
-                        </p>
+                        </div>
 
 
 
                         <div className="field-row">
                             <label>Position:</label>
-                            <select name="employeePosition" value={form.employeePosition} onChange={handleChange} disabled={form.customerOrEmployee === "Customer"|| !form.customerOrEmployee}>
+                            <select name="employeePosition"
+                                    value={form.employeePosition}
+                                    onChange={handleChange}
+                                    disabled={form.customerOrEmployee === "Customer"|| !form.customerOrEmployee}>
                                 <option value="">Wähle den Beruf</option>
                                 {employeeRoles.map(er => (
-                                    <option key={er.id} value={er.id}>{er.position}</option>
+                                    <option key={er.shop_employee_ID} value={er.shop_employee_ID}>{er.position}</option>
                                 ))}
                             </select>
                         </div>
+
+
+
                         <div className="field-row">
                             <label>Kundentyp:</label>
-                            <select name="customerRole" value={form.customerRole} onChange={handleChange}  disabled={form.customerOrEmployee === "Employee" || !form.customerOrEmployee}>
+                            <select name="customerRoleId"
+                                    value={form.customerRoleId}
+                                    onChange={handleChange}
+                                    disabled={form.customerOrEmployee === "Employee" || !form.customerOrEmployee}>
                                 <option value="">Wähle den Kundentyp</option>
-                                {customerRoles.map(cr => (
-                                    <option key={cr.id} value={cr.id}>{cr.position}</option>
+                                {customerRoles.map(r => (
+                                    <option key={r.shop_customer_ID} value={r.shop_customer_ID}>{r.position}</option>
+
+                                ))}
+                            </select>
+
+
+
+
+                        </div>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <div className="field-row">
+                            <label>Symbol:</label>
+                            <select name="symbol"
+                                    value={form.symbol}
+                                    onChange={handleChange}>
+                                <option value="">Wähle Symbol</option>
+                                {symbol.map(s => (
+                                    <option key={s} value={s}>{s}</option>
+
                                 ))}
                             </select>
                         </div>
+                        <br/>
+                        <br/>
+
+
+                        <button onClick={() => createNpc()}>
+
+                            Npc Erstellen
+                        </button>
 
 
                     </div>
@@ -971,9 +1033,6 @@ import axios from "axios";
 
 
                                 </div>
-                <button onClick={() => createNpc()}>
-                    Npc Erstellen
-                </button>
 
 
             </div>

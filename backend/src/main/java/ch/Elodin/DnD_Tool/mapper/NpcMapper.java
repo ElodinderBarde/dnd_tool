@@ -45,6 +45,7 @@ public class NpcMapper {
         dto.setOtherDescription(npc.getOtherDescription() != null ? npc.getOtherDescription().getText() : null);
         dto.setBetonung(npc.getBetonung() != null ? npc.getBetonung().getBetonung() : null);
         dto.setLevel(npc.getLevel() != null ? npc.getLevel().getLvl() : null);
+        dto.setSymbol(npc.getSymbol() != null ? npc.getSymbol() :null);
 
         if (npc.getShop_relations_ID() != null) {
             ShopRelations relation = npc.getShop_relations_ID();

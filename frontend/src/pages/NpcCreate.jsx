@@ -5,8 +5,6 @@ import {GridStack} from "gridstack";
 import '../components/npcBoard/npcBoard.css'
 import CreateOptions from "../components/createNpc/CreateOptions.jsx";
 import NpcNotesPreview from "../components/createNpc/NpcNotesPreview.jsx";
-import NpcSheetPreview from "../components/createNpc/NpcSheetPreview.jsx";
-import NpcWorldSort from "../components/createNpc/NpcWorldSort.jsx";
 
 
 
@@ -51,33 +49,12 @@ export default function NpcCreate() {
 
 
 
-                <div id="npcDetail" className="grid-stack-item"
-                     gs-x="9"
-                     gs-y="6"
-                     gs-w="3"
-                     gs-h="6">
-                    <div className="grid-stack-item-content">
-                        <NpcWorldSort />
-                    </div>
-
-                </div>
-
-
-                <div id="npcFilter" className="grid-stack-item"
-                     gs-x="0"
-                     gs-y="0"
-                     gs-w="9"
-                     gs-h="1">
-                    <div className="grid-stack-item-content">
-                        <NpcWorldSort/>
-                    </div>
-                </div>
 
                 <div id="createOption" className="grid-stack-item"
                      gs-x="0"
-                     gs-y="1"
+                     gs-y="0"
                      gs-w="9"
-                     gs-h="7.5">
+                     gs-h="8">
                     <div className="grid-stack-item-content">
                         <CreateOptions />
                     </div>
@@ -86,7 +63,7 @@ export default function NpcCreate() {
                      gs-x="9"
                      gs-y="6"
                      gs-w="3"
-                     gs-h="2.5">
+                     gs-h="8">
 
                     <div className="grid-stack-item-content">
                         <NpcNotesPreview />

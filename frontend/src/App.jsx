@@ -13,6 +13,7 @@ import ErrorPage from './pages/errorhandling';
 import ShopDetails from "./pages/shop-details.jsx";
 import NpcDetailPage from "./pages/NpcDetailPage.jsx";
 import NpcCreate from "./pages/NpcCreate.jsx";
+import World  from "./pages/World.jsx";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="/generator" element={<Generator />} />
         <Route path="/monster" element={<Monster />} />
         <Route path="/NpcBoard" element={<NpcBoard />} />
+        <Route path="/World" element={<World />} />
         <Route path="/shops" element={<Shops />} />
         <Route path="/quests" element={<Quests />} />
         <Route path="/players" element={<Players />} />

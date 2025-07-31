@@ -14,6 +14,7 @@ export default function Navbar() {
         <Link to="/quests">Questboard</Link>
         <Link to="/NpcBoard">NPC's</Link>
         <Link to="/Itemboard">Itemboard</Link>
+        <Link to="/World">Welt</Link>
         
         
         

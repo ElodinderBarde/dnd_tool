@@ -1,3 +1,5 @@
+package ch.Elodin.DnD_Tool.controller.world;
+
 import ch.Elodin.DnD_Tool.dto.NpcWriteDTO;
 import ch.Elodin.DnD_Tool.service.NpcService;
 import org.springframework.http.HttpStatus;

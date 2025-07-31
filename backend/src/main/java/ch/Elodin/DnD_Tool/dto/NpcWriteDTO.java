@@ -10,6 +10,7 @@ import lombok.ToString;
 @Data
 @Getter
 @Setter
+
 public class NpcWriteDTO {
 
     private Integer npc_ID;
@@ -56,6 +57,9 @@ public class NpcWriteDTO {
     private Integer charisma;
 
     private Integer shopRelation;
+    private Integer shopEmployeeRole;
+    private Integer shopCustomerRole;
+    private Integer shopId;
     private Integer family;
     private EnumSymbol symbol;
 }
