@@ -1,6 +1,46 @@
 @echo off
 setlocal enabledelayedexpansion
 
+REM === Abhängigkeitsprüfung ===
+
+REM Java
+java -version >nul 2>&1
+if %errorlevel% neq 0 (
+    echo [FEHLT] Java nicht gefunden! Bitte Java JDK 21 installieren: https://adoptium.net/de/temurin/releases/?version=21
+    pause
+    exit /b 1
+)
+
+REM Node.js
+node -v >nul 2>&1
+if %errorlevel% neq 0 (
+    echo [FEHLT] Node.js nicht gefunden! Bitte Node.js installieren: https://nodejs.org/en/download/
+    pause
+    exit /b 1
+)
+
+REM npm
+npm -v >nul 2>&1
+if %errorlevel% neq 0 (
+    echo [FEHLT] npm nicht gefunden! Problem mit Node.js Installation.
+    pause
+    exit /b 1
+)
+
+REM Maven Wrapper oder Maven prüfen
+if exist "%~dp0backend\mvnw.cmd" (
+    echo [OK] Maven Wrapper gefunden.
+) else (
+    mvn -v >nul 2>&1
+    if %errorlevel% neq 0 (
+        echo [FEHLT] Maven nicht gefunden! Entweder mvnw.cmd einfügen oder Maven installieren: https://maven.apache.org/download.cgi
+        pause
+        exit /b 1
+    ) else (
+        echo [OK] Maven gefunden.
+    )
+)
+
 REM ===============================
 REM    Installation für DnD Tool
 REM ===============================
@@ -37,6 +77,7 @@ echo CREATE USER IF NOT EXISTS '%APP_USER%'@'localhost' IDENTIFIED BY '%APP_PW%'
 echo GRANT ALL PRIVILEGES ON %DB_NAME%.* TO '%APP_USER%'@'localhost'; >> "%TEMP%\dnd1.sql"
 echo FLUSH PRIVILEGES; >> "%TEMP%\dnd1.sql"
 
+REM Achtung: Bei Klartext-PW kann das Echoing von Passwörtern im Prozess sichtbar sein!
 mysql -u%MYSQL_ROOT_USER% -p%MYSQL_ROOT_PW% < "%TEMP%\dnd1.sql"
 
 REM --- SQL Datei einspielen ---
@@ -57,4 +98,5 @@ REM --- Start Spring Boot ---
 start "Spring Boot Server" cmd /k "cd /d %BASE_DIR%backend && mvnw spring-boot:run"
 
 echo Beide Anwendungen wurden gestartet.
+echo Öffne einen beliebigen Browser und rufe die Adresse "http://localhost:5173/" auf.
 pause

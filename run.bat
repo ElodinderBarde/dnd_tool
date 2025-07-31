@@ -17,4 +17,6 @@ echo Starte Spring Boot Anwendung...
 start "Spring Boot Server" cmd /k "cd /d %SPRING_DIR% && mvnw spring-boot:run"
 
 echo Beide Anwendungen wurden gestartet.
+echo Öffne einen beliebigen Browser und rufe die Adresse "http://localhost:5173/" auf.
+
 pause
