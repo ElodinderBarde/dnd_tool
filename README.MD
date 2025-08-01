@@ -5,7 +5,7 @@ einer lebendigen DnD-Spielwelt.
 Der Prototyp dieses Werkes ward ursprünglich unter [DnD-WebUI](https://github.com/ElodinderBarde/DnD-WebUI) geboren und wird nun
 als **eigenständige Spring Boot Applikation** weitergeführt, um sich von XAMPP zu lösen und 
 ein modular aufgebautes Backend zu etablieren. Zudem soll diese im Späteren Verlauf eine 
-Mulktiuserapplikation werden, mit eigenem Zugang und Db damit diese nicht mehr Lokal laufen muss.
+Multiuserapplikation werden, mit eigenem Zugang und Db damit diese nicht mehr lokal laufen muss.
 
 ---
 
@@ -21,9 +21,11 @@ Der Fokus liegt auf **Wartbarkeit**, **Modularität** und klar dokumentierten Sc
 
 ### Anforderungsanalyse
 
-Im rahmen dieser Anforderungsanalayse werden die Erwartungen an das DnD_Tool Backend erfasst. 
-Die Anforderungen orientieren sich an den typischen Aufgaben Nutzer:innen in Form von User Stories, einem Use-case_Diagramm sowie konkreten funktionalen Anforderungen dokumentiert. 
-Ziel ist es, die zentralen Interaktionen mit dem System nachvollziehbar und  technisch umsetzbar zu beschreiben
+Im Rahmen dieser Anforderungsanalayse werden die Erwartungen an das DnD_Tool-Backend erfasst. 
+Die Anforderungen orientieren sich an den typischen Aufgaben Nutzer:innen in Form von User Stories, 
+einem Use-Case-Diagramm sowie konkreten funktionalen Anforderungen dokumentiert. 
+Ziel ist es, die zentralen Interaktionen mit dem System nachvollziehbar und  technisch 
+umsetzbar zu beschreiben
 
 
 
@@ -36,11 +38,11 @@ Ziel ist es, die zentralen Interaktionen mit dem System nachvollziehbar und  tec
 
 
 
-### Use Case
+### Use-Case
 
-Das UseCase Diagramm zeigt die Interaktion mit der Datenbank. Im ersten schritt sollten über 
-die Itempage items ersteellt werden, die im anschluss einem erstellten Shop hinzugefügt werden. 
-Hier soll ebenso dargestellt werden, dass dies unabhängig voneinander funktioniert. 
+Das Use-Case-Diagramm zeigt die Interaktion mit der Datenbank. Im ersten schritt sollten über 
+die Itempage items erstellt werden, die im Anschluss einem erstellten Shop hinzugefügt werden.
+Es soll ebenfalls dargestellt werden, dass beide Vorgänge unabhängig voneinander funktionieren.. 
 
 
 
@@ -50,41 +52,41 @@ Hier soll ebenso dargestellt werden, dass dies unabhängig voneinander funktioni
 ### Kernaufgaben
 Die nachfolgende Liste dokumentiert die zentralen funktionalen Anforderungen der ShopSeite und ShopDetailSeite. Diese Anforderungen definieren, welche konkreten Fähigkeiten das System bieten muss, um die in den User Stories beschriebenen Anwendungsfälle abzudecken.
 
-| ID | Funktionale Anforderungen                                                                     |
-| :-: |:----------------------------------------------------------------------------------------------|
-| F1 | Die Anwendung soll es ermöglichen,ein Geschäft zu erstellen und diesen an einen Ort zu binden |
-| F2 | Die Anwendung soll alle gespeicherten Geschäfte darstellen können.                            |
-| F3 | Die Anwendung soll es erlauben, Geschäfte nach ortschaftund Typ zu filtern                    |
-| F4 | Die Anwendung soll einzelne Geschäfte anhand ihrer ID abrufen.                                |
-| F5 | Die Anwendung soll es ermöglichen, ein bestehendes Geschäft zu bearbeiten.   (Notizen, Items) |
-| F6 | Die Anwendung soll es ermöglichen, ein Item, welches an eine ID geknüpft wurde zu löschen.    |
-| F7 | Die Anwendung soll anhand der Presets oder einzeln Items hinzufügen können.                   |
-| F8 | Die REST-API soll im JSON-Format kommunizieren.                                               |
+| ID | Funktionale Anforderungen                                                                       |
+|:--:|:------------------------------------------------------------------------------------------------|
+| F1 | Die Anwendung soll es ermöglichen, ein Geschäft zu erstellen und dieses an einen Ort zu binden. |
+| F2 | Die Anwendung soll alle gespeicherten Geschäfte darstellen können.                              |
+| F3 | Die Anwendung soll es erlauben, Geschäfte nach Ortschaft und Typ zu filtern                     |
+| F4 | Die Anwendung soll einzelne Geschäfte anhand ihrer ID abrufen.                                  |
+| F5 | Die Anwendung soll es ermöglichen, ein bestehendes Geschäft zu bearbeiten.   (Notizen, Items)   |
+| F6 | Die Anwendung soll es ermöglichen, ein Item, welches an eine ID geknüpft wurde zu löschen.      |
+| F7 | Die Anwendung soll anhand der Presets oder einzeln Items hinzufügen können.                     |
+| F8 | Die REST-API soll im JSON-Format kommunizieren.                                                 |
 
 
 
 
 ### Klassendiagramm
 
-Aufgrund der Komplexität und Verwebung der Klassen in der Gesammten Anwendung, 
-verwende ich hier nebst der Zugehörigen klassen ein vereinfachtes Relationsmodell der Klassen,
+Aufgrund der Komplexität und Verwebung der Klassen in der gesammten Anwendung, 
+verwende ich hier nebst der Zugehörigen Klassen ein vereinfachtes Relationsmodell,
 damit viele Redundanzen verhindert werden können. 
 
 
 
 
-Im untenstehenden Klassendiagram, sind neun Gruppen dargelegt.
+Im untenstehenden Klassendiagram sind neun Gruppen dargelegt.
 
-|    Klasse    | Kurzbeschrieb der Klasse in relastion zur DB Tabelle                                                                                                                                |
+|    Klasse    | Kurzbeschrieb der Klasse in Relation zur DB Tabelle                                                                                                                                 |
 |:------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|     City     | Alle hinterlegten Städte werden in dieser Tabellenklasse hinterlegt. diese werden in Zukunft auf der WorldPage beasrbeitbar sein                                                    |
-|   Village    | Alle hinterlegten Dörfer werden in dieser Tabellenklasse hinterlegt. diese werden in Zukunft auf der WorldPage beasrbeitbar sein                                                    |
-|   Location   | Diese Klasse ist eine Zwischentabelle, die die Location als LocationID aus CityId und VillageID zusammenfässt.                                                                      |
+|     City     | Alle hinterlegten Städte werden in dieser Tabellenklasse hinterlegt. diese werden in Zukunft auf der WorldPage bearbeitbar sein.                                                    |
+|   Village    | Alle hinterlegten Dörfer werden in dieser Tabellenklasse hinterlegt. diese werden in Zukunft auf der WorldPage bearbeitbar sein.                                                    |
+|   Location   | Diese Klasse ist eine Zwischentabelle, die die Location als LocationID aus CityID und VillageID zusammenfässt.                                                                      |
 |   ShopType   | Eine Zwischentabelle die die Typen der Geschäfte zusammenfässt, diese soll erweiterbar sein, wurde jedoch noch nicht implementiert.                                                 |
-|     Shop     | Diese Tabellenklasse ist der Mittelpunkt der Seite. auf dieser Tabelle werden die Namen, des Typs, der Ortschaft und die Notizen gespeichert                                        |
+|     Shop     | Diese Tabellenklasse ist der Mittelpunkt der Seite. Auf dieser Tabelle werden die Namen, der Typ, die Ortschaft und die Notizen gespeichert                                         |
 |   ShopItem   | Eine Zwischentabellenklasse, die die auf den Shop hinterlegte Items zusammenfässt. hier könnte auch ein Spezialpreeis hinterlegt werden, wurde jedoch noch nicht implementiert.     |
-|     Item     | Eine Tabellenklasse die der Mittelpunkt der ItemPage ist. auf dieser Liste werden alle Items hinterlegt, sowie preise, seltenheiten ressource und weitere Informationen hinterlegt. | 
-| ShopRelation | Eine Zwisachentabellenklasse die die Relation von NPC zu Geschäften speichert.                                                                                                      |
+|     Item     | Eine Tabellenklasse die der Mittelpunkt der ItemPage ist. auf dieser Liste werden alle Items hinterlegt, sowie Preise, Seltenheiten Ressource und weitere Informationen hinterlegt. | 
+| ShopRelation | Eine Zwischentabellenklasse die die Relation von NPC zu Geschäften speichert.                                                                                                       |
 | ShopEmployee | Eine Tabellenklasse, die verschiedene Anstellungspositionen sammelt.                                                                                                                |
 | ShopCustomer | Eine Tabellenklasse, die verschiedene Kundenpositionen sammelt.                                                                                                                     |
 
@@ -110,26 +112,26 @@ Drittanwendungen.
 Darunter fallen `ShopController`, `ItemController`, `ShopItemController`, `ShopTypeController`, `ShopEmployeeController`
 `ShopRelationsController`, `LocationController`, `CityController`, `VillageController` und `ShopCustomerController`
 
-Der Übersicht und Erweitbarkeitswegen wurden diese auf diese Aufgeteilt. Um Redundanzen zu vermeiden lege ich hier den Fokus auf
+Der Übersicht und Erweitbarkeitswegen wurden diese Aufgeteilt. Um Redundanzen zu vermeiden lege ich hier den Fokus auf
 `ShopController`, `ShopItemController` und `ItemController`
 
 ### Unterstützte Endpunkte
-|     Controller      | Methode  | Pfad                  | Beschreibung                                                       |
-|:-------------------:|:--------:|:----------------------|:-------------------------------------------------------------------|
-|   ShopController    |  `GET`   | "/api/shops"          | Gibt alle verfügbaren Shops zurück                                 |
-|   ShopController    |  `GET`   |"/{id}| Gibt den verfügbaren Shop mit der angegeben ID zurück              |
-|   ShopController    |  `PUT`   | "/{id}"               | Aktualisiert die Shopnotizen                                       | 
-|   ShopController    |  `POST`  |                       | Erlaubt es über den DTO und Serviceklasse Shops zu erstellen       |
-|   ShopController    | `Delete` | "/{id}"               | Ermöglicht das Löschen eines Geschäfts                             |
-|   ShopController    |  `GET`   | "/{shopId}/employees" | Gibt alle an ShopId gebundenen Mitarbeiter zurück                  |
-|   ShopController    |  `GET`   | "/{shopId}/customers" | Gibt alle an ShopId gebundenen Kunden zurück                       |
-| ShopItemController  |  `GET`   | "/api/shopItems | Gibt alle Items zurück, die an ein geschäft verbunden sind         |
-| ShopItemController  | `GET`|"/shop/{ShopId}| gibt alle Items zurück die an den Shop gebunden sind               |
-| ShopItemController  | `POST`|"/addItems" | erlaubt es ein Item an einen Shop hinzuzufügen                     |
-| ShopItemCOnttroller |`PUT`|"/{shopItemId}/quantity| erlaubt es die hinterlegte Itemmenge anzupassen                    |
-|   ItemController    |`GET`| "/api/items"| Gibt alle hitnerlegten Items zurück                                |
-|   ItemController    | `GET`| "/resources" | GIbt alle hinterlegten Ressourcen zurück                           |
-|   ItemController    | `POST`|| Erlaubt es über den DTO un der Serviceklasse ein Item zu erstellen |
+|     Controller     | Methode  | Pfad                     | Beschreibung                                                       |
+|:------------------:|:--------:|:-------------------------|:-------------------------------------------------------------------|
+|   ShopController   |  `GET`   | "/api/shops"             | Gibt alle verfügbaren Shops zurück                                 |
+|   ShopController   |  `GET`   | "/{id}"                  | Gibt den verfügbaren Shop mit der angegeben ID zurück              |
+|   ShopController   |  `PUT`   | "/{id}"                  | Aktualisiert die Shopnotizen                                       | 
+|   ShopController   |  `POST`  |                          | Erlaubt es über den DTO und Serviceklasse Shops zu erstellen       |
+|   ShopController   | `DELETE` | "/{id}"                  | Ermöglicht das Löschen eines Geschäfts                             |
+|   ShopController   |  `GET`   | "/{shopId}/employees"    | Gibt alle an ShopId gebundenen Mitarbeiter zurück                  |
+|   ShopController   |  `GET`   | "/{shopId}/customers"    | Gibt alle an ShopId gebundenen Kunden zurück                       |
+| ShopItemController |  `GET`   | "/api/shopItems"         | Gibt alle Items zurück, die an ein geschäft verbunden sind         |
+| ShopItemController |  `GET`   | "/shop/{ShopId}"         | Gibt alle Items zurück die an den Shop gebunden sind               |
+| ShopItemController |  `POST`  | "/addItems"              | Erlaubt es ein Item an einen Shop hinzuzufügen                     |
+| ShopItemController |  `PUT`   | "/{shopItemId}/quantity" | Erlaubt es die hinterlegte Itemmenge anzupassen                    |
+|   ItemController   |  `GET`   | "/api/items"             | Gibt alle hinterlegten Items zurück                                |
+|   ItemController   |  `GET`   | "/resources"             | Gibt alle hinterlegten Ressourcen zurück                           |
+|   ItemController   |  `POST`  |                          | Erlaubt es über den DTO un der Serviceklasse ein Item zu erstellen |
 
 
 - **CORS-Konfiguration**: Um Cross-Origin-Anfragen vom Frontend (z. B. `http://localhost:5173`) 
@@ -155,7 +157,7 @@ Die Anfrage erwartet ein JSON-Objekt basierend auf dem `ShopItemDTO`.
   "quantity": 5,
   "Item":   {
     "id": 5,
-    "name": "Weinfasche",
+    "name": "Weinflasche",
     "price": 15,
     "typ": "Lebensmittel",
     "seltenheit": "Common",
@@ -168,6 +170,13 @@ Die Anfrage erwartet ein JSON-Objekt basierend auf dem `ShopItemDTO`.
   }
 }
 ```
+
+## Bedienung
+
+Hierzu bitte die Benutzeranleitung hinzuziehen:
+![Benutzeranleitung](/Dokumente/Bedienungsanleitung%20ShopSeite.md)
+
+
 
 ##  Features (Geplant / In Umsetzung)
 
@@ -185,12 +194,12 @@ Die Anfrage erwartet ein JSON-Objekt basierend auf dem `ShopItemDTO`.
 
 ##  Tech Stack
 
-| Ebene      | Technologie                  |
-|------------|------------------------------|
-| **Backend** | Java 21, Spring Boot 3.x, Maven |
-| **Datenbank** | MySQL (via JDBC, später evtl. JPA) |
-| **Frontend** | React, Vite, Tailwind CSS (optional) |
-| **API**     | RESTful, JSON |
+| Ebene         | Technologie                          |
+|---------------|--------------------------------------|
+| **Backend**   | Java 21, Spring Boot 3.x, Maven      |
+| **Datenbank** | MySQL (via JDBC, später evtl. JPA)   |
+| **Frontend**  | React, Vite, Tailwind CSS (optional) |
+| **API**       | RESTful, JSON                        |
 
 ---
 
@@ -250,23 +259,23 @@ Maven
 
 ## Installation
 ```
-Prüfen ob Java 21 Installiert ist
-Prüfen ob Node.js Installiert ist
-Prüfen ob Maven installiert ist
-Prüfen ob MySql Server installiert ist und aktiv ist
+Prüfen, ob Java 21 installiert ist
+Prüfen, ob Node.js installiert ist
+Prüfen, ob Maven installiert ist
+Prüfen, ob MySql Server installiert ist und aktiv ist
 
 
 install.bat ausführen
 
 root Benutzername eintragen
-root Passwort eintragen //Achtung, Passwort wird im klartext dargestellt!
+root Passwort eintragen (Achtung, Passwort wird im klartext dargestellt!)
 
-nun wird die benötigte db erstellt und User angelegt
+Nun wird die benötigte DB erstellt und User angelegt
 
-bei erfolgreichem Import wird run.bat ausgeführt
+Bei erfolgreichem Import wird run.bat ausgeführt
 
 Wenn Spring Boot Server erfolgreich gestartet wurde:
-öffne einen beliebigen Browser und besuche die Adresse : localhost:5173
+Öffne einen beliebigen Browser und besuche die Adresse : localhost:5173
 
 
 ```
@@ -274,7 +283,10 @@ Wenn Spring Boot Server erfolgreich gestartet wurde:
 
 Backend starten
 
-run.bat ausführen oder 
+run.bat ausführen 
+
+
+oder 
 
 
 ```bash
@@ -298,42 +310,81 @@ npm run dev
 
 API Proxy (in vite.config.js)
 
-```js
+```
+
 server: {
   proxy: {
-    '/api': {
+    '/api':
+      {
       target: 'http://localhost:8081',
       changeOrigin: true,
       rewrite: path => path.replace(/^\/api/, '')
     }
   }
 }
+
 ```
 
+## Hilfestellungen
+Während der Entwicklung dieses Projekts habe ich auf verschiedene externe Hilfsmittel zurückgegriffen,
+um gezielt Unterstützung bei der Umsetzung, Strukturierung und Dokumentation zu erhalten.  
+Sie trugen dazu bei, fachliche Unsicherheiten zu klären, bewährte Vorgehensweisen zu übernehmen 
+und die Qualität der Lösung zu verbessern. Darunter auch das Programm  [DnD-WebUI](https://github.com/ElodinderBarde/DnD-WebUI) welches fast 
+ausschliesslich (ausser die DB) mit GPT erstellt wurde und wie bereits im ersten Abschnitt beschrieben 
+als Prototyp diente. Da diese jedoch mit PHP geschrieben wurde sehe ich kein Plagiat, sondern 
+nur eine Ausarbeitung einer Idee. Zudem musste für die Implementierung von Spring Boot die Datenbank 
+weitflächig angepasst werden.
+
+
+### Frontend Stil empfehlungen
+
+Im Bereich Darstellung wurde mir GridStack.js von Patrick Meier empfohlen, welches 
+implementiert wurde, nachdem das Designem des ItemBoard suboptimal verlief.
+
+Die Verwendung dieses Tools hat vieles vereinfacht und mir viel Zeit erspart. zudem soll in zukunft die
+Indexseite / Mainpage Modular und bearbeitbar aufgebaut werden, was mit Gridstack sehr vereinfacht wird. 
+
+
+### ChatGPT
+ChatGPT wurde punktuell als Unterstützung eingesetzt, insbesondere in folgenden Bereichen:
 
 
 
 
+**Rechtschreib- und Stilkorrektur** sowie Hilfestellung beim Verfassen von 
+Textabschnitten der Projektdokumentation
+
+**Punktuelle Fehlerfindung** bei längerem stockendem Arbeitsverlauf. 
+
+**Rückfrage nach Best Practice** anfänglich zur sicherstellung sowie empfehlung der verwendung von Lombok,
+welches mit Rücksprache des Dozenten erlaubt wurde. 
+
+**Rechtlicher Hinweis** wurde via GPT angefragt, da Offizielle Daten von Wizard of The Coast verwendet werden. 
 
 
 
 
+### SideQuests M 295
+Die im Rahmen des Moduls 295 bereitgestellten SideQuests dienten als wertvolle Orientierungshilfe und Grundlage für die Umsetzung:
+
+- Beispiele und Lösungsansätze in den Übungsaufgaben gaben Struktur vor
+- Technische Vorgaben und empfohlene Herangehensweisen konnten direkt übernommen oder angepasst werden
 
 
-🚧 Entwicklungsstand
-⚠️ Dieses Projekt befindet sich in einem frühen Stadium.
+ Entwicklungsstand
+ Dieses Projekt befindet sich in einem frühen Stadium.
 Die Architektur wird fortlaufend modularisiert, das Datenmodell verfeinert und eine vollständige API aufgebaut.
 
-👤 Autor
+Autor
 Elodin, Webzauberer & Spielleiter aus der Schweiz
 GitHub: ElodinderBarde
 
-🧾 Lizenz
+ Lizenz
 Lizenzierung folgt im weiteren Verlauf der Entwicklung.
 Aktuell private Nutzung. Kein öffentlicher Rollout vorgesehen.
 
 
-## 📚 Rechtlicher Hinweis
+##  Rechtlicher Hinweis
 
 Dieses Tool verwendet Teile der **Dungeons & Dragons 5e System Reference Document (SRD 5.1)**, veröffentlicht von **Wizards of the Coast** unter der **Creative Commons Attribution 4.0 International License (CC-BY-4.0)**.
 
@@ -343,7 +394,7 @@ Alle Rechte an Dungeons & Dragons, den zugehörigen Namen, Marken, Welten und Ch
 Dieses Projekt ist ein **inoffizielles Fanprojekt** und steht in **keiner offiziellen Verbindung** zu Wizards of the Coast.
 
 
-🌱 Zukunftsideen (Vision)
+Zukunftsideen (Vision)
 Nutzerverwaltung & Sessions
 
 Export/Import von Welten & NPCs
