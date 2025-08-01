@@ -1,16 +1,33 @@
 #  DnD Tool – Webbasiertes Spielleiter-Tool
 
 Dies ist die frühe Ausarbeitung eines webbasierten Spielleiter-Tools zur Verwaltung und Erschaffung einer lebendigen DnD-Spielwelt.  
-Der Prototyp dieses Werkes ward ursprünglich unter [DnD-WebUI](https://github.com/ElodinderBarde/DnD-WebUI) geboren und wird nun als **eigenständige Spring Boot Applikation** weitergeführt, um sich von XAMPP zu lösen und ein modular aufgebautes Backend zu etablieren.
+Der Prototyp dieses Werkes ward ursprünglich unter [DnD-WebUI](https://github.com/ElodinderBarde/DnD-WebUI) geboren und wird nun als **eigenständige Spring Boot Applikation** weitergeführt, um sich von XAMPP zu lösen und ein modular aufgebautes Backend zu etablieren. Zudem soll diese im Späteren Verlauf eine Mulktiuserapplikation werden, mit eigenem Zugang und Db und nicht mehr Lokal laufen müssen.
 
 ---
 
 ##  Projektübersicht
 
-Dieses Tool richtet sich an Spielleiter, die ihre Welt digital führen und mit umfassenden Verwaltungsfunktionen versehen möchten.  
-In dieser **Early Stage** liegt der Fokus auf der Backend-Architektur (Spring Boot + REST API) sowie einem Frontend auf Basis von **React + Vite**.
+Das Tool unterstützt die digitale Verwaltung einer lebendigen DnD-Spielwelt:  
+Charaktere (NPCs/Spieler), Shops, Items, Clans, Quests, Rufsysteme u.v.m.  
+Der Fokus liegt auf **Wartbarkeit**, **Modularität** und klar dokumentierten Schnittstellen.
 
 ---
+
+## Im Rashmen des Moduls 295 wird die Seite Shops in den Fokus gelegt
+
+### Anforderungsanalyse
+
+Im rahmen dieser Anforderungsanalayse werden die Erwartungen an das DnD_Tool Backend erfasst. 
+Die Anforderungen orientieren sich an den typischen Aufgaben Nutzer:innen in Form von User Stories, einem Use-case_Diagramm sowie konkreten funktionalen Anforderungen dokumentiert. 
+Ziel ist es, die zentralen Interaktionen mit dem System nachvollziehbar und  technisch umsetzbar zu beschreiben
+
+
+
+### User Stories
+
+- **User Story 1**: [Shop erstellen ](https://github.com/ElodinderBarde/dnd_tool/issues/1)
+- **User Story 2**: [Shop Item darstellen](https://github.com/ElodinderBarde/dnd_tool/issues/2)
+- **User Story 3**: [Item hinzufügen oder löschen](https://github.com/ElodinderBarde/dnd_tool/issues/3)
 
 ##  Features (Geplant / In Umsetzung)
 
@@ -42,12 +59,44 @@ In dieser **Early Stage** liegt der Fokus auf der Backend-Architektur (Spring Bo
 ```plaintext
 dnd_tool/
 ├── backend/       # Spring Boot REST-API
+  └── database      # SqlDatei für Grund-Datenbank
+  └── src
+    └── main
+      └── java
+        └── ch.Elodin.DnD_Tool
+          ├── config
+          ├── controller
+          ├── dto
+          ├── mapper
+          ├── model
+          ├── repository
+          ├── service
+        └──DnDToolApplication.java   #MainDatei
+          
 ├── frontend/      # Vite + React Benutzeroberfläche
+  ├──src
+    ├── assets
+    ├── components          #komponenten
+      ├── components_css
+      ├── createNpc
+      ├── items
+      ├── npc-detail-page
+      ├── npcBoard
+      ├── questboard
+      ├── shop-details
+      ├── shops
+    └── navbar.jsx          # Navbarkomponente 
+
+  ├── pages
+  ├── service
+
+└── install.bat
 └── README.md
+└── run.bat
 
 ```
 
-Lokale Einrichtung (Entwicklung)
+## Lokale Einrichtung (Entwicklung)
 Voraussetzungen
 Java 21 (Temurin empfohlen)
 
@@ -59,7 +108,7 @@ Maven
 
 
 
-Installation
+## Installation
 ```
 Prüfen ob Java 21 Installiert ist
 Prüfen ob Node.js Installiert ist
@@ -118,6 +167,15 @@ server: {
   }
 }
 ```
+
+
+
+
+
+
+
+
+
 
 
 🚧 Entwicklungsstand
