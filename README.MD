@@ -59,7 +59,7 @@ Maven
 
 
 
-Instalation
+Installation
 ```
 Prüfen ob Java 21 Installiert ist
 Prüfen ob Node.js Installiert ist
