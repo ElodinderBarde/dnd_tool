@@ -29,6 +29,73 @@ Ziel ist es, die zentralen Interaktionen mit dem System nachvollziehbar und  tec
 - **User Story 2**: [Shop Item darstellen](https://github.com/ElodinderBarde/dnd_tool/issues/2)
 - **User Story 3**: [Item hinzufügen oder löschen](https://github.com/ElodinderBarde/dnd_tool/issues/3)
 
+
+
+
+### Use Case
+
+Das UseCase Diagramm zeigt die Interaktion mit der Datenbank. Im ersten schritt sollten über 
+die Itempage items ersteellt werden, die im anschluss einem erstellten Shop hinzugefügt werden. 
+Hier soll ebenso dargestellt werden, dass dies unabhängig voneinander funktioniert. 
+
+
+
+![Use Case Diagramm](Dokumente/Bilder/Dokumente/UseCaseDiagramm.png)
+
+
+### Kernaufgaben
+Die nachfolgende Liste dokumentiert die zentralen funktionalen Anforderungen der ShopSeite und ShopDetailSeite. Diese Anforderungen definieren, welche konkreten Fähigkeiten das System bieten muss, um die in den User Stories beschriebenen Anwendungsfälle abzudecken.
+
+| ID | Funktionale Anforderungen                                                                     |
+| :-: |:----------------------------------------------------------------------------------------------|
+| F1 | Die Anwendung soll es ermöglichen,ein Geschäft zu erstellen und diesen an einen Ort zu binden |
+| F2 | Die Anwendung soll alle gespeicherten Geschäfte darstellen können.                            |
+| F3 | Die Anwendung soll es erlauben, Geschäfte nach ortschaftund Typ zu filtern                    |
+| F4 | Die Anwendung soll einzelne Geschäfte anhand ihrer ID abrufen.                                |
+| F5 | Die Anwendung soll es ermöglichen, ein bestehendes Geschäft zu bearbeiten.   (Notizen, Items) |
+| F6 | Die Anwendung soll es ermöglichen, ein Item, welches an eine ID geknüpft wurde zu löschen.    |
+| F7 | Die Anwendung soll anhand der Presets oder einzeln Items hinzufügen können.                   |
+| F8 | Die REST-API soll im JSON-Format kommunizieren.                                               |
+
+
+
+
+### Klassendiagramm
+
+Aufgrund der Komplexität und Verwebung der Klassen in der Gesammten Anwendung, 
+verwende ich hier nebst der Zugehörigen klassen ein vereinfachtes Relationsmodell der Klassen,
+damit viele Redundanzen verhindert werden können. 
+
+
+
+
+Im untenstehenden Klassendiagram, sind neun Gruppen dargelegt.
+
+|    Klasse    | Kurzbeschrieb der Klasse in relastion zur DB Tabelle                                                                                                                                |
+|:------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|     City     | Alle hinterlegten Städte werden in dieser Tabellenklasse hinterlegt. diese werden in Zukunft auf der WorldPage beasrbeitbar sein                                                    |
+|   Village    | Alle hinterlegten Dörfer werden in dieser Tabellenklasse hinterlegt. diese werden in Zukunft auf der WorldPage beasrbeitbar sein                                                    |
+|   Location   | Diese Klasse ist eine Zwischentabelle, die die Location als LocationID aus CityId und VillageID zusammenfässt.                                                                      |
+|   ShopType   | Eine Zwischentabelle die die Typen der Geschäfte zusammenfässt, diese soll erweiterbar sein, wurde jedoch noch nicht implementiert.                                                 |
+|     Shop     | Diese Tabellenklasse ist der Mittelpunkt der Seite. auf dieser Tabelle werden die Namen, des Typs, der Ortschaft und die Notizen gespeichert                                        |
+|   ShopItem   | Eine Zwischentabellenklasse, die die auf den Shop hinterlegte Items zusammenfässt. hier könnte auch ein Spezialpreeis hinterlegt werden, wurde jedoch noch nicht implementiert.     |
+|     Item     | Eine Tabellenklasse die der Mittelpunkt der ItemPage ist. auf dieser Liste werden alle Items hinterlegt, sowie preise, seltenheiten ressource und weitere Informationen hinterlegt. | 
+| ShopRelation | Eine Zwisachentabellenklasse die die Relation von NPC zu Geschäften speichert.                                                                                                      |
+| ShopEmployee | Eine Tabellenklasse, die verschiedene Anstellungspositionen sammelt.                                                                                                                |
+| ShopCustomer | Eine Tabellenklasse, die verschiedene Kundenpositionen sammelt.                                                                                                                     |
+
+
+
+![Klassendiagramm](/Dokumente/Bilder/Dokumente/Klassendiagramm1.png)
+
+
+Zur besseren Lesbarkeit wurden alle Abhängigkeiten als «uses»-Beziehungen gekennzeichnet. 
+Die Pfeile geben jeweils an, welche Klasse eine andere verwendet.
+Das Diagramm bietet damit eine übersichtliche Darstellung der Klassenstruktur und erleichtert 
+das Verständnis für den Aufbau und die Verantwortlichkeiten innerhalb der Anwendung.
+![Klassendiagramm](/Dokumente/Bilder/Dokumente/classDiagrammVereinfacht.png)
+
+
 ##  Features (Geplant / In Umsetzung)
 
 - **NPC-Verwaltung**: Erstellen, Generieren, Bearbeiten, Notizen speichern
