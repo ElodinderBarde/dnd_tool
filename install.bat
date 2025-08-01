@@ -4,45 +4,29 @@ setlocal enabledelayedexpansion
 REM === Abhängigkeitsprüfung ===
 
 REM Java
-java -version >nul 2>&1
-if %errorlevel% neq 0 (
-    echo [FEHLT] Java nicht gefunden! Bitte Java JDK 21 installieren: https://adoptium.net/de/temurin/releases/?version=21
-    pause
-    exit /b 1
-)
-echo [OK] Java gefunden.
+java -version
+echo (Java-Check beendet)
+pause
 
 REM Node.js
-node -v >nul 2>&1
-if %errorlevel% neq 0 (
-    echo [FEHLT] Node.js nicht gefunden! Bitte Node.js installieren: https://nodejs.org/en/download/
-    pause
-    exit /b 1
-)
-echo [OK] Node.js gefunden.
+node -v
+echo (Node-Check beendet)
+pause
 
 REM npm
-npm -v >nul 2>&1
-if %errorlevel% neq 0 (
-    echo [FEHLT] npm nicht gefunden! Problem mit Node.js Installation.
-    pause
-    exit /b 1
-)
-echo [OK] npm gefunden.
+npm -v
+echo (npm-Check beendet)
+pause
 
 REM Maven Wrapper oder Maven prüfen
 if exist "%~dp0backend\mvnw.cmd" (
     echo [OK] Maven Wrapper gefunden.
 ) else (
-    mvn -v >nul 2>&1
-    if %errorlevel% neq 0 (
-        echo [FEHLT] Maven nicht gefunden! Entweder mvnw.cmd einfügen oder Maven installieren: https://maven.apache.org/download.cgi
-        pause
-        exit /b 1
-    ) else (
-        echo [OK] Maven gefunden.
-    )
+    mvn -v
+    echo (Maven-Check beendet)
+    pause
 )
+
 
 REM ===============================
 REM    Installation für DnD Tool
