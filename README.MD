@@ -57,7 +57,37 @@ MySQL-Datenbank
 
 Maven
 
+
+
+Instalation
+```
+Prüfen ob Java 21 Installiert ist
+Prüfen ob Node.js Installiert ist
+Prüfen ob Maven installiert ist
+Prüfen ob MySql Server installiert ist
+
+
+install.bat ausführen
+
+root Benutzername eintragen
+root Passwort eintragen
+
+nun wird die benötigte db erstellt und User angelegt
+
+bei erfolgreichem Import wird run.bat ausgeführt
+
+Wenn Spring Boot Server erfolgreich geestartet wurde:
+öffne einen beliebigen Browser und besuche die Adresse : localhost:5173
+
+
+```
+
+
 Backend starten
+
+run.bat ausführen oder 
+
+
 ```bash
 
 cd backend
