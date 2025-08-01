@@ -85,30 +85,16 @@ if %errorlevel% neq 0 (
     exit /b 1
 )
 
-REM --- npm install Frontend ---
-cd /d "%BASE_DIR%frontend"
-npm install
-if %errorlevel% neq 0 (
-    echo [FEHLER] npm install (Frontend) fehlgeschlagen!
-    pause
-    exit /b 1
-)
+echo --------------------------------------------------
+echo --------------------------------------------------
+
+echo  Datenbank und User angelegt, nun startet run.bat
+
+echo --------------------------------------------------
+echo --------------------------------------------------
 
 
-REM --- npm install Backend (optional) ---
-cd /d "%BASE_DIR%backend"
-if exist package.json npm install
+call "%~dp0run.bat"
 
-REM --- Start React ---
-start "React Dev Server" cmd /k "cd /d %BASE_DIR%frontend && npm run dev"
 
-REM --- Start Spring Boot ---
-if exist "%BASE_DIR%backend\mvnw.cmd" (
-    start "Spring Boot Server" cmd /k "cd /d %BASE_DIR%backend && mvnw spring-boot:run"
-) else (
-    start "Spring Boot Server" cmd /k "cd /d %BASE_DIR%backend && mvn spring-boot:run"
-)
-
-echo Beide Anwendungen wurden gestartet.
-start "" "http://localhost:5173/"
 pause
