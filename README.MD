@@ -1,7 +1,11 @@
 #  DnD Tool – Webbasiertes Spielleiter-Tool
 
-Dies ist die frühe Ausarbeitung eines webbasierten Spielleiter-Tools zur Verwaltung und Erschaffung einer lebendigen DnD-Spielwelt.  
-Der Prototyp dieses Werkes ward ursprünglich unter [DnD-WebUI](https://github.com/ElodinderBarde/DnD-WebUI) geboren und wird nun als **eigenständige Spring Boot Applikation** weitergeführt, um sich von XAMPP zu lösen und ein modular aufgebautes Backend zu etablieren. Zudem soll diese im Späteren Verlauf eine Mulktiuserapplikation werden, mit eigenem Zugang und Db und nicht mehr Lokal laufen müssen.
+Dies ist die frühe Ausarbeitung eines webbasierten Spielleiter-Tools zur Verwaltung und Erschaffung 
+einer lebendigen DnD-Spielwelt.  
+Der Prototyp dieses Werkes ward ursprünglich unter [DnD-WebUI](https://github.com/ElodinderBarde/DnD-WebUI) geboren und wird nun
+als **eigenständige Spring Boot Applikation** weitergeführt, um sich von XAMPP zu lösen und 
+ein modular aufgebautes Backend zu etablieren. Zudem soll diese im Späteren Verlauf eine 
+Mulktiuserapplikation werden, mit eigenem Zugang und Db damit diese nicht mehr Lokal laufen muss.
 
 ---
 
@@ -13,7 +17,7 @@ Der Fokus liegt auf **Wartbarkeit**, **Modularität** und klar dokumentierten Sc
 
 ---
 
-## Im Rashmen des Moduls 295 wird die Seite Shops in den Fokus gelegt
+## Im Rahmen des Moduls 295 wird die Seite Shops in den Fokus gelegt
 
 ### Anforderungsanalyse
 
@@ -95,6 +99,75 @@ Das Diagramm bietet damit eine übersichtliche Darstellung der Klassenstruktur u
 das Verständnis für den Aufbau und die Verantwortlichkeiten innerhalb der Anwendung.
 ![Klassendiagramm](/Dokumente/Bilder/Dokumente/classDiagrammVereinfacht.png)
 
+
+
+
+## REST-Schnittstellen
+Die entwickelte Applikation stellt eine REST-API zur Verfügung,
+über die alle relevanten Operationen durchgeführt werden können.
+Diese Schnittstellen bilden die zentrale Interaktionsebene für das Frontend sowie potenzielle
+Drittanwendungen.
+Darunter fallen `ShopController`, `ItemController`, `ShopItemController`, `ShopTypeController`, `ShopEmployeeController`
+`ShopRelationsController`, `LocationController`, `CityController`, `VillageController` und `ShopCustomerController`
+
+Der Übersicht und Erweitbarkeitswegen wurden diese auf diese Aufgeteilt. Um Redundanzen zu vermeiden lege ich hier den Fokus auf
+`ShopController`, `ShopItemController` und `ItemController`
+
+### Unterstützte Endpunkte
+|     Controller      | Methode  | Pfad                  | Beschreibung                                                       |
+|:-------------------:|:--------:|:----------------------|:-------------------------------------------------------------------|
+|   ShopController    |  `GET`   | "/api/shops"          | Gibt alle verfügbaren Shops zurück                                 |
+|   ShopController    |  `GET`   |"/{id}| Gibt den verfügbaren Shop mit der angegeben ID zurück              |
+|   ShopController    |  `PUT`   | "/{id}"               | Aktualisiert die Shopnotizen                                       | 
+|   ShopController    |  `POST`  |                       | Erlaubt es über den DTO und Serviceklasse Shops zu erstellen       |
+|   ShopController    | `Delete` | "/{id}"               | Ermöglicht das Löschen eines Geschäfts                             |
+|   ShopController    |  `GET`   | "/{shopId}/employees" | Gibt alle an ShopId gebundenen Mitarbeiter zurück                  |
+|   ShopController    |  `GET`   | "/{shopId}/customers" | Gibt alle an ShopId gebundenen Kunden zurück                       |
+| ShopItemController  |  `GET`   | "/api/shopItems | Gibt alle Items zurück, die an ein geschäft verbunden sind         |
+| ShopItemController  | `GET`|"/shop/{ShopId}| gibt alle Items zurück die an den Shop gebunden sind               |
+| ShopItemController  | `POST`|"/addItems" | erlaubt es ein Item an einen Shop hinzuzufügen                     |
+| ShopItemCOnttroller |`PUT`|"/{shopItemId}/quantity| erlaubt es die hinterlegte Itemmenge anzupassen                    |
+|   ItemController    |`GET`| "/api/items"| Gibt alle hitnerlegten Items zurück                                |
+|   ItemController    | `GET`| "/resources" | GIbt alle hinterlegten Ressourcen zurück                           |
+|   ItemController    | `POST`|| Erlaubt es über den DTO un der Serviceklasse ein Item zu erstellen |
+
+
+- **CORS-Konfiguration**: Um Cross-Origin-Anfragen vom Frontend (z. B. `http://localhost:5173`) 
+- zu ermöglichen, wurde die API gezielt für bestimmte Ursprünge freigegeben. Dies geschieht in der 
+- `WebConfig`-Klasse, welche `WebMvcConfigurer` implementiert und die Methode `addCorsMappings()` 
+- überschreibt, um gezielt Pfade freizuschalten.
+
+
+
+## Beispiel für eine Anfrage
+>**POST**: `/addItems`
+
+Erstellt eine neue verbindung zwischen einem Item und einem Geschäft basierend auf den übergebenen Daten.
+
+Die Anfrage erwartet ein JSON-Objekt basierend auf dem `ShopItemDTO`.
+
+**Request-Body (JSON)**:
+```json
+{
+  "ShopItemID": 55,
+  "shopId": 25,
+  "ItemID": 5,
+  "quantity": 5,
+  "Item":   {
+    "id": 5,
+    "name": "Weinfasche",
+    "price": 15,
+    "typ": "Lebensmittel",
+    "seltenheit": "Common",
+    "buch": "Eigene",
+    "seite1": null,
+    "seite2": null,
+    "seite3": null,
+    "einstimmung": "N",
+    "beschreibung": null
+  }
+}
+```
 
 ##  Features (Geplant / In Umsetzung)
 
@@ -180,19 +253,19 @@ Maven
 Prüfen ob Java 21 Installiert ist
 Prüfen ob Node.js Installiert ist
 Prüfen ob Maven installiert ist
-Prüfen ob MySql Server installiert ist
+Prüfen ob MySql Server installiert ist und aktiv ist
 
 
 install.bat ausführen
 
 root Benutzername eintragen
-root Passwort eintragen
+root Passwort eintragen //Achtung, Passwort wird im klartext dargestellt!
 
 nun wird die benötigte db erstellt und User angelegt
 
 bei erfolgreichem Import wird run.bat ausgeführt
 
-Wenn Spring Boot Server erfolgreich geestartet wurde:
+Wenn Spring Boot Server erfolgreich gestartet wurde:
 öffne einen beliebigen Browser und besuche die Adresse : localhost:5173
 
 
@@ -214,6 +287,7 @@ cd backend
 
 
 Frontend starten
+
 ```bash
 cd frontend
 npm install
@@ -223,6 +297,7 @@ npm run dev
 
 
 API Proxy (in vite.config.js)
+
 ```js
 server: {
   proxy: {
