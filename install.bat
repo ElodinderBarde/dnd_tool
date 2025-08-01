@@ -4,28 +4,25 @@ setlocal enabledelayedexpansion
 REM === Abhängigkeitsprüfung ===
 
 REM Java
-java -version
-echo (Java-Check beendet)
-pause
+java -version >nul 2>&1
+if %errorlevel% neq 0 (
+    echo [FEHLT] Java nicht gefunden! Bitte Java JDK 21 installieren: https://adoptium.net/de/temurin/releases/?version=21
+    pause
+    exit /b 1
+)
+echo [OK] Java gefunden.
 
 REM Node.js
-node -v
-echo (Node-Check beendet)
-pause
-
-REM npm
-npm -v
-echo (npm-Check beendet)
-pause
-
-REM Maven Wrapper oder Maven prüfen
-if exist "%~dp0backend\mvnw.cmd" (
-    echo [OK] Maven Wrapper gefunden.
-) else (
-    mvn -v
-    echo (Maven-Check beendet)
+node -v >nul 2>&1
+if %errorlevel% neq 0 (
+    echo [FEHLT] Node.js nicht gefunden! Bitte Node.js installieren: https://nodejs.org/en/download/
     pause
+    exit /b 1
 )
+echo [OK] Node.js gefunden.
+
+
+
 
 
 REM ===============================
@@ -45,7 +42,7 @@ set /p MYSQL_ROOT_PW=Passwort:
 REM --- App-DB-Konstanten ---
 set "APP_USER=DnD_Tool"
 set "APP_PW=123456"
-set "DB_NAME=dnd1"
+set "DB_NAME=dnd_2"
 
 REM --- SQL-Pfad ---
 set "SQL_PATH=%BASE_DIR%backend\database\dnd1.sql"
@@ -56,6 +53,13 @@ if not exist "%BASE_DIR%backend" (
     pause
     exit /b 1
 )
+
+
+REM --- trust_function_creators setzen ---
+echo SET GLOBAL log_bin_trust_function_creators = 1; | mysql -u%MYSQL_ROOT_USER% -p%MYSQL_ROOT_PW%
+
+
+
 
 REM --- MySQL: User + DB anlegen ---
 echo Erstelle Datenbank und User...
@@ -70,6 +74,8 @@ if %errorlevel% neq 0 (
     pause
     exit /b 1
 )
+
+pause
 
 REM --- SQL Datei einspielen ---
 mysql -u%APP_USER% -p%APP_PW% %DB_NAME% < "%SQL_PATH%"
