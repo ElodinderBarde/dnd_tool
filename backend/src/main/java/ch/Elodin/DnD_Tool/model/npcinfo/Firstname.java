@@ -30,9 +30,6 @@ public class Firstname {
 	private Race race;
 
 
-	public void setGender(Gender gender) {
-		this.gender = gender;
-	}
 
 
 }

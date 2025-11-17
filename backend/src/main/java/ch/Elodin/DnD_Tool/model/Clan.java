@@ -5,6 +5,7 @@ import java.util.List;
 import ch.Elodin.DnD_Tool.model.enums.Familienclan;
 import ch.Elodin.DnD_Tool.model.ruf.Ruf;
 import ch.Elodin.DnD_Tool.model.ruf.RufKonflikte;
+import ch.Elodin.DnD_Tool.model.world.Location;
 import jakarta.persistence.*;
 
 @Entity
@@ -18,9 +19,10 @@ public class Clan {
 
     @Column(name ="clanname", unique = true)
     private String clan;
-    
-    @Column(name = "location_ID")
-    private Integer location;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "location_ID")
+    private Location location;
     
     @Column(name = "mitglieder")
     private Integer mitglieder;
@@ -35,6 +37,9 @@ public class Clan {
     @OneToMany(mappedBy = "partei_target")
     private List<RufKonflikte> rufkonflikttarget;
 
+
+	@Column(name = "clan_notes")
+	private String clanNotes;
 
     
     @OneToMany(mappedBy = "clan", fetch = FetchType.LAZY)
@@ -59,11 +64,11 @@ public class Clan {
 		this.clan = clan;
 	}
 
-	public Integer getLocation() {
+	public Location  getLocation() {
 		return location;
 	}
 
-	public void setLocation(Integer location) {
+	public void setLocation(Location location) {
 		this.location = location;
 	}
 
@@ -82,6 +87,16 @@ public class Clan {
 	public void setFamilienclan(Familienclan familienclan) {
 		this.familienclan = familienclan;
 	}
-    
-    
+
+	public void setClanNotes(String clanNotes) {
+		this.clanNotes = clanNotes;
+	}
+	public  String getClanNotes() {
+		return clanNotes;
+	}
+
+	public Integer getRufkonfliktsource()
+    {return this.rufkonfliktsource.size();}
+
+
 }

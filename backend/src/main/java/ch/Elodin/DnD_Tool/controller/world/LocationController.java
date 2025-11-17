@@ -45,4 +45,6 @@ public class LocationController {
     // Inneres DTO oder eigene Datei
     public record CityDTO(int id, String city_name) {
     }
+
+
 }

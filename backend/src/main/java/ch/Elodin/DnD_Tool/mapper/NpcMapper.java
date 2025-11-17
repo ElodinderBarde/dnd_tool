@@ -10,6 +10,7 @@ import ch.Elodin.DnD_Tool.model.npcinfo.Stats;
 import ch.Elodin.DnD_Tool.repository.ClanRepository;
 import ch.Elodin.DnD_Tool.repository.npcinfo.*;
 import ch.Elodin.DnD_Tool.repository.shop.ShopRelationsRepository;
+import org.mapstruct.Mapper;
 
 
 public class NpcMapper {
@@ -181,6 +182,5 @@ public class NpcMapper {
         npc.setSymbol(dto.getSymbol());
         npc.setNotes(dto.getNotes());
     }
-
 
 }

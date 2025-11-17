@@ -1,0 +1,65 @@
+.details-grid {
+    display: grid;
+    grid-template-columns: 1fr 2.3fr; /* Links schmal - rechts breit */
+    gap: 1rem;
+    width: 100%;
+    height: 100%;
+}
+
+.details-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+/* Zwei Werte nebeneinander */
+.row {
+    display: flex;
+    justify-content: flex-start;
+    gap: 2rem;
+}
+
+.row p {
+    margin: 0;
+}
+
+.button-row {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.details-btn {
+    padding: 0.4rem 0.8rem;
+    background: #444;
+    color: #fff;
+    border: 1px solid #555;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.details-btn:hover {
+    background: #555;
+}
+
+/* Rechte Seite (Notizen) */
+.details-right {
+    background: #1b1b1b;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #444;
+}
+
+.details-notes-box {
+    margin-top: 0.2rem;
+    margin-right: 1rem;
+    background: #222;
+    border: 1px solid #333;
+    padding: 0.5rem;
+        border-radius: 4px;
+    min-height: 6rem;
+    max-height: 100%;
+    overflow-y: auto;
+    white-space: pre-wrap;
+
+}

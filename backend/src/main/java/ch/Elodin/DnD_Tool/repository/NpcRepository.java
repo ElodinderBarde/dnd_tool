@@ -18,4 +18,7 @@ public interface NpcRepository extends JpaRepository<Npc, Integer> {
     List<Npc> findCustomersByShopId(@Param("shopId") Integer shopId);
 
 
+    @Query("SELECT n FROM Npc n WHERE n.clan.id = :clanId")
+    List<Npc> findByClanId(int clanId);
+
 }
