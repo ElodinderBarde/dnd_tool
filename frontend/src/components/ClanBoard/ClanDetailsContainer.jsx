@@ -12,9 +12,18 @@ function getMitgliederAmount(clan) {
     return clan.mitglieder;
 }
 
+
+
+function isFamilyClan(clan) {
+   if(!clan) return "Unbekannt";
+   if(clan.familienclan == "Y") return "Ja";
+   if(clan.familienclan == "N") return "Nein";
+}
+
+
 export default function ClanDetailsContainer({ clan }) {
     return (
-        <div className="grid-stack-item" gs-w="8" gs-h="2" gs-x="4" gs-y="0">
+        <div className="grid-stack-item" gs-w="10" gs-h="2" gs-x="2" gs-y="0">
             <div className="grid-stack-item-content clan-details-container">
                 {clan ? (
                     <>
@@ -23,7 +32,7 @@ export default function ClanDetailsContainer({ clan }) {
 
                                 <div className="row">
                                     <p><strong>Name:</strong> {clan.clan}</p>
-                                    <p><strong>Familienclan:</strong> {clan.familienclan}</p>
+                                    <p><strong>Familienclan:</strong> {isFamilyClan(clan)}</p>
                                 </div>
 
                                 <div className="row">

@@ -16,13 +16,12 @@ export default function ClanMitgliederList({ clan }) {
     return (
         <div
             className="grid-stack-item"
-            gs-w="8"
+            gs-w="10"
             gs-h="6"
-            gs-x="4"
+            gs-x="2"
             gs-y="2"
         >
             <div className="grid-stack-item-content mitglieder-container">
-                <h3>Mitglieder von {clan?.clan}</h3>
 
                 <div className="mitglieder-scrollbox">
                     {mitglieder.length === 0 && (
