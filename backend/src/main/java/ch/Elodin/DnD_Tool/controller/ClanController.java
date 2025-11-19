@@ -1,6 +1,7 @@
 package ch.Elodin.DnD_Tool.controller;
 
 import ch.Elodin.DnD_Tool.dto.ClanDTO;
+import ch.Elodin.DnD_Tool.dto.ClanNotesUpdateDTO;
 import ch.Elodin.DnD_Tool.mapper.ClanMapper;
 import ch.Elodin.DnD_Tool.repository.ClanRepository;
 import ch.Elodin.DnD_Tool.model.Clan;
@@ -58,6 +59,34 @@ public class ClanController {
         Clan saved = clanRepository.save(clan);
         return ClanMapper.toClanDTO(saved);
     }
+
+    @GetMapping("/GetClanNotes/{clanId}")
+    public String getClanNotes(@PathVariable int clanId) {
+        Clan clan = clanRepository.findById(clanId)
+                .orElseThrow(() -> new RuntimeException("Clan not found with id: " + clanId));
+        return clan.getClanNotes();
+    }
+
+    @PutMapping("/updateNotes/{clanId}")
+    public ClanDTO updateClanNotes(
+            @PathVariable int clanId,
+            @RequestBody ClanNotesUpdateDTO dto
+    ) {
+        Clan clan = clanRepository.findById(clanId)
+                .orElseThrow(() -> new RuntimeException("Clan not found: " + clanId));
+
+        clan.setClanNotes(dto.getClanNotes());
+        clanRepository.save(clan);
+
+        return ClanMapper.toClanDTO(clan);
+    }
+
+    @GetMapping("/{id}")
+    public ClanDTO getClanById(@PathVariable int id) {
+        return ClanMapper.toClanDTO(
+                clanRepository.findById(id)
+                        .orElseThrow(() -> new RuntimeException("Clan not found: " + id))
+        );
+    }
+
 }
-
-

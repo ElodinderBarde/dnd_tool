@@ -9,7 +9,7 @@ public class ShopMapper {
 
     public static ShopDTO toDTO(Shop shop) {
         ShopDTO dto = new ShopDTO();
-        dto.setId(shop.getShopId()); // Achtung: getShopId() muss so heißen!
+        dto.setId(shop.getShopId());
         dto.setName(shop.getName());
         dto.setNotes(shop.getNotes());
 
