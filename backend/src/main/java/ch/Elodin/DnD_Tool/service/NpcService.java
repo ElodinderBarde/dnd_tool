@@ -361,5 +361,12 @@ public class NpcService {
     }
 
 
-
+    public List<NpcReadDTO> getNpcsByClanId(int clanId) {
+        return npcRepository.findByClanId(clanId).stream()
+                .map(npc -> {
+                    Stats stats = statsRepository.findByNpc(npc).orElse(null);
+                    return NpcMapper.toReadDTO(npc, stats);
+                })
+                .collect(Collectors.toList());
+    }
 }

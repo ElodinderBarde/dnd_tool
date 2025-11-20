@@ -1,4 +1,5 @@
 package ch.Elodin.DnD_Tool.dto;
+import ch.Elodin.DnD_Tool.model.Clan;
 import ch.Elodin.DnD_Tool.model.enums.EnumSymbol;
 import lombok.Getter;
 import lombok.Setter;
@@ -52,8 +53,11 @@ public class NpcReadDTO {
     private Integer charisma;
 
 
+
     private String shopRelation;
     private String family;
     private EnumSymbol symbol;
+
+
 
 }

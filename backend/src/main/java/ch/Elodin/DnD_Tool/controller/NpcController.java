@@ -3,6 +3,7 @@ package ch.Elodin.DnD_Tool.controller;
 import ch.Elodin.DnD_Tool.dto.NpcFilterRequest;
 import ch.Elodin.DnD_Tool.dto.NpcReadDTO;
 import ch.Elodin.DnD_Tool.dto.NpcWriteDTO;
+import ch.Elodin.DnD_Tool.model.Clan;
 import ch.Elodin.DnD_Tool.model.Npc;
 import ch.Elodin.DnD_Tool.model.enums.EnumSymbol;
 import ch.Elodin.DnD_Tool.model.npcinfo.Subclass;
@@ -37,7 +38,7 @@ public class NpcController {
                          SubclassRepository subclassRepository,
                          NpcRepository npcRepository,
                          ClanRepository clanRepository
-                          ) {
+    ) {
         this.npcService = npcService;
         this.raceRepository = raceRepository;
         this.subclassRepository = subclassRepository;
@@ -106,12 +107,12 @@ public class NpcController {
                 .distinct()
                 .toList();
     }
+
     @GetMapping("/Subclasses/byClass/{classId}")
     public List<Subclass> getSubclassesByClassId(@PathVariable int classId) {
         return subclassRepository.findByClassId(classId);
 
     }
-
 
 
     @PutMapping("/{id}")
@@ -122,6 +123,7 @@ public class NpcController {
         npc.setNotes(dto.getNotes());
         npcRepository.save(npc);
     }
+
     @GetMapping("/{id}")
     public NpcReadDTO getNpcById(@PathVariable int id) {
         return npcService.getNpcById(id);
@@ -140,6 +142,7 @@ public class NpcController {
             return ResponseEntity.badRequest().body("Fehler beim Erstellen des NPCs: " + e.getMessage());
         }
     }
+
     @RestController
     @RequestMapping("/api/Symbol")
     public class SymbolController {
@@ -151,7 +154,32 @@ public class NpcController {
     }
 
 
+    @GetMapping("/byClan/{clanId}")
+    public List<NpcReadDTO> getNpcByClanId(@PathVariable int clanId) {
+        return npcService.getNpcsByClanId(clanId);
+    }
 
+    @PutMapping("UpdateClanPosition/{id}")
+    public void updateNpcClanPosition(@PathVariable int id, @RequestBody NpcReadDTO dto) {
+        Npc npc = npcRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("NPC nicht gefunden mit ID: " + id));
 
+        npc.setClan_position(dto.getClanPosition());
+        npcRepository.save(npc);
+    }
+
+    @PutMapping("UpdateClan/{id}")
+    public void updateNpcClan(@PathVariable int id, @RequestBody NpcReadDTO dto) {
+
+        Npc npc = npcRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("NPC nicht gefunden mit ID: " + id));
+
+        // Clan anhand des Namens laden
+        Clan clan = clanRepository.findByClan(dto.getClan())
+                .orElseThrow(() -> new RuntimeException("Clan nicht gefunden: " + dto.getClan()));
+
+        npc.setClan(clan);
+        npcRepository.save(npc);
+    }
 
 }

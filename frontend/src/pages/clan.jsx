@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { GridStack } from "gridstack";
 import { getClans, getClanById } from "../service/clanAPI";
+import {getNpcByClan , updateNpcClan, getNpcById, updateNpcClanPosition} from "../service/npcAPI";
 import ClanListContainer from "../components/ClanBoard/ClanListContainer";
 import ClanDetailsContainer from "../components/ClanBoard/ClanDetailsContainer.jsx";
 import ClanMitgliederList from "../components/ClanBoard/clanMitgliederList.jsx";
@@ -55,10 +56,9 @@ export default function Clan() {
                     refreshClan={refreshClan}
                 />
 
-                <ClanMitgliederList
-                    clans={clans}
-                    onSelectClan={setSelectedClan}
-                />
+                <ClanMitgliederList clan={selectedClan} />
+
+
             </div>
         </>
     );
