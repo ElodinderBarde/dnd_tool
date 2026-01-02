@@ -1,0 +1,68 @@
+# =========================
+# Node / npm
+# =========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# =========================
+# Build / Dist
+# =========================
+dist/
+build/
+.vite/
+
+# =========================
+# Environment variables
+# =========================
+.env
+.env.local
+.env.*.local
+
+# =========================
+# OS / Editor
+# =========================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# VS Code (nur User-spezifisch)
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# IntelliJ / WebStorm
+.idea/
+*.iml
+
+# =========================
+# Cache / Temporary
+# =========================
+.cache/
+.tmp/
+.temp/
+
+# =========================
+# Logs
+# =========================
+logs/
+*.log
+
+# =========================
+# Coverage / Tests
+# =========================
+coverage/
+
+# =========================
+# TypeScript (falls später)
+# =========================
+*.tsbuildinfo
+
+# =========================
+# Misc
+# =========================
+*.swp
+*.swo
+*.bak

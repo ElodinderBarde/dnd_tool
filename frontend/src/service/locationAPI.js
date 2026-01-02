@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:8081/api/Location';
+const API_URL = 'http://localhost:8081/api/locations';
 
 export async function getLocation() {
   const response = await fetch(API_URL);
