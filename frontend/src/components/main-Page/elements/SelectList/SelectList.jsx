@@ -6,6 +6,7 @@ export default function SelectList({
                                        onSelect,
                                        getLabel,
                                        getId,
+                                        onDoubleClick,
                                    }) {
     return (
         <ul className="select-list">
@@ -18,6 +19,8 @@ export default function SelectList({
                         key={id}
                         className={`select-list-item ${isActive ? "active" : ""}`}
                         onClick={() => onSelect(item)}
+                        onDoubleClick={() => onDoubleClick?.(item)}
+
                     >
                         <span className="bullet" />
                         <span className="label">{getLabel(item)}</span>

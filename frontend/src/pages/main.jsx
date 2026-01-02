@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useRef} from 'react';
 import './CSS/main.css';
 
 import { GridStack } from 'gridstack';
@@ -7,104 +7,231 @@ import CityNameSelector from "../components/main-Page/blocks/city-name-block/Cit
 import {CommandMenu01} from "../components/main-Page/blocks/city-name-block/modal/locationSelectorModal.jsx";
 import SelectList from "../components/main-Page/elements/SelectList/SelectList.jsx";
 import {getShops} from "../service/shopsAPI.js";
+import {getEmployees, getCustomers} from "../service/ShopCustomerEmployeeAPI.js";
+import { useNavigate } from "react-router-dom";
 
-export function sortByNameAsc(a, b) {
-    return a.name.localeCompare(b.name, 'de', { sensitivity: 'base' });
+function loadFromStorage(key) {
+    const raw = localStorage.getItem(key);
+    if (!raw) return null;
+    try {
+        return JSON.parse(raw);
+    } catch (err) {
+        console.warn(`Failed to parse localStorage key ${key}:`, raw);
+        try { localStorage.removeItem(key); } catch (e) {}
+        return null;
+    }
+}
+
+function saveToStorage(key, value) {
+    try {
+        if (value === null || typeof value === 'undefined') {
+            localStorage.removeItem(key);
+        } else {
+            localStorage.setItem(key, JSON.stringify(value));
+        }
+    } catch (err) {
+        console.warn(`Failed to write localStorage key ${key}:`, err);
+    }
 }
 
 export default function Main() {
+    const navigate = useNavigate();
+    // UI
     const [isCityModalOpen, setCityModalOpen] = useState(false);
+    const [viewMode, setViewMode] = useState("EMPLOYEE");
+
+    // Persistenter State
+    const [selectedLocation, setSelectedLocation] = useState(() =>
+        loadFromStorage("selectedLocation")
+    );
+    const [shopType, setShopType] = useState(() =>
+        loadFromStorage("selectedShopType")
+    );
+    const [selectedShop, setSelectedShop] = useState(() =>
+        loadFromStorage("selectedShop")
+    );
+    const [selectedNpc, setSelectedNpc] = useState(() =>
+        loadFromStorage("selectedNpc")
+    );
+
+    // Refs to hold latest values for synchronous save on unload
+    const selectedLocationRef = useRef(selectedLocation);
+    const shopTypeRef = useRef(shopType);
+    const selectedShopRef = useRef(selectedShop);
+    const selectedNpcRef = useRef(selectedNpc);
+
+    // keep refs up to date
+    useEffect(() => { selectedLocationRef.current = selectedLocation; }, [selectedLocation]);
+    useEffect(() => { shopTypeRef.current = shopType; }, [shopType]);
+    useEffect(() => { selectedShopRef.current = selectedShop; }, [selectedShop]);
+    useEffect(() => { selectedNpcRef.current = selectedNpc; }, [selectedNpc]);
+
+    // Persist on unload / when document hidden
+    useEffect(() => {
+        const handleSave = () => {
+            try {
+                saveToStorage("selectedLocation", selectedLocationRef.current);
+                saveToStorage("selectedShopType", shopTypeRef.current);
+                saveToStorage("selectedShop", selectedShopRef.current);
+                saveToStorage("selectedNpc", selectedNpcRef.current);
+            } catch (err) {
+                console.error('Error saving state on unload', err);
+            }
+        };
+
+        const onBeforeUnload = () => { handleSave(); };
+        const onVisibilityChange = () => {
+            if (document.visibilityState === 'hidden') handleSave();
+        };
+
+        window.addEventListener('beforeunload', onBeforeUnload);
+        document.addEventListener('visibilitychange', onVisibilityChange);
+
+        return () => {
+            window.removeEventListener('beforeunload', onBeforeUnload);
+            document.removeEventListener('visibilitychange', onVisibilityChange);
+            handleSave(); // final save on unmount
+        };
+    }, []);
+
+    // Daten
     const [shops, setShops] = useState([]);
     const [availableShopTypes, setAvailableShopTypes] = useState([]);
     const [filteredShops, setFilteredShops] = useState([]);
-    const [selectedShop, setSelectedShop] = useState(null);
+    const [employees, setEmployees] = useState([]);
+    const [customers, setCustomers] = useState([]);
 
-
-    const [selectedLocation, setSelectedLocation] = useState(() => {
-        const stored = localStorage.getItem("selectedLocation");
-        return stored ? JSON.parse(stored) : null;
-    });
-    useEffect(() => {
-        if (selectedLocation) {
-            localStorage.setItem(
-                "selectedLocation",
-                JSON.stringify(selectedLocation)
-            );
-        }
-    }, [selectedLocation]);
+    // 1. Reset-Kaskaden
+    const [hydrated, setHydrated] = useState(false);
 
     useEffect(() => {
-        async function loadShops() {
-            try {
-                const data = await getShops();
-                setShops(data);
-            } catch (err) {
-                console.error("Fehler beim Laden der Shops:", err);
-            }
-        }
-
-        loadShops();
+        setHydrated(true);
     }, []);
 
+    useEffect(() => {
+        if (!hydrated) return;
+        if (!selectedLocation) return;
+        if (!shopType) return;
+        if (shops.length === 0) return;
+
+        const stillValid = shops.some(
+            s =>
+                s.locationId === selectedLocation.locationId &&
+                s.shopTypeId === shopType.id
+        );
+
+        if (!stillValid) {
+            setShopType(null);
+            setSelectedShop(null);
+            setSelectedNpc(null);
+        }
+    }, [selectedLocation, shopType, hydrated, shops]);
+
+    useEffect(() => {
+        if (!shopType || !selectedShop) return;
+
+        const stillValid = selectedShop.shopTypeId === shopType.id;
+
+        if (!stillValid) {
+            setSelectedShop(null);
+            setSelectedNpc(null);
+        }
+    }, [shopType, selectedShop]);
+
+    useEffect(() => {
+        if (!selectedShop) return;
+        setSelectedNpc(null);
+    }, [selectedShop]);
+
+    // 2. Daten laden
+    useEffect(() => {
+        async function loadShops() {
+            const data = await getShops();
+            setShops(data);
+        }
+        loadShops();
+    }, []);
 
     useEffect(() => {
         if (!selectedLocation || shops.length === 0) {
             setAvailableShopTypes([]);
-            setShopType(null);
             return;
         }
-
-        const types = deriveShopTypesForLocation(
-            shops,
-            selectedLocation.locationId
+        setAvailableShopTypes(
+            deriveShopTypesForLocation(shops, selectedLocation.locationId)
         );
-
-        setAvailableShopTypes(types);
     }, [selectedLocation, shops]);
 
     useEffect(() => {
-        setShopType(null);
-        localStorage.removeItem("shopType");
-    }, [selectedLocation]);
-
-
-    const [shopType, setShopType] = useState(() => {
-        const stored = localStorage.getItem("shopType");
-        return stored ? JSON.parse(stored) : null;
-    });
-    useEffect(() => {
-        if (shopType) {
-            localStorage.setItem("shopType", JSON.stringify(shopType));
-        }
-    }, [shopType]);
-
-    useEffect(() => {
-        if (!selectedLocation || !shopType || shops.length === 0) {
+        if (!selectedLocation || !shopType) {
             setFilteredShops([]);
-            setSelectedShop(null);
+            return;
+        }
+        setFilteredShops(
+            shops.filter(
+                s =>
+                    s.locationId === selectedLocation.locationId &&
+                    s.shopTypeId === shopType.id
+            )
+        );
+    }, [shops, selectedLocation, shopType]);
+
+    useEffect(() => {
+        if (!selectedShop) {
+            setEmployees([]);
+            setCustomers([]);
             return;
         }
 
-        const result = shops.filter(
-            shop =>
-                shop.locationId === selectedLocation.locationId &&
-                shop.shopTypeId === shopType.id
-        );
+        Promise.all([
+            getEmployees(selectedShop.id),
+            getCustomers(selectedShop.id),
+        ]).then(([emp, cust]) => {
+            setEmployees(emp);
+            setCustomers(cust);
+        });
+    }, [selectedShop]);
 
-        setFilteredShops(result);
-    }, [shops, selectedLocation, shopType]);
+    // 3. Persistence (bei normalen state-Änderungen)
+    useEffect(() => {
+        saveToStorage("selectedLocation", selectedLocation);
+        saveToStorage("selectedShopType", shopType);
+        saveToStorage("selectedShop", selectedShop);
+        saveToStorage("selectedNpc", selectedNpc);
+    }, [selectedLocation, shopType, selectedShop, selectedNpc]);
 
+    // Hilfsfunktionen
+    function sortByNameAsc(a, b) {
+        return a.name.localeCompare(b.name, 'de', { sensitivity: 'base' });
+    }
 
+    function deriveShopTypesForLocation(shops, locationId) {
+        const map = new Map();
+        shops
+            .filter(shop => shop.locationId === locationId)
+            .forEach(shop => {
+                if (!map.has(shop.shopTypeId)) {
+                    map.set(shop.shopTypeId, {
+                        id: shop.shopTypeId,
+                        name: shop.shopTypeName,
+                    });
+                }
+            });
+        return Array.from(map.values());
+    }
 
+    function handleNpcDoubleClick(npc) {
+        console.log("DoubleClick NPC:", npc);
+        navigate(`/npc/${npc.npcId}`);
+    }
+    function handleShopDoubleClick(shop) {
+        setSelectedShop(shop);
+        navigate(`/shops/${shop.id}`);
+    }
 
-
-
-
-
-
-
-
-
+    function toggleViewMode() {
+        setViewMode((prev) => prev === "EMPLOYEE" ? "CUSTOMER" : "EMPLOYEE");
+    }
 
     useEffect(() => {
         GridStack.init({
@@ -115,6 +242,7 @@ export default function Main() {
             disableDrag: true,
         });
     }, []);
+
     return (
         <>
             <Navbar />
@@ -138,8 +266,36 @@ export default function Main() {
                         <div className="grid-stack-item-content">Party</div>
                     </div>
                     <div className="grid-stack-item" gs-x="35" gs-y="40" gs-w="25" gs-h="2">
-                        <div className="grid-stack-item-content">Employees</div>
+                        <div className="grid-stack-item-content">
+
+                            <button
+                                type="button"
+                                onClick={toggleViewMode}
+                            >
+                                {viewMode === "EMPLOYEE" ? "Mitarbeiter" : "Kunden"}
+                            </button>
+<br/>
+                            <div className="flex-1 overflow-y-auto">
+
+                            <SelectList
+                                items={viewMode === "EMPLOYEE" ? employees : customers}
+                                activeId={selectedNpc ? selectedNpc.npcId : null}
+                                onSelect={setSelectedNpc}
+                                onDoubleClick={handleNpcDoubleClick}
+                                getId={(p) => p.npcId}
+                                getLabel={(p) => (
+                               <span>
+                               {p.firstname} {p.lastname}
+                                   <br/>
+                                <small>{p.shopRelation}</small>
+                                 </span>
+                                )}
+                            />
+                            </div>
+
+                        </div>
                     </div>
+
                     <div className="grid-stack-item" gs-x="35" gs-y="42" gs-w="25" gs-h="2">
                         <div className="grid-stack-item-content">Inventory</div>
                     </div>
@@ -149,6 +305,7 @@ export default function Main() {
                                 items={filteredShops.sort(sortByNameAsc)}
                                 activeId={selectedShop ? selectedShop.id : null}
                                 onSelect={setSelectedShop}
+                                onDoubleClick={handleShopDoubleClick}
                                 getId={(s) => s.id}
                                 getLabel={(s) => s.name}
                             />
@@ -191,21 +348,4 @@ export default function Main() {
             </main>
         </>
     );
-}
-
-function deriveShopTypesForLocation(shops, locationId) {
-    const map = new Map();
-
-    shops
-        .filter(shop => shop.locationId === locationId)
-        .forEach(shop => {
-            if (!map.has(shop.shopTypeId)) {
-                map.set(shop.shopTypeId, {
-                    id: shop.shopTypeId,
-                    name: shop.shopTypeName,
-                });
-            }
-        });
-
-    return Array.from(map.values());
 }

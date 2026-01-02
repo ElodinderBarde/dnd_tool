@@ -19,7 +19,7 @@ export default function ShopEmployees({ shopId }) {
             ) : (
                 <ul className="npc-list">
                     {employees.map(emp => (
-                        <li key={emp.npcId}>
+                        <li key={emp.id}>
                             <details>
                                 <summary>{emp.firstname} {emp.lastname}</summary>
                                 <p>Geschlecht: {emp.gender}</p>

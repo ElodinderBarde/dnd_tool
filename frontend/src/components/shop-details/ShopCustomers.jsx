@@ -19,7 +19,7 @@ export default function ShopCustomers({ shopId }) {
             ) : (
                 <ul className="npc-list">
                     {customers.map(cus => (
-                        <li key={cus.npcId}>
+                        <li key={cus.id}>
                             <details>
                                 <summary>{cus.firstname} {cus.lastname}</summary>
                                 <p>Geschlecht: {cus.gender}</p>
