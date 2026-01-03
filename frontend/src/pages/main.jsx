@@ -10,7 +10,7 @@ import {getShops} from "../service/shopsAPI.js";
 import {getEmployees, getCustomers} from "../service/ShopCustomerEmployeeAPI.js";
 import { useNavigate } from "react-router-dom";
 import ShopInventorySelect from "../components/main-Page/blocks/invventory-block/ShopInventorySelect.jsx";
-
+import NpcStats from '../components/main-Page/blocks/npc-stats-block/NpcStats.jsx';
 function loadFromStorage(key) {
     const raw = localStorage.getItem(key);
     if (!raw) return null;
@@ -61,8 +61,8 @@ export default function Main() {
         loadFromStorage("selectedShopId")
     );
 
-    const [selectedNpc, setSelectedNpc] = useState(() =>
-        loadFromStorage("selectedNpc")
+    const [selectedNpcId, setSelectedNpcId] = useState(() =>
+        loadFromStorage("selectedNpcId")
     );
 
 
@@ -93,12 +93,12 @@ export default function Main() {
     const selectedLocationRef = useRef(selectedLocation);
     const shopTypeRef = useRef(shopType);
     const selectedShopIdRef = useRef(selectedShopId);
-    const selectedNpcRef = useRef(selectedNpc);
+    const selectedNpcRef = useRef(selectedNpcId);
 
     useEffect(() => { selectedLocationRef.current = selectedLocation; }, [selectedLocation]);
     useEffect(() => { shopTypeRef.current = shopType; }, [shopType]);
     useEffect(() => { selectedShopIdRef.current = selectedShopId; }, [selectedShopId]);
-    useEffect(() => { selectedNpcRef.current = selectedNpc; }, [selectedNpc]);
+    useEffect(() => { selectedNpcRef.current = selectedNpcId; }, [selectedNpcId]);
 
 
     /* ======================================================
@@ -128,20 +128,20 @@ export default function Main() {
         if (!selectedLocation) {
             setShopType(null);
             setSelectedShopId(null);
-            setSelectedNpc(null);
+            setSelectedNpcId(null);
         }
     }, [selectedLocation]);
 
     useEffect(() => {
         if (!shopType) {
             setSelectedShopId(null);
-            setSelectedNpc(null);
+            setSelectedNpcId(null);
         }
     }, [shopType]);
 
     useEffect(() => {
         if (!selectedShopId) {
-            setSelectedNpc(null);
+            setSelectedNpcId(null);
         }
     }, [selectedShopId]);
 
@@ -210,6 +210,9 @@ export default function Main() {
         console.log("SelectedShopItem updated:", selectedShopItem);
     }, [selectedShopItem]);
 
+    useEffect(() => {
+        console.log("Selected NPC changed:", selectedNpcId);
+    }, [selectedNpcId]);
 
     /* ======================================================
        HANDLER
@@ -293,6 +296,18 @@ export default function Main() {
 
 
 
+
+    /* ======================================================
+    NPC
+    ======================================================
+     */
+
+
+
+
+
+    //Functions
+
     return (
         <>
             <Navbar />
@@ -309,9 +324,15 @@ export default function Main() {
                     <div className="grid-stack-item" gs-x="60" gs-y="10" gs-w="20" gs-h="7">
                         <div className="grid-stack-item-content">NPC Detail</div>
                     </div>
+
+                   //Stats
                     <div className="grid-stack-item" gs-x="80" gs-y="0" gs-w="40" gs-h="1">
-                        <div className="grid-stack-item-content">NPC Stats</div>
+                        <div className="grid-stack-item-content">
+                            <NpcStats npc={selectedNpcId} />
+                        </div>
                     </div>
+
+
                     <div className="grid-stack-item" gs-x="80" gs-y="50" gs-w="20" gs-h="3">
                         <div className="grid-stack-item-content">Party</div>
                     </div>
@@ -337,8 +358,8 @@ export default function Main() {
 >
                             <SelectList
                                 items={viewMode === "EMPLOYEE" ? employees : customers}
-                                activeId={selectedNpc ? selectedNpc.npcId : null}
-                                onSelect={setSelectedNpc}
+                                activeId={selectedNpcId ? selectedNpcId.npcId : null}
+                                onSelect={setSelectedNpcId}
                                 onDoubleClick={handleNpcDoubleClick}
                                 getId={(p) => p.npcId}
                                 getLabel={(p) => (

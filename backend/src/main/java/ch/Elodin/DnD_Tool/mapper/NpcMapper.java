@@ -2,6 +2,7 @@ package ch.Elodin.DnD_Tool.mapper;
 
 import ch.Elodin.DnD_Tool.dto.NpcReadDTO;
 import ch.Elodin.DnD_Tool.dto.NpcWriteDTO;
+import ch.Elodin.DnD_Tool.dto.StatsDTO;
 import ch.Elodin.DnD_Tool.model.Npc;
 import ch.Elodin.DnD_Tool.model.enums.EnumSymbol;
 import ch.Elodin.DnD_Tool.model.npcinfo.Armor;
@@ -84,7 +85,7 @@ public class NpcMapper {
         dto.setTrousers(safe((Object) npc.getTrousers(), (java.util.function.Function<Object, String>) t -> npc.getTrousers().getName()));
         dto.setKleidungsQuali(safe((Object) npc.getKleidungQuali(), (java.util.function.Function<Object, String>) q -> npc.getKleidungQuali().getDescription()));
         dto.setJewellery(safe((Object) npc.getJewellery(), (java.util.function.Function<Object, String>) j -> npc.getJewellery().getName()));
-        dto.setArmor(Integer.valueOf(safe((Object) npc.getArmor_ID(), (java.util.function.Function<Object, String>) a -> String.valueOf(((Armor) a).getArmor()))));
+        dto.setArmor(npc.getArmor_ID() != null? npc.getArmor_ID().getArmor(): null);
         dto.setBackground(safe((Object) npc.getBackground(), (java.util.function.Function<Object, String>) b -> npc.getBackground().getName()));
         dto.setPersonality(safe((Object) npc.getPersonality(), (java.util.function.Function<Object, String>) p -> npc.getPersonality().getDescription()));
         dto.setFlaw(safe((Object) npc.getFlaw(), (java.util.function.Function<Object, String>) f -> npc.getFlaw().getName()));
@@ -98,13 +99,19 @@ public class NpcMapper {
 
         // Stats
         if (stats != null) {
-            dto.setStrength(stats.getStrength());
-            dto.setDexterity(stats.getDexterity());
-            dto.setConstitution(stats.getConstitution());
-            dto.setIntelligence(stats.getIntelligence());
-            dto.setWisdom(stats.getWisdom());
-            dto.setCharisma(stats.getCharisma());
+            StatsDTO statsDTO = new StatsDTO();
+            statsDTO.setStrength(stats.getStrength());
+            statsDTO.setDexterity(stats.getDexterity());
+            statsDTO.setConstitution(stats.getConstitution());
+            statsDTO.setIntelligence(stats.getIntelligence());
+            statsDTO.setWisdom(stats.getWisdom());
+            statsDTO.setCharisma(stats.getCharisma());
+            dto.setStats(statsDTO);
+        }else {
+            dto.setStats(null);
         }
+
+
 
         dto.setFamily(safe((Object) npc.getNpc_family_ID(), (java.util.function.Function<Object, String>) f -> npc.getNpc_family_ID().getFamilienname()));
         dto.setPictureUrl(safe((Object) npc.getPicture(), (java.util.function.Function<Object, String>) p -> npc.getPicture().getPicture()));

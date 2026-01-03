@@ -1,0 +1,97 @@
+.npc-stats-row {
+    display: flex;
+    align-items: stretch;
+    gap: 0.5rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* === Stat Box === */
+.stat-box {
+    background: #5e5e5e;
+    border: 1px solid #000000;
+    padding: 0.4rem 0.6rem;
+    min-width: 55px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 0.75rem;
+}
+
+.stat-label {
+    font-weight: bold;
+    font-size: 0.7rem;
+}
+
+.stat-value {
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.stat-mod {
+    font-size: 0.7rem;
+    opacity: 0.8;
+}
+.stat-mod {
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.mod-pos {
+    background-color: #6fcf97;   /* grün */
+}
+
+.mod-neg {
+   background-color:  #eb5757;   /* rot */
+}
+
+.mod-zero {
+    background-color: #bdbdbd;   /* neutral */
+}
+
+/* === AC Box === */
+.stat-box.ac {
+    background: #5e5e5e;
+    min-width: 60px;
+}
+
+/* === Klasse Box === */
+.class-box {
+    margin-left: auto;   /* ← DAS ist der Schlüssel */
+
+    background-color: #1f1f1f;
+    border: 1px solid #555;
+    border-radius: 4px;
+
+    padding: 0.4rem 0.75rem;
+    min-height: 48px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    font-size: 0.75rem;
+    white-space: nowrap;
+}
+
+.grid-stack-item-content {
+    overflow: hidden;
+    display: flex;
+}
+
+.npc-stats-row {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    width: 100%;
+    height: 100%;
+    white-space: nowrap;
+}
+
+.stat-box,
+.class-box {
+    flex-shrink: 0;
+}

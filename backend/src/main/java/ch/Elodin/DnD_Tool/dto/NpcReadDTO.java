@@ -1,5 +1,5 @@
 package ch.Elodin.DnD_Tool.dto;
-import ch.Elodin.DnD_Tool.model.Clan;
+import ch.Elodin.DnD_Tool.dto.StatsDTO;
 import ch.Elodin.DnD_Tool.model.enums.EnumSymbol;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,12 +45,8 @@ public class NpcReadDTO {
     private String notes;
 
     private Integer level;
-    private Integer strength;
-    private Integer dexterity;
-    private Integer constitution;
-    private Integer intelligence;
-    private Integer wisdom;
-    private Integer charisma;
+
+    private StatsDTO stats;
 
 
 

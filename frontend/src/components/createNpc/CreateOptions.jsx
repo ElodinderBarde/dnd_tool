@@ -469,6 +469,7 @@ import axios from "axios";
                     wisdom: stats.WIS ?? 10,
                     charisma: stats.CHA ?? 10,
                     intelligence: stats.INT ?? 10,
+                    dexterity: stats.GES ?? 10,
 
                     location: form.location ? parseInt(form.location, 10) : null,
                     shopType: form.shopTypeId ? parseInt(form.shopTypeId, 10) : null,
