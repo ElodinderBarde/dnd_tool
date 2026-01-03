@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import AddItems from "./AddItems.jsx";
 import AddItemsPreset from "./AddItemsPresets.jsx";
-
 export default function ShopItems() {
     const { shopId } = useParams();
     const [shopItems, setShopItems] = useState([]);
@@ -13,6 +12,7 @@ export default function ShopItems() {
     const [showPreset, setShowPreset] = useState(false);
 
 
+    console.log("Inventory for shopId:", shopId);
 
     const fetchShopItems = async () => {
         try {
@@ -36,7 +36,9 @@ export default function ShopItems() {
         }
     };
 
-    useEffect(() => { fetchShopItems();
+    useEffect(() => {
+        if(!shopId) return;
+        fetchShopItems();
     }, [shopId]);
 
 
