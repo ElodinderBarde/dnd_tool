@@ -147,3 +147,87 @@
 
     white-space: nowrap;     /* verhindert Umbruch */
 }
+
+
+
+
+.flag-backgound
+{
+    position: absolute;
+    top: 8px;
+    right: 8px;
+
+}
+.flag-container {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+}
+
+.flag-symbol {
+    top: 35%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.npc-detail {
+    position: relative;
+    padding: 1.5rem 1.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+
+.npc-text-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+.npc-section-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.4rem;
+}
+.npc-meta {
+    font-style: italic;
+    opacity: 0.85;
+}
+.npc-header {
+    position: relative;
+    margin-bottom: 3.5rem;
+    padding-right: 100px; /* Platz für Flag */
+}
+
+.npc-name {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.flag-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.npc-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.npc-table th {
+    text-align: left;
+    width: 35%;
+    font-weight: 600;
+    padding: 0.35rem 0.5rem;
+}
+
+.npc-table td {
+    padding: 0.35rem 0.5rem;
+}
+
+.npc-table tr {
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+}

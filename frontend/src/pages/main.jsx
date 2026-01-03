@@ -1,6 +1,9 @@
 import {useEffect, useState, useRef} from 'react';
 import './CSS/main.css';
 
+
+
+import Flag from '../components/main-Page/blocks/item-details-block/Flag.jsx';
 import { GridStack } from 'gridstack';
 import Navbar from '../components/navbar';
 import CityNameSelector from "../components/main-Page/blocks/city-name-block/CityNameSelector.jsx";
@@ -11,6 +14,11 @@ import {getEmployees, getCustomers} from "../service/ShopCustomerEmployeeAPI.js"
 import { useNavigate } from "react-router-dom";
 import ShopInventorySelect from "../components/main-Page/blocks/invventory-block/ShopInventorySelect.jsx";
 import NpcStats from '../components/main-Page/blocks/npc-stats-block/NpcStats.jsx';
+
+
+
+
+
 function loadFromStorage(key) {
     const raw = localStorage.getItem(key);
     if (!raw) return null;
@@ -321,8 +329,87 @@ export default function Main() {
                     <div className="grid-stack-item" gs-x="80" gs-y="10" gs-w="20" gs-h="4">
                         <div className="grid-stack-item-content">NPC Pic</div>
                     </div>
+
+                    //npc detail
                     <div className="grid-stack-item" gs-x="60" gs-y="10" gs-w="20" gs-h="7">
-                        <div className="grid-stack-item-content">NPC Detail</div>
+                        <div className="grid-stack-item-content npc-detail">
+                            <Flag symbol={selectedNpcId?.symbol} size={80} />
+
+                            <div className="npc-header">
+                                <h1 className="npc-name">
+                                    {selectedNpcId?.firstname} {selectedNpcId?.lastname}
+                                </h1>
+                            </div>
+                            <div className="npc-meta">
+                                Betonung: {selectedNpcId?.betonung}<br />
+                                Spracheigenheiten: {selectedNpcId?.talkingStyle}
+                            </div>
+
+                            <table className = "npc-table">
+                                <tr>
+                                    <th>Volk </th>
+                                    <td>{selectedNpcId?.race}</td>
+                                </tr>
+                                <tr>
+                                    <th>Geschlecht </th>
+                                    <td>{selectedNpcId?.gender}</td>
+                                </tr>
+                               <tr>
+                                   <th>Alter </th>
+                                   <td>{selectedNpcId?.age}</td>
+                                </tr>
+                                <tr>
+                                    <th>Hintergrund </th>
+                                    <td>{selectedNpcId?.background}</td>
+                                </tr>
+                            </table>
+
+
+                            {selectedNpcId?.shopRelation}
+
+
+                            <h2 className="npc-section-title"><u>Persönlichkeit: </u></h2>
+
+
+                            <div className="npc-text-block">
+                                <div>{selectedNpcId?.personality}</div>
+                                <div>{selectedNpcId?.otherDescription}</div>
+                                <div>{selectedNpcId?.likes}</div>
+                                <div>{selectedNpcId?.dislikes}</div>
+                                <div>{selectedNpcId?.flaw}</div>
+                                <div>{selectedNpcId?.ideals}</div>
+                            </div>
+
+
+
+                            <h2 className="npc-section-title"><u>Optik: </u></h2>
+                            <table className = "npc-table">
+                                <tr>
+                                    <th>Kleidung</th>
+                                    <td>{selectedNpcId?.kleidungsQuali}</td>
+                                </tr>
+                                <tr>
+                                    <th>Oberteil</th>
+                                    <td>{selectedNpcId?.jackets}</td>
+                                </tr>
+                                <tr>
+                                    <th>Hose</th>
+                                    <td>{selectedNpcId?.trousers}</td>
+                                </tr>
+                                <tr>
+                                    <th>Haarstil</th>
+                                    <td>{selectedNpcId?.hairstyle}</td>
+                                </tr>
+                                <tr>
+                                    <th>Haarfarbe</th>
+                                    <td>{selectedNpcId?.haircolor}</td>
+                                </tr>
+                                <tr>
+                                    <th>Bartstil</th>
+                                    <td>{selectedNpcId?.beardstyle}</td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
 
                    //Stats

@@ -46,10 +46,19 @@ export default function NpcStats({ npc }) {
                 </div>
             </div>
 
+
+
             <div className="class-box">
                 <div>Klasse: <strong>{npc.npcClass ?? "—"}</strong></div>
                 <div>Subklasse: <strong>{npc.subclass ?? "—"}</strong></div>
             </div>
+
+
+            <div className={"clan-box " + (npc.clan ? "has-clan" : "no-clan")}>
+                <div className="clan-label">Clan: {npc.clan ?? "-"} </div>
+                    <div>Clanposition: {npc.clanPosition ?? "—"}</div>
+
+                </div>
         </div>
     );
 }

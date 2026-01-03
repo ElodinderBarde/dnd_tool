@@ -91,6 +91,27 @@
     white-space: nowrap;
 }
 
+
+/* === Klasse Box === */
+.clan-box {
+    margin-left: auto;   /* ← DAS ist der Schlüssel */
+
+    background-color: #1f1f1f;
+    border: 1px solid #555;
+    border-radius: 4px;
+
+    padding: 0.4rem 0.75rem;
+    min-height: 48px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    font-size: 0.75rem;
+    white-space: nowrap;
+}
+
+
 .stat-box,
 .class-box {
     flex-shrink: 0;
