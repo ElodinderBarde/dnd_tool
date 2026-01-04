@@ -71,5 +71,6 @@ coverage/
 # =========================
 # npc pictures
 # =========================
-npc_pictures/
-public/npc_pictures/
+npc-images/
+public/npc-images/
+frontend/public/npc-images/

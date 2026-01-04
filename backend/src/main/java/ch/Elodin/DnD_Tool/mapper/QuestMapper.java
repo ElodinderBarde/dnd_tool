@@ -10,32 +10,34 @@ public class QuestMapper {
 
     public static QuestDto toDto(Quest quest) {
         QuestDto dto = new QuestDto();
+
         dto.setQuestID(quest.getQuestID());
-        dto.setMonsterName(quest.getMonsterName());
+        dto.setQuestName(quest.getMonsterName());
         dto.setDescription(quest.getDescription());
         dto.setStatus(quest.getStatus());
         dto.setGroup(quest.getGroup());
         dto.setPrice_gold(quest.getPrice_gold());
         dto.setPrice_item(quest.getPrice_item());
-        dto.setPreviousQuestId(quest.getPreviousQuest() != null ? quest.getPreviousQuest().getQuestID() : null);
+        dto.setNotes(quest.getNotes());
+        dto.setActive(quest.isActive());
+
+        dto.setPreviousQuestId(
+
+                quest.getPreviousQuest() != null ? quest.getPreviousQuest().getQuestID() : 0
+        );
 
         Location loc = quest.getQuestlocation();
         if (loc != null) {
-            String locName = null;
             if (loc.getCityID() != null) {
-                locName = "Stadt #" + loc.getCityID();
+                dto.setLocationName(loc.getCityID().getCity_name());
             } else if (loc.getVillageID() != null) {
-                locName = "Dorf #" + loc.getVillageID();
+                dto.setLocationName(loc.getVillageID().getName());
             }
-            dto.setLocationName(locName);
-        } else {
-            dto.setLocationName(null);
         }
 
-        dto.setActive(quest.isIs_active());
-        dto.setNotes(quest.getNotes());
         return dto;
     }
+
 
     public static Quest toEntity(QuestCreateDTO dto) {
         Quest quest = new Quest();
@@ -44,8 +46,8 @@ public class QuestMapper {
         quest.setGroup(dto.getGroup());
         quest.setPrice_gold(dto.getPrice_gold());
         quest.setPrice_item(dto.getPrice_item());
-        quest.setIs_active(dto.is_active); // Direktzugriff auf public field
-        quest.setStatus(EnumQuest.valueOf(dto.getStatus().toLowerCase()));
+        quest.setActive(dto.is_active); // Direktzugriff auf public field
+        quest.setStatus(EnumQuest.fromString(dto.getStatus()));
         quest.setNotes(dto.getNotes());
         return quest;
     }

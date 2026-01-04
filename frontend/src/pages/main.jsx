@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import ShopInventorySelect from "../components/main-Page/blocks/invventory-block/ShopInventorySelect.jsx";
 import NpcStats from '../components/main-Page/blocks/npc-stats-block/NpcStats.jsx';
 import NpcPicture from "@/components/npc-detail-page/npcPicture.jsx";
-
+import ActiveQuestPanel from "@/components/main-Page/blocks/quest-info-block/QuestInfo.jsx";
 
 
 
@@ -346,6 +346,13 @@ export default function Main() {
                                     {selectedNpcId?.firstname} {selectedNpcId?.lastname}
                                 </h1>
                             </div>
+                           <div className="npc-clan">
+                                {selectedNpcId?.clan}
+
+                            <div className="npc-clanposition">
+                                {selectedNpcId?.clanPosition}
+                            </div>
+                           </div>
                             <div className="npc-meta">
                                 Betonung: {selectedNpcId?.betonung}<br />
                                 Spracheigenheiten: {selectedNpcId?.talkingStyle}
@@ -563,7 +570,11 @@ export default function Main() {
                         <div className="grid-stack-item-content">QuestNotes</div>
                     </div>
                     <div className="grid-stack-item" gs-x="0" gs-y="100" gs-w="15" gs-h="4">
-                        <div className="grid-stack-item-content">QuestNotes</div>
+                        <div className="grid-stack-item-content">Questinfo
+
+                        <ActiveQuestPanel />
+
+                        </div>
                     </div>
 
                     // City Name Selector

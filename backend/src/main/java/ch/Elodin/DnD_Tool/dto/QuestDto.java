@@ -12,7 +12,7 @@ import lombok.Setter;
 @Data
 public class QuestDto {
     private int questID;
-    private String monsterName;
+    private String questName;
     private String description;
     private EnumQuest status;
     private String group;

@@ -1,5 +1,6 @@
 package ch.Elodin.DnD_Tool.controller;
 
+import ch.Elodin.DnD_Tool.dto.QuestDto;
 import ch.Elodin.DnD_Tool.model.enums.EnumQuest;
 import ch.Elodin.DnD_Tool.repository.QuestRepository;
 import ch.Elodin.DnD_Tool.model.Quest;
@@ -11,6 +12,7 @@ import ch.Elodin.DnD_Tool.repository.world.LocationRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -26,7 +28,7 @@ public class QuestController extends GenericController<Quest, Integer> {
     private final QuestRepository questRepository;
     private final LocationRepository locationRepository;
 
-    public QuestController(QuestRepository repository,  LocationRepository locationRepository) {
+    public QuestController(QuestRepository repository, LocationRepository locationRepository) {
         super(repository);
         this.questRepository = repository;
         this.locationRepository = locationRepository;
@@ -69,10 +71,6 @@ public class QuestController extends GenericController<Quest, Integer> {
     }
 
 
-
-
-
-
     @PostMapping("/create")
     public ResponseEntity<?> createQuest(@RequestBody QuestCreateDTO dto) {
         Quest quest = QuestMapper.toEntity(dto);
@@ -86,6 +84,13 @@ public class QuestController extends GenericController<Quest, Integer> {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/active")
+    public ResponseEntity<List<QuestDto>> getActiveQuests() {
+        List<QuestDto> activeQuests = questRepository.findByActiveTrue()
+                .stream()
+                .map(QuestMapper::toDto)
+                .toList();
 
-
+        return ResponseEntity.ok(activeQuests);
+    }
 }

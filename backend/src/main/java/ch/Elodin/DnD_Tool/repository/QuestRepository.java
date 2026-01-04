@@ -11,4 +11,7 @@ public interface QuestRepository extends JpaRepository<Quest, Integer> {
 	@Override
     List<Quest> findAll();
 
+
+    List<Quest> findByActiveTrue();
+
 }

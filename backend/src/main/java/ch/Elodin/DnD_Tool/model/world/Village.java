@@ -26,12 +26,6 @@ public class Village {
     
     @Column(name="notes")
     private String notes;
-    
-    
-    
-    
 
-    
 
-    
 }
