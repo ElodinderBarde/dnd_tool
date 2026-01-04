@@ -7,3 +7,16 @@ export async function getActiveQuests() {
     if (!res.ok) throw new Error("Failed to load active quests");
     return res.json();
 }
+export async function updateQuestNotes(questId, notes) {
+    const res = await fetch(`http://localhost:8081/api/Quest/${questId}/notes`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ notes }),
+    });
+
+    if (!res.ok) {
+        throw new Error("Failed to update quest notes");
+    }
+}

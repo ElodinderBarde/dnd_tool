@@ -1,36 +1,41 @@
 import { useEffect, useState } from "react";
 import { getActiveQuests } from "@/service/questApi";
 import "./QuestInfo.css";
-export default function ActiveQuestPanel() {
+
+
+
+export default function ActiveQuestPanel({ activeQuestId, onSelectQuest }) {
     const [quests, setQuests] = useState([]);
-    const [activeIndex, setActiveIndex] = useState(0);
 
     useEffect(() => {
-        getActiveQuests().then(setQuests);
+        getActiveQuests().then(qs => {
+            setQuests(qs);
+            if (!activeQuestId && qs.length > 0) {
+                onSelectQuest(qs[0].questID); // Initiale Auswahl
+            }
+        });
     }, []);
 
-    if (quests.length === 0) {
-        return <div>Keine aktiven Quests</div>;
-    }
+    const quest = quests.find(q => q.questID === activeQuestId);
 
-    const quest = quests[activeIndex];
+    if (!quest) {
+        return <div>Keine aktive Quest</div>;
+    }
 
     return (
         <div className="quest-panel">
-            {/* Umschalter */}
             <div className="quest-switch">
                 {quests.map((q, idx) => (
                     <button
                         key={q.questID}
-                        className={idx === activeIndex ? "active" : ""}
-                        onClick={() => setActiveIndex(idx)}
+                        className={q.questID === activeQuestId ? "active" : ""}
+                        onClick={() => onSelectQuest(q.questID)}
                     >
                         Quest {String.fromCharCode(65 + idx)}
                     </button>
                 ))}
             </div>
 
-            {/* Inhalt */}
             <div className="quest-content">
                 <p className="quest-title">{quest.questName}</p>
 

@@ -33,15 +33,18 @@ export default function QuestList({ onOpenNote, reloadTrigger, onReload, filters
     }, [filters, quests]);
 
 
-    const toggleQuestActive = (id) => {
-        if (activeQuests.includes(id)) {
-            setActiveQuests(activeQuests.filter(q => q !== id));
-        } else if (activeQuests.length < 2) {
-            setActiveQuests([...activeQuests, id]);
-        } else {
-            alert("Maximal 2 aktive Quests erlaubt.");
-        }
+    const toggleQuestActive = async (quest) => {
+        const newActive = !quest.active;
+
+        await fetch(`http://localhost:8081/api/Quest/${quest.questID}/active`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ active: newActive })
+        });
+
+        onReload(); // Questliste neu laden
     };
+
 
     const handleComplete = (id) => {
         fetch(`http://localhost:8081/api/Quest/${id}/complete`, {
@@ -112,13 +115,14 @@ export default function QuestList({ onOpenNote, reloadTrigger, onReload, filters
                             {quest.status.toLowerCase() !== "abgeschlossen" ? (
                                 <input
                                     type="checkbox"
-                                    checked={activeQuests.includes(quest.questID)}
-                                    onChange={() => toggleQuestActive(quest.questID)}
+                                    checked={quest.active}
+                                    onChange={() => toggleQuestActive(quest)}
                                     disabled={
-                                        !activeQuests.includes(quest.questID) &&
-                                        activeQuests.length >= 2
+                                        !quest.active &&
+                                        filteredQuests.filter(q => q.active).length >= 2
                                     }
                                 />
+
                             ) : (
                                 <span className="text-gray-400">–</span>
                             )}

@@ -1,0 +1,15 @@
+
+.quest-notes-panel {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.quest-notes-textarea {
+   flex: 1;
+    border: 1px solid #000;
+    padding: 0.75rem;
+    font-size: 0.95rem;
+    width: 100%;
+    resize: none;
+}

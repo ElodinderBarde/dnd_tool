@@ -16,6 +16,8 @@ import ShopInventorySelect from "../components/main-Page/blocks/invventory-block
 import NpcStats from '../components/main-Page/blocks/npc-stats-block/NpcStats.jsx';
 import NpcPicture from "@/components/npc-detail-page/npcPicture.jsx";
 import ActiveQuestPanel from "@/components/main-Page/blocks/quest-info-block/QuestInfo.jsx";
+import QuestNotes from "@/components/main-Page/blocks/quest-notes-block/QuestNotes.jsx";
+
 
 
 
@@ -85,6 +87,7 @@ export default function Main() {
     const [customers, setCustomers] = useState([]);
     const [selectedShopItem, setSelectedShopItem] = useState(null);
     const [shopItemsVersion, setShopItemsVersion] = useState(0);
+    const [activeQuestId, setActiveQuestId] = useState(null);
 
 
     /* ======================================================
@@ -567,13 +570,20 @@ export default function Main() {
 
                     //QuestNotes
                     <div className="grid-stack-item" gs-x="15" gs-y="80" gs-w="20" gs-h="4">
-                        <div className="grid-stack-item-content">QuestNotes</div>
+                        <div className="grid-stack-item-content">
+
+
+                            <QuestNotes activeQuestId={activeQuestId} />
+                        </div>
                     </div>
                     <div className="grid-stack-item" gs-x="0" gs-y="100" gs-w="15" gs-h="4">
-                        <div className="grid-stack-item-content">Questinfo
+                        <div className="grid-stack-item-content">
 
-                        <ActiveQuestPanel />
 
+                            <ActiveQuestPanel
+                                activeQuestId={activeQuestId}
+                                onSelectQuest={setActiveQuestId}
+                            />
                         </div>
                     </div>
 

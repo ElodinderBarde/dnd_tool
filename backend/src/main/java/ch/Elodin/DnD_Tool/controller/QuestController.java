@@ -93,4 +93,19 @@ public class QuestController extends GenericController<Quest, Integer> {
 
         return ResponseEntity.ok(activeQuests);
     }
+
+    @PutMapping("/{id}/active")
+    public ResponseEntity<Void> setActive(
+            @PathVariable int id,
+            @RequestBody Map<String, Boolean> body
+    ) {
+        Quest quest = questRepository.findById(id)
+                .orElseThrow();
+
+        quest.setActive(body.get("active"));
+        questRepository.save(quest);
+
+        return ResponseEntity.ok().build();
+    }
+
 }
