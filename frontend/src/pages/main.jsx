@@ -1,6 +1,6 @@
 import {useEffect, useState, useRef} from 'react';
 import './CSS/main.css';
-
+import '../components/npc-detail-page/NpcPicture.css'
 
 
 import Flag from '../components/main-Page/blocks/item-details-block/Flag.jsx';
@@ -14,6 +14,7 @@ import {getEmployees, getCustomers} from "../service/ShopCustomerEmployeeAPI.js"
 import { useNavigate } from "react-router-dom";
 import ShopInventorySelect from "../components/main-Page/blocks/invventory-block/ShopInventorySelect.jsx";
 import NpcStats from '../components/main-Page/blocks/npc-stats-block/NpcStats.jsx';
+import NpcPicture from "@/components/npc-detail-page/npcPicture.jsx";
 
 
 
@@ -326,8 +327,13 @@ export default function Main() {
                         setOpen={setCityModalOpen}
                         onSelectLocation={setSelectedLocation}
                     />
+
+                    //npc picture
                     <div className="grid-stack-item" gs-x="80" gs-y="10" gs-w="20" gs-h="4">
-                        <div className="grid-stack-item-content">NPC Pic</div>
+                        <div className="grid-stack-item-content">
+                        <NpcPicture npc={selectedNpcId} />
+
+                        </div>
                     </div>
 
                     //npc detail
@@ -419,12 +425,10 @@ export default function Main() {
                         </div>
                     </div>
 
-
+                    // Party
                     <div className="grid-stack-item" gs-x="80" gs-y="50" gs-w="20" gs-h="3">
                         <div className="grid-stack-item-content">Party</div>
                     </div>
-
-
 
                     //Mitarbeiter / Kunden Liste
                     <div className="grid-stack-item" gs-x="35" gs-y="40" gs-w="25" gs-h="2">
@@ -462,10 +466,7 @@ export default function Main() {
                         </div>
                     </div>
 
-
                     // Shops
-
-
                     <div className="grid-stack-item" gs-x="25" gs-y="40" gs-w="10" gs-h="4">
                         <div className="grid-stack-item-content">
                             <SelectList
@@ -491,7 +492,6 @@ export default function Main() {
                             />
                         </div>
                     </div>
-
 
                     // Item Details
                     <div className="grid-stack-item" gs-x="35" gs-y="70" gs-w="25" gs-h="2">
@@ -529,8 +529,6 @@ export default function Main() {
                         </div>
                     </div>
 
-
-
                     // Inventar Liste
                     <div className="grid-stack-item" gs-x="35" gs-y="42" gs-w="25" gs-h="2">
                         <div
@@ -555,10 +553,12 @@ export default function Main() {
                         </div>
                     </div>
 
-
+                    //Map
                     <div className="grid-stack-item" gs-x="35" gs-y="80" gs-w="25" gs-h="2">
                         <div className="grid-stack-item-content">Karte</div>
                     </div>
+
+                    //QuestNotes
                     <div className="grid-stack-item" gs-x="15" gs-y="80" gs-w="20" gs-h="4">
                         <div className="grid-stack-item-content">QuestNotes</div>
                     </div>
@@ -573,6 +573,8 @@ export default function Main() {
                             <CityNameSelector selectedLocation={selectedLocation} onOpen={() => setCityModalOpen(true)} />
                         </div>
                     </div>
+
+                    // Ruf
                     <div className="grid-stack-item" gs-x="0" gs-y="1" gs-w="15" gs-h="3">
                         <div className="grid-stack-item-content">Ruf</div>
                     </div>

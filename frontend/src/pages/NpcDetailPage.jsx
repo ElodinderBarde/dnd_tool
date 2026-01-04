@@ -118,7 +118,8 @@ export default function NpcDetailPage() {
                     <div className="grid-stack-item-content" style={{
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center'
+                        justifyContent: 'center',
+
                     }}>
                         <NpcPicture npc={npc}/>
                     </div>
